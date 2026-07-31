@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="noindex, nofollow, noarchive, nosnippet, noimageindex" name="robots"/>
-<title>Chi Diann Cutting Center V20</title>
+<title>Chi Diann Cutting Center V21</title>
 <style>
     *{box-sizing:border-box}
     body{margin:0;font-family:"Microsoft JhengHei",Arial,sans-serif;background:#eef2f6;color:#172033}
@@ -265,10 +265,10 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <button class="auth-submit" id="loginButton" type="submit">登入</button>
 <div aria-live="polite" class="auth-error" id="authError"></div>
 </form>
-<div class="auth-foot">Chi Diann Cutting Center · V20.1.1</div>
+<div class="auth-foot">Chi Diann Cutting Center · V21</div>
 </div>
 </div>
-<div class="version-chip">V20.1</div>
+<div class="version-chip">V21</div>
 <div class="top-tools"><button id="uiLangBtn">中文</button><button id="logoutBtn">登出</button></div>
 
 <div class="app">
@@ -276,7 +276,7 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <header class="header">
 <div class="brand"><div class="logo">⚙️</div><div><h1>Chi Diann Cutting Center</h1><p>基佃切削中心｜金屬切削計算平台</p></div></div>
 </header>
-<div class="status-card"><div><div class="status-title">系統狀態</div><div class="status-value">V20.1 接觸模式修正版</div></div><div class="status-badge">安全</div></div>
+<div class="status-card"><div><div class="status-title">系統狀態</div><div class="status-value">V21 HSS 角度修正版</div></div><div class="status-badge">安全</div></div>
 <div class="section-title">切削計算工具</div>
 <main class="menu-grid">
 <button class="menu-card" onclick="openPage('rpmPage')"><div class="icon blue">🔄</div><div class="menu-name">RPM 換算</div><div class="menu-description">轉速與切削速度互相換算</div></button>
@@ -545,6 +545,14 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <div class="unit-box">mm</div>
 </div>
 </div>
+<div class="field">
+<label>切割角度（90°＝直切）</label>
+<div class="input-with-unit">
+<input id="hssCutAngle" max="90" min="15" oninput="calculateHssPitch()" step="1" type="number" value="90"/>
+<div class="unit-box">度</div>
+</div>
+<div class="hint">斜切角度越小，鋸齒穿過材料的有效厚度越長；可輸入 15°～90°。</div>
+</div>
 </div>
 <div class="result-hero">
 <div class="small">型錄建議開齒節距</div>
@@ -556,11 +564,12 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <div class="mini-result"><span>資料庫標準齒數</span><strong id="hssRecommendedTeeth">180 齒</strong></div>
 </div>
 <div class="result">
+<div class="result-row"><div class="result-label">角度修正有效厚度</div><div class="result-value" id="hssEffectiveSize">1.80 mm</div></div>
 <div class="result-row"><div class="result-label">實際換算節距</div><div class="result-value" id="hssActualPitch">5.01 mm</div></div>
 <div class="result-row"><div class="result-label">建議齒形</div><div class="result-value" id="hssToothForm">BW / HZ</div></div>
 </div>
 <div class="note-box">
-        系統先依材質與斷面尺寸查出建議節距，再從內建的鋸片外徑／標準齒數資料庫選擇最接近規格。公式齒數只作核對，不直接當作下單齒數。實際訂製仍需確認廠牌、鋸片厚度、中心孔與齒形。
+        系統先用切割角度修正有效厚度，再依材質與修正後尺寸查出建議節距，最後從內建的鋸片外徑／標準齒數資料庫選擇最接近規格。角度以 90° 為直切；45° 與 30° 會增加有效切削厚度。此結果屬幾何初選，實際訂製仍需確認廠牌、鋸片厚度、中心孔、齒形與機台剛性。
       </div>
 <div class="concept-card">
 <h3>T5 到底代表什麼？</h3>
@@ -1138,20 +1147,33 @@ function chooseStandardTeeth(diameter,pitch){
 function calculateHssPitch(){
   const mat=document.getElementById("hssMaterial").value;
   const diameter=+document.getElementById("hssBladeDiameter").value;
-  const size=hssMode==="profile"?+document.getElementById("hssProfileSize").value:+document.getElementById("hssSolidSize").value;
-  if(diameter<=0||size<=0)return;
+  const nominalSize=hssMode==="profile"?+document.getElementById("hssProfileSize").value:+document.getElementById("hssSolidSize").value;
+  const angleInput=+document.getElementById("hssCutAngle")?.value || 90;
+  const angle=Math.max(15,Math.min(90,angleInput));
+  if(diameter<=0||nominalSize<=0)return;
+
+  // 角度定義：90°為直切。斜切時以 t_eff = t / sin(theta) 做幾何初選。
+  // 這可反映同一壁厚在 45°、30°切削時，鋸齒穿越材料的路徑變長。
+  const sinAngle=Math.sin(angle*Math.PI/180);
+  const effectiveSize=nominalSize/Math.max(0.001,sinAngle);
+
   const row=pitchTable[mat];
-  const pitch=hssMode==="profile"?pickByLimit(size,profileLimits,row.p):pickByLimit(size,solidLimits,row.s);
+  const pitch=hssMode==="profile"
+    ?pickByLimit(effectiveSize,profileLimits,row.p)
+    :pickByLimit(effectiveSize,solidLimits,row.s);
   const selection=chooseStandardTeeth(diameter,pitch);
   const theory=selection.target;
   const rec=selection.teeth;
   const actual=selection.actualPitch;
   const form=pitch<=5?"BW":(pitch<=8?"BW / HZ":"HZ");
+
   document.getElementById("hssPitchHero").textContent="T"+pitch;
   document.getElementById("hssReason").textContent=
-    "依"+materialNames[mat]+"、"+(hssMode==="profile"?"壁厚／型材厚度 ":"實心切削尺寸 ")+size+" mm 推薦；標準齒數表採 "+selection.dbDiameter+" mm 級距";
+    "依"+materialNames[mat]+"、名目"+(hssMode==="profile"?"壁厚／型材厚度 ":"實心切削尺寸 ")+nominalSize.toFixed(2)+
+    " mm、切割角度 "+angle.toFixed(0)+"°，修正有效厚度 "+effectiveSize.toFixed(2)+" mm 推薦；標準齒數表採 "+selection.dbDiameter+" mm 級距";
   document.getElementById("hssTheoryTeeth").textContent=theory.toFixed(1);
   document.getElementById("hssRecommendedTeeth").textContent=rec+" 齒";
+  document.getElementById("hssEffectiveSize").textContent=effectiveSize.toFixed(2)+" mm";
   document.getElementById("hssActualPitch").textContent=actual.toFixed(2)+" mm";
   document.getElementById("hssToothForm").textContent=form;
 }
@@ -1787,7 +1809,7 @@ requestAnimationFrame(animateBandSaw);
    en:{title:'Chi Diann Internal System',sub:'Enter the company shared password.',label:'Company password',login:'Sign in',bad:'Incorrect password. Please try again.',logout:'Sign out',lang:'English'},
    ja:{title:'Chi Diann 社内システム',sub:'会社共通パスワードを入力してください。',label:'会社パスワード',login:'ログイン',bad:'パスワードが正しくありません。',logout:'ログアウト',lang:'日本語'}
   };
-  const dict={"en": {"基佃切削中心｜金屬切削計算平台": "Chi Diann Cutting Center | Metal Cutting Calculator", "系統狀態": "System status", "V20.1 接觸模式修正版": "V13 internal release", "安全": "Secure", "切削計算工具": "Cutting calculators", "RPM 換算": "RPM conversion", "轉速與切削速度互相換算": "Convert RPM and cutting speed", "SZ 換算": "Feed per tooth", "一般進給與油壓進刀計算": "Standard and hydraulic feed calculation", "真實接觸區": "Actual contact zone", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "Calculate engaged teeth from wall thickness and cut position", "截面積": "Cross-sectional area", "圖示選材、尺寸與多支切削": "Select profile, dimensions and bundle quantity", "工作齒數": "Teeth in cut", "實心、圓管、方管的接觸齒數判定": "Engaged teeth for solids and tubes", "HSS 開齒選擇": "HSS tooth pitch selection", "依型錄資料推薦節距與標準齒數": "Recommend pitch and standard tooth count", "壽命分析": "Blade life analysis", "維修紀錄": "Maintenance records", "← 返回首頁": "← Back to home", "RPM／切削速度換算": "RPM / Cutting speed", "輸入鋸片外徑，再選擇換算方向": "Enter blade diameter and select conversion direction", "換算方向": "Conversion direction", "主軸轉速": "Spindle speed", "切削速度": "Cutting speed", "鋸片外徑": "Blade diameter", "鋸片齒數": "Blade teeth", "進給速度": "Feed rate", "每齒進給量 SZ": "Feed per tooth SZ", "每秒進給": "Feed per second", "每分鐘進給": "Feed per minute", "每轉進給量": "Feed per revolution", "實心圓": "Solid round", "圓管": "Round tube", "方管": "Square tube", "實心方": "Solid square", "扁材": "Flat bar", "材料外徑": "Material diameter", "管壁厚度": "Wall thickness", "鋸齒節距": "Tooth pitch", "幾何接觸弧長": "Geometric contact length", "估算工作齒數": "Estimated teeth in cut", "每秒經過齒數": "Teeth passing per second", "每秒轉數": "Revolutions per second", "切削接觸示意圖": "Cutting contact diagram", "未接觸齒": "Not engaged", "切削中": "Cutting", "接觸區域": "Contact zone", "暫停動畫": "Pause animation", "重新定位": "Reset position", "切削材質": "Material", "材料型態": "Material form", "管材／型材": "Tube / profile", "實心材料": "Solid material", "型錄建議開齒節距": "Catalog pitch recommendation", "公式參考齒數": "Calculated tooth count", "資料庫標準齒數": "Standard tooth count", "實際換算節距": "Actual pitch", "建議齒形": "Recommended tooth form", "真實接觸區域": "Actual contact area", "外徑": "Outer diameter", "壁厚": "Wall thickness", "鋸片直徑": "Blade diameter", "切削進度": "Cutting progress", "目前接觸齒數": "Current engaged teeth", "有效接觸弧長": "Effective contact length", "實際材料接觸段": "Material contact segments", "材料實際接觸長度": "Actual contact length", "下刀進給速度": "Downfeed rate", "鋸帶速度": "Band speed", "動畫速度": "Animation speed", "鋸頭下切進度": "Saw head progress", "變化齒": "Variable pitch", "接觸長度": "Contact length", "工作齒": "Working teeth", "單齒進給": "Feed per tooth", "目前工作齒數": "Current teeth in cut", "目前齒組平均 TPI": "Average TPI", "換算單齒進給": "Calculated feed per tooth", "齒距建議": "Pitch recommendation", "壽命分析（工程估算）": "Blade life analysis (engineering estimate)", "齒負荷指數": "Tooth load index", "排屑風險": "Chip evacuation risk", "振動風險": "Vibration risk", "相對壽命評分": "Relative life score", "材料截面積": "Material cross-sectional area", "選擇材料": "Select material", "單支截面積": "Area per piece", "每刀切削支數": "Pieces per cut", "每刀總截面積": "Total area per cut", "換算平方公分": "Area in cm²", "首頁": "Home", "計算": "Calculate", "紀錄": "Records", "帳戶": "Account"}, "ja": {"基佃切削中心｜金屬切削計算平台": "Chi Diann 切削センター｜金属切削計算プラットフォーム", "系統狀態": "システム状態", "V20.1 接觸模式修正版": "V13 社内正式版", "安全": "安全", "切削計算工具": "切削計算ツール", "RPM 換算": "RPM換算", "轉速與切削速度互相換算": "回転数と切削速度を相互換算", "SZ 換算": "1歯当たり送り", "一般進給與油壓進刀計算": "通常送り・油圧送り計算", "真實接觸區": "実接触領域", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "肉厚と切込み位置から実接触歯数を計算", "截面積": "断面積", "圖示選材、尺寸與多支切削": "形状・寸法・束切り本数を選択", "工作齒數": "同時切削歯数", "實心、圓管、方管的接觸齒數判定": "丸棒・丸管・角管の接触歯数判定", "HSS 開齒選擇": "HSS ピッチ選定", "依型錄資料推薦節距與標準齒數": "カタログからピッチと標準歯数を推奨", "壽命分析": "寿命分析", "維修紀錄": "保守記録", "← 返回首頁": "← ホームへ戻る", "RPM／切削速度換算": "RPM／切削速度換算", "輸入鋸片外徑，再選擇換算方向": "鋸刃外径を入力し換算方向を選択", "換算方向": "換算方向", "主軸轉速": "主軸回転数", "切削速度": "切削速度", "鋸片外徑": "鋸刃外径", "鋸片齒數": "鋸刃歯数", "進給速度": "送り速度", "每齒進給量 SZ": "1歯当たり送り SZ", "每秒進給": "毎秒送り", "每分鐘進給": "毎分送り", "每轉進給量": "1回転当たり送り", "實心圓": "丸棒", "圓管": "丸管", "方管": "角管", "實心方": "角棒", "扁材": "平鋼", "材料外徑": "材料外径", "管壁厚度": "肉厚", "鋸齒節距": "歯ピッチ", "幾何接觸弧長": "幾何学的接触長さ", "估算工作齒數": "推定同時切削歯数", "每秒經過齒數": "毎秒通過歯数", "每秒轉數": "毎秒回転数", "切削接觸示意圖": "切削接触図", "未接觸齒": "非接触歯", "切削中": "切削中", "接觸區域": "接触領域", "暫停動畫": "一時停止", "重新定位": "位置リセット", "切削材質": "被削材", "材料型態": "材料形状", "管材／型材": "管材／形鋼", "實心材料": "中実材", "型錄建議開齒節距": "カタログ推奨ピッチ", "公式參考齒數": "計算参考歯数", "資料庫標準齒數": "標準歯数", "實際換算節距": "実換算ピッチ", "建議齒形": "推奨歯形", "真實接觸區域": "実接触領域", "外徑": "外径", "壁厚": "肉厚", "鋸片直徑": "鋸刃直径", "切削進度": "切削進行度", "目前接觸齒數": "現在の接触歯数", "有效接觸弧長": "有効接触長さ", "實際材料接觸段": "材料接触区間", "材料實際接觸長度": "材料実接触長さ", "下刀進給速度": "下降送り速度", "鋸帶速度": "帯鋸速度", "動畫速度": "アニメ速度", "鋸頭下切進度": "鋸頭下降進度", "變化齒": "バリアブルピッチ", "接觸長度": "接触長さ", "工作齒": "切削歯", "單齒進給": "1歯当たり送り", "目前工作齒數": "現在の同時切削歯数", "目前齒組平均 TPI": "平均TPI", "換算單齒進給": "換算1歯送り", "齒距建議": "ピッチ推奨", "壽命分析（工程估算）": "寿命分析（工学推定）", "齒負荷指數": "歯負荷指数", "排屑風險": "排屑リスク", "振動風險": "振動リスク", "相對壽命評分": "相対寿命スコア", "材料截面積": "材料断面積", "選擇材料": "材料を選択", "單支截面積": "1本当たり断面積", "每刀切削支數": "1カット本数", "每刀總截面積": "総切削断面積", "換算平方公分": "cm²換算", "首頁": "ホーム", "計算": "計算", "紀錄": "記録", "帳戶": "アカウント"}};
+  const dict={"en": {"基佃切削中心｜金屬切削計算平台": "Chi Diann Cutting Center | Metal Cutting Calculator", "系統狀態": "System status", "V21 HSS 角度修正版": "V13 internal release", "安全": "Secure", "切削計算工具": "Cutting calculators", "RPM 換算": "RPM conversion", "轉速與切削速度互相換算": "Convert RPM and cutting speed", "SZ 換算": "Feed per tooth", "一般進給與油壓進刀計算": "Standard and hydraulic feed calculation", "真實接觸區": "Actual contact zone", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "Calculate engaged teeth from wall thickness and cut position", "截面積": "Cross-sectional area", "圖示選材、尺寸與多支切削": "Select profile, dimensions and bundle quantity", "工作齒數": "Teeth in cut", "實心、圓管、方管的接觸齒數判定": "Engaged teeth for solids and tubes", "HSS 開齒選擇": "HSS tooth pitch selection", "依型錄資料推薦節距與標準齒數": "Recommend pitch and standard tooth count", "壽命分析": "Blade life analysis", "維修紀錄": "Maintenance records", "← 返回首頁": "← Back to home", "RPM／切削速度換算": "RPM / Cutting speed", "輸入鋸片外徑，再選擇換算方向": "Enter blade diameter and select conversion direction", "換算方向": "Conversion direction", "主軸轉速": "Spindle speed", "切削速度": "Cutting speed", "鋸片外徑": "Blade diameter", "鋸片齒數": "Blade teeth", "進給速度": "Feed rate", "每齒進給量 SZ": "Feed per tooth SZ", "每秒進給": "Feed per second", "每分鐘進給": "Feed per minute", "每轉進給量": "Feed per revolution", "實心圓": "Solid round", "圓管": "Round tube", "方管": "Square tube", "實心方": "Solid square", "扁材": "Flat bar", "材料外徑": "Material diameter", "管壁厚度": "Wall thickness", "鋸齒節距": "Tooth pitch", "幾何接觸弧長": "Geometric contact length", "估算工作齒數": "Estimated teeth in cut", "每秒經過齒數": "Teeth passing per second", "每秒轉數": "Revolutions per second", "切削接觸示意圖": "Cutting contact diagram", "未接觸齒": "Not engaged", "切削中": "Cutting", "接觸區域": "Contact zone", "暫停動畫": "Pause animation", "重新定位": "Reset position", "切削材質": "Material", "材料型態": "Material form", "切割角度（90°＝直切）": "Cutting angle (90° = square cut)", "角度修正有效厚度": "Angle-corrected effective thickness", "管材／型材": "Tube / profile", "實心材料": "Solid material", "型錄建議開齒節距": "Catalog pitch recommendation", "公式參考齒數": "Calculated tooth count", "資料庫標準齒數": "Standard tooth count", "實際換算節距": "Actual pitch", "建議齒形": "Recommended tooth form", "真實接觸區域": "Actual contact area", "外徑": "Outer diameter", "壁厚": "Wall thickness", "鋸片直徑": "Blade diameter", "切削進度": "Cutting progress", "目前接觸齒數": "Current engaged teeth", "有效接觸弧長": "Effective contact length", "實際材料接觸段": "Material contact segments", "材料實際接觸長度": "Actual contact length", "下刀進給速度": "Downfeed rate", "鋸帶速度": "Band speed", "動畫速度": "Animation speed", "鋸頭下切進度": "Saw head progress", "變化齒": "Variable pitch", "接觸長度": "Contact length", "工作齒": "Working teeth", "單齒進給": "Feed per tooth", "目前工作齒數": "Current teeth in cut", "目前齒組平均 TPI": "Average TPI", "換算單齒進給": "Calculated feed per tooth", "齒距建議": "Pitch recommendation", "壽命分析（工程估算）": "Blade life analysis (engineering estimate)", "齒負荷指數": "Tooth load index", "排屑風險": "Chip evacuation risk", "振動風險": "Vibration risk", "相對壽命評分": "Relative life score", "材料截面積": "Material cross-sectional area", "選擇材料": "Select material", "單支截面積": "Area per piece", "每刀切削支數": "Pieces per cut", "每刀總截面積": "Total area per cut", "換算平方公分": "Area in cm²", "首頁": "Home", "計算": "Calculate", "紀錄": "Records", "帳戶": "Account"}, "ja": {"基佃切削中心｜金屬切削計算平台": "Chi Diann 切削センター｜金属切削計算プラットフォーム", "系統狀態": "システム状態", "V21 HSS 角度修正版": "V13 社内正式版", "安全": "安全", "切削計算工具": "切削計算ツール", "RPM 換算": "RPM換算", "轉速與切削速度互相換算": "回転数と切削速度を相互換算", "SZ 換算": "1歯当たり送り", "一般進給與油壓進刀計算": "通常送り・油圧送り計算", "真實接觸區": "実接触領域", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "肉厚と切込み位置から実接触歯数を計算", "截面積": "断面積", "圖示選材、尺寸與多支切削": "形状・寸法・束切り本数を選択", "工作齒數": "同時切削歯数", "實心、圓管、方管的接觸齒數判定": "丸棒・丸管・角管の接触歯数判定", "HSS 開齒選擇": "HSS ピッチ選定", "依型錄資料推薦節距與標準齒數": "カタログからピッチと標準歯数を推奨", "壽命分析": "寿命分析", "維修紀錄": "保守記録", "← 返回首頁": "← ホームへ戻る", "RPM／切削速度換算": "RPM／切削速度換算", "輸入鋸片外徑，再選擇換算方向": "鋸刃外径を入力し換算方向を選択", "換算方向": "換算方向", "主軸轉速": "主軸回転数", "切削速度": "切削速度", "鋸片外徑": "鋸刃外径", "鋸片齒數": "鋸刃歯数", "進給速度": "送り速度", "每齒進給量 SZ": "1歯当たり送り SZ", "每秒進給": "毎秒送り", "每分鐘進給": "毎分送り", "每轉進給量": "1回転当たり送り", "實心圓": "丸棒", "圓管": "丸管", "方管": "角管", "實心方": "角棒", "扁材": "平鋼", "材料外徑": "材料外径", "管壁厚度": "肉厚", "鋸齒節距": "歯ピッチ", "幾何接觸弧長": "幾何学的接触長さ", "估算工作齒數": "推定同時切削歯数", "每秒經過齒數": "毎秒通過歯数", "每秒轉數": "毎秒回転数", "切削接觸示意圖": "切削接触図", "未接觸齒": "非接触歯", "切削中": "切削中", "接觸區域": "接触領域", "暫停動畫": "一時停止", "重新定位": "位置リセット", "切削材質": "被削材", "材料型態": "材料形状", "切割角度（90°＝直切）": "切断角度（90°＝直角切断）", "角度修正有效厚度": "角度補正有効厚さ", "管材／型材": "管材／形鋼", "實心材料": "中実材", "型錄建議開齒節距": "カタログ推奨ピッチ", "公式參考齒數": "計算参考歯数", "資料庫標準齒數": "標準歯数", "實際換算節距": "実換算ピッチ", "建議齒形": "推奨歯形", "真實接觸區域": "実接触領域", "外徑": "外径", "壁厚": "肉厚", "鋸片直徑": "鋸刃直径", "切削進度": "切削進行度", "目前接觸齒數": "現在の接触歯数", "有效接觸弧長": "有効接触長さ", "實際材料接觸段": "材料接触区間", "材料實際接觸長度": "材料実接触長さ", "下刀進給速度": "下降送り速度", "鋸帶速度": "帯鋸速度", "動畫速度": "アニメ速度", "鋸頭下切進度": "鋸頭下降進度", "變化齒": "バリアブルピッチ", "接觸長度": "接触長さ", "工作齒": "切削歯", "單齒進給": "1歯当たり送り", "目前工作齒數": "現在の同時切削歯数", "目前齒組平均 TPI": "平均TPI", "換算單齒進給": "換算1歯送り", "齒距建議": "ピッチ推奨", "壽命分析（工程估算）": "寿命分析（工学推定）", "齒負荷指數": "歯負荷指数", "排屑風險": "排屑リスク", "振動風險": "振動リスク", "相對壽命評分": "相対寿命スコア", "材料截面積": "材料断面積", "選擇材料": "材料を選択", "單支截面積": "1本当たり断面積", "每刀切削支數": "1カット本数", "每刀總截面積": "総切削断面積", "換算平方公分": "cm²換算", "首頁": "ホーム", "計算": "計算", "紀錄": "記録", "帳戶": "アカウント"}};
   let lang=localStorage.getItem(LANG_KEY)||'zh';
   const original=new WeakMap();
   function hash(v){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''));}
