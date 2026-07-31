@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="noindex, nofollow, noarchive, nosnippet, noimageindex" name="robots"/>
+<title>Chi Diann Cutting Center V20</title>
+<style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Microsoft JhengHei",Arial,sans-serif;background:#eef2f6;color:#172033}
+    button,input,select{font:inherit}
+    .app{width:100%;max-width:520px;min-height:100vh;margin:auto;background:#f7f9fc;padding-bottom:88px}
+    .header,.page-header{background:linear-gradient(135deg,#122a49,#1765a3);color:#fff;border-radius:0 0 28px 28px;box-shadow:0 8px 20px rgba(18,42,73,.22)}
+    .header{padding:28px 20px 24px}.page-header{padding:20px 16px 22px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:58px;height:58px;border-radius:18px;background:#fff;color:#1765a3;display:flex;align-items:center;justify-content:center;font-size:30px}
+    h1{margin:0;font-size:24px}.header p,.page-header p{margin:6px 0 0;opacity:.82;font-size:14px}
+    .status-card,.panel{margin:18px 16px 0;padding:16px;background:#fff;border-radius:20px;box-shadow:0 7px 20px rgba(34,54,83,.10)}
+    .status-card{display:flex;justify-content:space-between;align-items:center}
+    .status-title{font-size:13px;color:#68758a}.status-value{margin-top:3px;font-weight:700;font-size:17px}
+    .status-badge{padding:8px 12px;background:#e4f5e9;color:#16813c;border-radius:999px;font-weight:700;font-size:13px}
+    .section-title{margin:25px 20px 13px;font-size:18px;font-weight:800}
+    .menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:0 16px}
+    .menu-card{border:none;background:#fff;min-height:145px;padding:18px;border-radius:22px;text-align:left;cursor:pointer;box-shadow:0 7px 20px rgba(34,54,83,.10)}
+    .menu-card:active,.shape-card:active{transform:scale(.97)}
+    .icon{width:52px;height:52px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:14px}
+    .blue{background:#e2efff}.purple{background:#eee8ff}.orange{background:#fff0df}.green{background:#e2f7e9}.red{background:#ffe5e5}.gray{background:#e9edf2}
+    .menu-name{font-size:17px;font-weight:800;margin-bottom:5px}.menu-description{color:#738096;font-size:12px;line-height:1.5}
+    .page{display:none}.page.active{display:block}
+    .back-button{border:0;background:rgba(255,255,255,.15);color:#fff;padding:9px 12px;border-radius:12px;cursor:pointer}
+    .page-header h2{margin:18px 0 4px;font-size:24px}
+    .field{margin-bottom:16px}.field label{display:block;margin-bottom:7px;font-weight:800}
+    input,select{width:100%;min-height:50px;padding:12px 14px;border:1px solid #cfd7e2;border-radius:14px;background:#fff;font-size:17px}
+    input:focus,select:focus{outline:3px solid rgba(23,101,163,.14);border-color:#1765a3}
+    .calculate-button{width:100%;border:0;border-radius:15px;min-height:54px;background:#1765a3;color:#fff;font-size:18px;font-weight:800;cursor:pointer}
+    .result{margin-top:18px;padding:18px;background:#e8f4ff;border-radius:16px;border:1px solid #c6e1f7}
+    .result-row{display:flex;justify-content:space-between;align-items:end;padding:10px 0;border-bottom:1px solid #d5e7f5;gap:12px}
+    .result-row:last-child{border-bottom:0}.result-label{color:#627086;font-size:14px}.result-value{font-size:23px;font-weight:900;color:#0f5e99;text-align:right}
+    .formula{margin-top:12px;color:#627086;font-size:13px;line-height:1.6}.warning{margin-top:14px;color:#b42318;font-weight:700;display:none}
+    .bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:520px;height:72px;background:#fff;display:flex;justify-content:space-around;align-items:center;border-top:1px solid #e2e7ed;box-shadow:0 -5px 18px rgba(34,54,83,.08)}
+    .nav-item{border:none;background:transparent;color:#8994a5;font-size:12px;text-align:center}.nav-item span{display:block;font-size:22px;margin-bottom:3px}.nav-item.active{color:#1765a3;font-weight:800}
+    .shape-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .shape-card{border:2px solid #e4e9ef;background:#fff;border-radius:16px;padding:10px 5px;cursor:pointer;min-height:104px}
+    .shape-card.active{border-color:#1765a3;background:#edf6ff}
+    .shape-card svg{width:58px;height:58px;display:block;margin:auto;stroke:#17365d;fill:none;stroke-width:6}
+    .shape-name{text-align:center;font-size:13px;font-weight:800;margin-top:5px}
+    .diagram-box{margin-top:14px;background:#f5f8fb;border-radius:18px;padding:14px;text-align:center}
+    .diagram-box svg{width:100%;max-width:310px;height:190px}
+    .diagram-title{font-size:16px;font-weight:900;margin-bottom:5px}
+    .input-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .input-grid .field{margin:0}.full{grid-column:1/-1}
+    .hint{font-size:12px;color:#738096;margin-top:5px}
+
+
+    .input-with-unit{display:flex;align-items:center;border:1px solid #cfd7e2;border-radius:14px;background:#fff;overflow:hidden;min-height:50px}
+    .input-with-unit:focus-within{outline:3px solid rgba(23,101,163,.14);border-color:#1765a3}
+    .input-with-unit input{border:0;border-radius:0;outline:none;min-width:0;flex:1;background:transparent}
+    .input-with-unit input:focus{outline:none;border:0}
+    .unit-box{min-width:82px;padding:0 12px;color:#44546a;font-weight:800;text-align:center;border-left:1px solid #dfe5ec;background:#f2f5f8;align-self:stretch;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+
+    .material-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+    .material-tab{border:2px solid #d9e1ea;background:#fff;border-radius:15px;padding:12px 6px;font-weight:900;color:#526277;cursor:pointer}
+    .material-tab.active{background:#1765a3;color:#fff;border-color:#1765a3}
+    .shape-mini{font-size:27px;display:block;margin-bottom:4px}
+    .result-hero{margin-top:16px;border-radius:18px;padding:18px;background:linear-gradient(135deg,#16375f,#1765a3);color:#fff}
+    .result-hero .small{font-size:13px;opacity:.85;font-weight:700}
+    .result-hero .big{font-size:34px;font-weight:950;margin:5px 0}
+    .result-hero .sub{font-size:14px;font-weight:700;line-height:1.6}
+    .pitch-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+    .pitch-table th,.pitch-table td{border:1px solid #cad4df;padding:8px 5px;text-align:center}
+    .pitch-table th{background:#dcecf8;color:#17365d}
+    .pitch-table tr.selected td{background:#fff0c9;font-weight:900}
+    .note-box{margin-top:14px;padding:13px;border-radius:13px;background:#fff7e2;border:1px solid #efd99d;color:#755213;line-height:1.6;font-size:14px}
+    .two-col-result{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .mini-result{padding:13px;border-radius:14px;background:#f0f5fa;text-align:center}
+    .mini-result span{display:block;color:#65758a;font-size:12px;font-weight:800}
+    .mini-result strong{display:block;color:#17365d;font-size:21px;margin-top:4px}
+    .tooth-status{margin-top:16px;padding:16px;border-radius:16px;font-weight:900;text-align:center;font-size:18px}
+    .tooth-status.good{background:#e4f5e9;color:#16813c;border:1px solid #bfe5ca}
+    .tooth-status.low{background:#fff2d9;color:#9a5b00;border:1px solid #f1d49a}
+    .tooth-status.high{background:#ffe5e5;color:#b42318;border:1px solid #f3bcbc}
+    .tooth-diagram{background:#f5f8fb;border-radius:18px;padding:12px;margin-top:14px}
+    .tooth-diagram svg{width:100%;height:190px}
+    .recommend-box{margin-top:14px;padding:14px;border-left:5px solid #1765a3;background:#edf6ff;border-radius:12px;line-height:1.65;color:#44546a}
+    .mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .mode-button{border:2px solid #d9e1ea;background:#fff;color:#56657a;border-radius:15px;min-height:52px;font-weight:900;cursor:pointer}
+    .mode-button.active{background:#1765a3;color:#fff;border-color:#1765a3;box-shadow:0 6px 14px rgba(23,101,163,.20)}
+    @media(max-width:380px){.shape-grid{grid-template-columns:repeat(2,1fr)}}
+  
+    .cut-visual{margin-top:16px;border:1px solid #cbd6e2;border-radius:18px;background:linear-gradient(180deg,#f8fbfe,#e8f0f7);overflow:hidden}
+    .visual-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#17365d;color:#fff;font-weight:900}
+    .visual-head small{font-size:11px;opacity:.78;font-weight:700}
+    .visual-stage{position:relative;padding:8px}
+    #workingSvg{display:block;width:100%;height:auto;min-height:280px}
+    .visual-legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding:0 10px 12px;font-size:12px;font-weight:800;color:#506176}
+    .legend-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+    .legend-idle{background:#8fa1b4}.legend-active{background:#12a36d}.legend-risk{background:#e49b19}
+    .animation-tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px 14px}
+    .animation-button{border:0;border-radius:12px;padding:11px;font-weight:900;cursor:pointer;background:#1765a3;color:#fff}
+    .animation-button.secondary{background:#e4ebf2;color:#17365d}
+    .rpm-note{margin-top:12px;padding:12px;border-left:5px solid #1765a3;background:#edf6fc;border-radius:10px;font-size:13px;line-height:1.65;color:#36506d}
+    .metric-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+    .metric-box{background:#f0f5fa;border-radius:13px;padding:10px 6px;text-align:center}
+    .metric-box span{display:block;font-size:11px;color:#68788c;font-weight:800}
+    .metric-box strong{display:block;margin-top:4px;color:#17365d;font-size:17px}
+
+  
+    .concept-card{margin-top:16px;padding:16px;border-radius:18px;background:#0f2742;color:#fff}
+    .concept-card h3{margin:0 0 6px;font-size:18px}
+    .concept-card p{margin:0;color:#c9d8e8;font-size:13px;line-height:1.6}
+    .pitch-choice{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    .pitch-choice button{border:2px solid #c8d4df;background:#fff;color:#17365d;border-radius:13px;padding:11px 6px;font-weight:900}
+    .pitch-choice button.active{background:#f6b83f;border-color:#f6b83f;color:#2a210d}
+    .principle-stage{margin-top:12px;background:#edf4fa;border-radius:16px;padding:8px;overflow:hidden}
+    .principle-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+    .principle-item{background:#fff;border:1px solid #d6e0e9;border-radius:14px;padding:12px;text-align:center}
+    .principle-item span{display:block;color:#68778a;font-size:12px;font-weight:800}
+    .principle-item strong{display:block;margin-top:4px;color:#17365d;font-size:20px}
+    .logic-flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:14px 0 4px}
+    .logic-chip{background:#fff;color:#17365d;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}
+    .logic-arrow{color:#f6b83f;font-size:18px;font-weight:900}
+    .catalog-badge{display:inline-block;margin-top:10px;background:#dff4e8;color:#14734b;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:900}
+    .warning-badge{display:inline-block;margin-top:10px;background:#fff0d8;color:#9a5b00;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:900}
+
+
+    .contact-sim-card{margin-top:16px;padding:16px;border-radius:18px;background:#10263f;color:#fff}
+    .contact-sim-card h3{margin:0 0 6px;font-size:18px}
+    .contact-sim-card p{margin:0;color:#c8d6e5;font-size:13px;line-height:1.6}
+    .contact-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    .contact-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}
+    .contact-stat{background:#fff;border-radius:14px;padding:12px;text-align:center}
+    .contact-stat span{display:block;color:#68778a;font-size:12px;font-weight:800}
+    .contact-stat strong{display:block;margin-top:4px;color:#17365d;font-size:20px}
+    .contact-note{margin-top:10px;padding:10px 12px;border-radius:12px;background:#e6f3ff;color:#174a73;font-size:12px;font-weight:800;line-height:1.5}
+
+
+    .band-card{margin-top:16px;padding:16px;border-radius:18px;background:#172b3f;color:#fff}
+    .band-card h3{margin:0 0 6px;font-size:18px}
+    .band-card p{margin:0;color:#cbd8e4;font-size:13px;line-height:1.6}
+    .band-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    .band-switches{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+    .band-switches button{border:2px solid #b9c8d5;background:#fff;color:#17365d;border-radius:12px;padding:10px 5px;font-weight:900}
+    .band-switches button.active{background:#f6b83f;border-color:#f6b83f;color:#2b210b}
+    .band-stage{margin-top:10px;background:#eef4f8;border-radius:16px;padding:7px;overflow:hidden}
+    .band-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}
+    .band-stat{background:#fff;border-radius:14px;padding:11px;text-align:center}
+    .band-stat span{display:block;color:#68778a;font-size:12px;font-weight:800}
+    .band-stat strong{display:block;margin-top:4px;color:#17365d;font-size:19px}
+    .chip-legend{margin-top:10px;padding:10px 12px;border-radius:12px;background:#fff4d9;color:#825400;font-size:12px;font-weight:800;line-height:1.55}
+
+
+    .band-dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+    .band-dashboard>div{background:#0f2234;border:1px solid #36516a;border-radius:12px;padding:9px 6px;text-align:center}
+    .band-dashboard span{display:block;color:#9fb4c6;font-size:11px;font-weight:800}
+    .band-dashboard strong{display:block;color:#fff;font-size:15px;margin-top:3px}
+    .life-panel{margin-top:14px;background:#fff;border-radius:16px;padding:14px;color:#17365d}
+    .life-panel h4{margin:0 0 8px;font-size:16px}
+    .life-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .life-item{background:#eef4f8;border-radius:12px;padding:10px;text-align:center}
+    .life-item span{display:block;color:#68778a;font-size:11px;font-weight:800}
+    .life-item strong{display:block;margin-top:4px;font-size:17px}
+    .life-bar{height:10px;border-radius:10px;background:#d9e3ea;overflow:hidden;margin-top:10px}
+    .life-bar i{display:block;height:100%;width:50%;background:linear-gradient(90deg,#d85c41,#f3b63b,#18a36f);border-radius:10px}
+    .life-note{margin-top:8px;font-size:12px;line-height:1.55;color:#53697c}
+    @media(max-width:560px){
+      .band-dashboard{grid-template-columns:repeat(2,1fr)}
+      .band-switches{grid-template-columns:repeat(3,1fr)!important}
+    }
+
+
+.free-layout-panel{display:none;margin-top:14px;padding:13px;border-radius:16px;background:#0f2234;border:1px solid #3c5870}
+.free-layout-panel.active{display:block}
+.free-layout-title{font-weight:900;margin-bottom:8px}
+.free-add-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.free-add-grid button,.free-tools button{border:1px solid #8ba0b3;background:#fff;color:#17365d;border-radius:10px;padding:9px 5px;font-size:12px;font-weight:900;cursor:pointer}
+.free-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}
+.free-selected{margin-top:9px;padding:9px 10px;border-radius:10px;background:#e6f3ff;color:#174a73;font-size:12px;font-weight:900}
+.free-help{margin-top:8px;color:#b9cad9;font-size:11px;line-height:1.55}
+#bandSawSvg .free-item{cursor:grab}
+#bandSawSvg .free-item.selected{filter:drop-shadow(0 0 4px rgba(246,184,63,.95))}
+#bandSawSvg .free-item:active{cursor:grabbing}
+@media(max-width:430px){.free-add-grid,.free-tools{grid-template-columns:repeat(3,1fr)}}
+
+.band-mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.band-mode-switch button{border:2px solid #b9c8d5;background:#fff;color:#17365d;border-radius:12px;padding:10px 6px;font-weight:900;cursor:pointer}
+.band-mode-switch button.active{background:#f6b83f;border-color:#f6b83f;color:#2b210b}
+.band-speed-presets{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:8px}
+.band-speed-presets button{border:1px solid #b9c8d5;background:#fff;color:#17365d;border-radius:9px;padding:7px 2px;font-size:11px;font-weight:900;cursor:pointer}
+.band-speed-presets button.active{background:#1765a3;color:#fff;border-color:#1765a3}
+#bandContactInput:not([readonly]),#bandBladeSpeed{background:#fffbe8;border-color:#f6b83f}
+</style>
+<link href="manifest.webmanifest" rel="manifest"/><meta content="#122a49" name="theme-color"/><meta content="yes" name="apple-mobile-web-app-capable"/><style>
+#authGate{position:fixed;inset:0;z-index:99999;background:linear-gradient(145deg,#092542,#0d5d92);display:flex;align-items:center;justify-content:center;padding:20px;font-family:"Microsoft JhengHei",Arial,sans-serif}
+#authGate.hidden{display:none}.auth-card{width:min(430px,100%);background:#fff;border-radius:26px;padding:26px;box-shadow:0 28px 70px rgba(0,0,0,.28)}
+.auth-brand{display:flex;gap:14px;align-items:center}.auth-logo{width:58px;height:58px;border-radius:18px;background:linear-gradient(145deg,#17365d,#1765a3);color:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;font-weight:900}
+.auth-card h1{font-size:25px;color:#122a49}.auth-card p{color:#68758a;line-height:1.5}.lang-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:20px 0}.lang-row button,.top-tools button{border:1px solid #cbd6e2;background:#fff;border-radius:12px;padding:10px;font-weight:800;cursor:pointer}.lang-row button.active{background:#1765a3;color:#fff;border-color:#1765a3}
+.auth-field label{display:block;font-weight:800;color:#26384d;margin:0 0 7px}.auth-field input{width:100%;height:52px;border:1px solid #cbd6e2;border-radius:14px;padding:0 14px;font-size:18px}.auth-submit{width:100%;height:54px;border:0;border-radius:14px;background:#1765a3;color:#fff;font-size:18px;font-weight:900;margin-top:15px;cursor:pointer}.auth-error{min-height:22px;color:#b42318;font-weight:800;margin-top:10px}.auth-foot{text-align:center;color:#98a2b3;font-size:12px;margin-top:12px}
+.top-tools{position:fixed;right:12px;top:10px;z-index:9000;display:flex;gap:6px}.top-tools button{padding:8px 10px;box-shadow:0 3px 12px rgba(0,0,0,.12);font-size:12px}.version-chip{position:fixed;left:12px;top:12px;z-index:8999;background:#122a49;color:#fff;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:900;box-shadow:0 3px 12px rgba(0,0,0,.14)}
+body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .version-chip{display:none!important}
+@media(max-width:520px){.top-tools{top:6px;right:6px}.version-chip{top:8px;left:8px}.top-tools button{padding:7px 8px}}
+</style></head>
+<body class="locked">
+<div id="authGate">
+<div class="auth-card">
+<div class="auth-brand"><div class="auth-logo">CD</div><div><h1 id="authTitle">Chi Diann 內部系統</h1><p id="authSubtitle">請輸入公司共用密碼。</p></div></div>
+<div class="lang-row"><button class="active" data-lang="zh">中文</button><button data-lang="en">English</button><button data-lang="ja">日本語</button></div>
+<form id="authForm">
+<div class="auth-field"><label for="sharedPassword" id="passwordLabel">公司密碼</label><input autocomplete="current-password" autofocus="" id="sharedPassword" type="password"/></div>
+<button class="auth-submit" id="loginButton" type="submit">登入</button>
+<div aria-live="polite" class="auth-error" id="authError"></div>
+</form>
+<div class="auth-foot">Chi Diann Cutting Center · V20</div>
+</div>
+</div>
+<div class="version-chip">V20</div>
+<div class="top-tools"><button id="uiLangBtn">中文</button><button id="logoutBtn">登出</button></div>
+
+<div class="app">
+<section class="page active" id="homePage">
+<header class="header">
+<div class="brand"><div class="logo">⚙️</div><div><h1>Chi Diann Cutting Center</h1><p>基佃切削中心｜金屬切削計算平台</p></div></div>
+</header>
+<div class="status-card"><div><div class="status-title">系統狀態</div><div class="status-value">V20.0 接觸模式修正版</div></div><div class="status-badge">安全</div></div>
+<div class="section-title">切削計算工具</div>
+<main class="menu-grid">
+<button class="menu-card" onclick="openPage('rpmPage')"><div class="icon blue">🔄</div><div class="menu-name">RPM 換算</div><div class="menu-description">轉速與切削速度互相換算</div></button>
+<button class="menu-card" onclick="openPage('szPage')"><div class="icon purple">⚙️</div><div class="menu-name">SZ 換算</div><div class="menu-description">一般進給與油壓進刀計算</div></button>
+<button class="menu-card" onclick="openPage('contactPage');renderTrueContact()"><div class="icon green">🟢</div><div class="menu-name">真實接觸區</div><div class="menu-description">依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒</div></button>
+<button class="menu-card" onclick="openPage('areaPage')"><div class="icon orange">📐</div><div class="menu-name">截面積</div><div class="menu-description">圖示選材、尺寸與多支切削</div></button>
+<button class="menu-card" onclick="openPage('toothPage')"><div class="icon green">🦷</div><div class="menu-name">工作齒數</div><div class="menu-description">實心、圓管、方管的接觸齒數判定</div></button>
+<button class="menu-card" onclick="openPage('hssPage')"><div class="icon blue">⚙️</div><div class="menu-name">HSS 開齒選擇</div><div class="menu-description">依型錄資料推薦節距與標準齒數</div></button>
+
+<button class="menu-card" onclick="comingSoon()"><div class="icon gray">🔧</div><div class="menu-name">維修紀錄</div><div class="menu-description">預留後續設備管理功能</div></button>
+</main>
+</section>
+<section class="page" id="rpmPage">
+<header class="page-header"><button class="back-button" onclick="openPage('homePage')">← 返回首頁</button><h2>RPM／切削速度換算</h2><p>輸入鋸片外徑，再選擇換算方向</p></header>
+<div class="panel">
+<div class="field"><label>換算方向</label><select id="mode" onchange="updateMode()"><option value="rpmToSpeed">RPM → 切削速度</option><option value="speedToRpm">切削速度 → RPM</option></select></div>
+<div class="field"><label>鋸片外徑（mm）</label><input id="diameter" oninput="calculateRPM()" type="number" value="285"/></div>
+<div class="field" id="rpmField"><label>主軸轉速（RPM）</label><input id="rpm" oninput="calculateRPM()" type="number" value="112"/></div>
+<div class="field" id="speedField" style="display:none"><label>切削速度（m/min）</label><input id="speed" oninput="calculateRPM()" type="number" value="100"/></div>
+<div class="warning" id="rpmWarning">請輸入大於 0 的數值。</div>
+<div class="result"><div class="result-row"><div class="result-label" id="rpmResultLabel">切削速度</div><div class="result-value" id="rpmResultValue">100.28 m/min</div></div><div class="formula" id="rpmFormula">公式：切削速度＝π × 鋸片外徑 × RPM ÷ 1000</div></div>
+</div>
+</section>
+<section class="page" id="szPage">
+<header class="page-header">
+<button class="back-button" onclick="openPage('homePage')">← 返回首頁</button>
+<h2>SZ 每齒進給量</h2>
+<p>一般進給以 mm/sec 輸入，油壓模式由切削距離與時間反算</p>
+</header>
+<div class="panel">
+<div class="mode-switch">
+<button class="mode-button active" id="normalModeBtn" onclick="setSzMode('normal')">一般進給</button>
+<button class="mode-button" id="hydraulicModeBtn" onclick="setSzMode('hydraulic')">油壓進刀</button>
+</div>
+</div>
+<div class="panel">
+<div class="input-grid">
+<div class="field">
+<label>主軸轉速</label>
+<div class="input-with-unit">
+<input id="szRpm" min="0" oninput="calculateSz()" step="0.1" type="number" value="120"/>
+<div class="unit-box">RPM</div>
+</div>
+</div>
+<div class="field">
+<label>鋸片齒數</label>
+<div class="input-with-unit">
+<input id="szTeeth" min="1" oninput="calculateSz()" step="1" type="number" value="80"/>
+<div class="unit-box">齒</div>
+</div>
+</div>
+<div class="full input-grid" id="normalSzFields">
+<div class="field full">
+<label>進給速度</label>
+<div class="input-with-unit">
+<input id="feedPerSecInput" min="0" oninput="calculateSz()" step="0.01" type="number" value="4"/>
+<div class="unit-box">mm/sec</div>
+</div>
+</div>
+</div>
+<div class="full input-grid" id="hydraulicSzFields" style="display:none">
+<div class="field">
+<label>實際切削距離</label>
+<div class="input-with-unit">
+<input id="cutHeight" min="0" oninput="calculateSz()" step="0.1" type="number" value="60"/>
+<div class="unit-box">mm</div>
+</div>
+</div>
+<div class="field">
+<label>完成切削時間</label>
+<div class="input-with-unit">
+<input id="cutSeconds" min="0" oninput="calculateSz()" step="0.1" type="number" value="15"/>
+<div class="unit-box">sec</div>
+</div>
+<div class="hint"><strong>計時方式：</strong>鋸齒接觸材料的瞬間開始，到材料完全切斷時停止；不要把空行程算進去。</div>
+</div>
+</div>
+</div>
+<div class="warning" id="szWarning">請輸入大於 0 的合理數值。</div>
+<div class="result">
+<div class="result-row">
+<div class="result-label">每齒進給量 SZ</div>
+<div class="result-value" id="szResult">0.0250 mm/齒</div>
+</div>
+<div class="result-row">
+<div class="result-label">每秒進給</div>
+<div class="result-value" id="feedPerSecResult">4.00 mm/sec</div>
+</div>
+<div class="result-row">
+<div class="result-label">每分鐘進給</div>
+<div class="result-value" id="feedSpeedResult">240.00 mm/min</div>
+</div>
+<div class="result-row">
+<div class="result-label">每轉進給量</div>
+<div class="result-value" id="feedPerRevResult">2.000 mm/轉</div>
+</div>
+<div class="formula" id="szFormula">
+          公式：SZ＝每秒進給 × 60 ÷（RPM × 齒數）
+        </div>
+</div>
+</div>
+</section>
+<section class="page" id="toothPage">
+<header class="page-header">
+<button class="back-button" onclick="openPage('homePage')">← 返回首頁</button>
+<h2>工作齒數</h2>
+<p>依工件形狀估算同一時間實際參與切削的齒數</p>
+</header>
+<div class="panel">
+<div class="material-tabs">
+<button class="material-tab active" id="wtSolidRound" onclick="setWorkingShape('solidRound')"><span class="shape-mini">●</span>實心圓</button>
+<button class="material-tab" id="wtRoundTube" onclick="setWorkingShape('roundTube')"><span class="shape-mini">◎</span>圓管</button>
+<button class="material-tab" id="wtSquareTube" onclick="setWorkingShape('squareTube')"><span class="shape-mini">□</span>方管</button>
+<button class="material-tab" id="wtSolidSquare" onclick="setWorkingShape('solidSquare')"><span class="shape-mini">■</span>實心方</button>
+<button class="material-tab" id="wtFlat" onclick="setWorkingShape('flat')"><span class="shape-mini">▬</span>扁材</button>
+</div>
+<div class="input-grid">
+<div class="field">
+<label>鋸片外徑</label>
+<div class="input-with-unit">
+<input id="wtBladeDiameter" min="1" oninput="calculateWorkingTeeth2()" step="1" type="number" value="300"/>
+<div class="unit-box">mm</div>
+</div>
+</div>
+<div class="field">
+<label>鋸片齒數</label>
+<div class="input-with-unit">
+<input id="wtBladeTeeth" min="1" oninput="calculateWorkingTeeth2()" step="1" type="number" value="200"/>
+<div class="unit-box">齒</div>
+</div>
+</div>
+<div class="field">
+<label>鋸片轉速（動畫與切削頻率）</label>
+<div class="input-with-unit">
+<input id="wtRpm" min="1" oninput="calculateWorkingTeeth2()" step="1" type="number" value="120"/>
+<div class="unit-box">RPM</div>
+</div>
+</div>
+<div class="field" id="wtOuterField">
+<label id="wtOuterLabel">材料外徑</label>
+<div class="input-with-unit">
+<input id="wtOuter" min="0.1" oninput="calculateWorkingTeeth2()" step="0.1" type="number" value="50"/>
+<div class="unit-box">mm</div>
+</div>
+</div>
+<div class="field" id="wtThicknessField" style="display:none">
+<label>管壁厚度</label>
+<div class="input-with-unit">
+<input id="wtThickness" min="0.1" oninput="calculateWorkingTeeth2()" step="0.1" type="number" value="3"/>
+<div class="unit-box">mm</div>
+</div>
+</div>
+</div>
+<div class="result">
+<div class="result-row"><div class="result-label">鋸齒節距</div><div class="result-value" id="wtPitchResult">4.71 mm</div></div>
+<div class="result-row"><div class="result-label">幾何接觸弧長</div><div class="result-value" id="wtEngagementResult">50.00 mm</div></div>
+<div class="result-row"><div class="result-label">估算工作齒數</div><div class="result-value" id="wtCountResult">10.61 齒</div></div>
+</div>
+<div class="metric-strip">
+<div class="metric-box"><span>工作齒數</span><strong id="wtMetricCount">—</strong></div>
+<div class="metric-box"><span>每秒經過齒數</span><strong id="wtTeethPerSec">—</strong></div>
+<div class="metric-box"><span>每秒轉數</span><strong id="wtRevPerSec">—</strong></div>
+</div>
+<div class="tooth-status high" id="wtStatus">⚠ 工作齒數偏多：需注意容屑與排屑</div>
+<div class="cut-visual">
+<div class="visual-head"><span>切削接觸示意圖</span><small>亮起齒＝目前位於接觸區</small></div>
+<div class="visual-stage">
+<svg aria-label="鋸片與材料工作齒數動畫" id="workingSvg" role="img" viewbox="0 0 360 300">
+<defs>
+<radialgradient cx="45%" cy="38%" id="bladeGrad">
+<stop offset="0%" stop-color="#ffffff"></stop>
+<stop offset="70%" stop-color="#dce6ef"></stop>
+<stop offset="100%" stop-color="#b9c8d6"></stop>
+</radialgradient>
+<filter id="softShadow"><fedropshadow dx="0" dy="4" flood-opacity=".22" stddeviation="5"></fedropshadow></filter>
+</defs>
+<rect fill="#eef4f9" height="300" rx="16" width="360" x="0" y="0"></rect>
+<g id="materialLayer"></g>
+<g filter="url(#softShadow)" id="bladeBody">
+<circle cx="180" cy="124" fill="url(#bladeGrad)" r="94" stroke="#526b83" stroke-width="3"></circle>
+<circle cx="180" cy="124" fill="#f7fafc" r="22" stroke="#526b83" stroke-width="4"></circle>
+<circle cx="180" cy="124" fill="#526b83" r="6"></circle>
+</g>
+<g id="toothLayer"></g>
+<g id="contactArcLayer"></g>
+<text fill="#17365d" font-size="18" font-weight="900" id="svgCountLabel" text-anchor="middle" x="180" y="116">— 齒</text>
+<text fill="#65778a" font-size="11" font-weight="800" text-anchor="middle" x="180" y="139">同時接觸</text>
+</svg>
+</div>
+<div class="visual-legend">
+<span><i class="legend-dot legend-idle"></i>未接觸齒</span>
+<span><i class="legend-dot legend-active"></i>切削中</span>
+<span><i class="legend-dot legend-risk"></i>接觸區域</span>
+</div>
+<div class="animation-tools">
+<button class="animation-button" id="wtPlayBtn" onclick="toggleWorkingAnimation()">暫停動畫</button>
+<button class="animation-button secondary" onclick="resetWorkingAnimation()">重新定位</button>
+</div>
+</div>
+<div class="rpm-note">
+<strong>RPM 不會改變幾何工作齒數。</strong><br/>
+        它會改變鋸齒經過材料的頻率。系統因此把 RPM 用於動畫速度與「每秒經過齒數」顯示，而工作齒數仍由鋸片、齒距及材料幾何決定。
+      </div>
+<div class="note-box">
+        工作齒數以「鋸片在工件中心位置時的接觸弧長 ÷ 實際齒距」估算。管材使用外輪廓接觸弧減去內孔接觸弧，不再直接用 2 × 壁厚。切入初期、中心與切出末期的工作齒數會不同，本頁顯示最大斷面附近的代表值。
+      </div>
+</div>
+</section>
+<section class="page" id="hssPage">
+<header class="page-header">
+<button class="back-button" onclick="openPage('homePage')">← 返回首頁</button>
+<h2>HSS 高速鋼開齒選擇</h2>
+<p>先查節距資料，再由鋸片外徑對照標準開齒齒數；不再把尺寸直接當成齒距</p>
+</header>
+<div class="panel">
+<div class="input-grid">
+<div class="field full">
+<label>切削材質</label>
+<select id="hssMaterial" onchange="calculateHssPitch()">
+<option value="steel500">鋼材 ≤ 500 N/mm²</option>
+<option value="steel800">鋼材 ≤ 800 N/mm²</option>
+<option value="steel1200">鋼材 ≤ 1200 N/mm²</option>
+<option value="stainless">不鏽鋼</option>
+<option value="castiron">鑄鐵</option>
+<option value="aluminum">鋁</option>
+<option value="bronze">青銅</option>
+<option value="copper">銅</option>
+<option value="brass">黃銅</option>
+<option value="zinc">鋅合金</option>
+<option value="inconel">Inconel</option>
+<option value="titanium">鈦</option>
+</select>
+</div>
+<div class="field full">
+<label>材料型態</label>
+<div class="mode-switch">
+<button class="mode-button active" id="hssProfileBtn" onclick="setHssMode('profile')">管材／型材</button>
+<button class="mode-button" id="hssSolidBtn" onclick="setHssMode('solid')">實心材料</button>
+</div>
+</div>
+<div class="field" id="hssProfileOuterField">
+<label>管材外徑／型材高度</label>
+<div class="input-with-unit">
+<input id="hssProfileOuter" min="1" oninput="calculateHssPitch();renderPitchPrinciple()" step="0.1" type="number" value="35"/>
+<div class="unit-box">mm</div>
+</div>
+</div>
+<div class="field" id="hssProfileSizeField">
+<label>管壁／型材厚度</label>
+<div class="input-with-unit">
+<input id="hssProfileSize" min="0.1" oninput="calculateHssPitch();renderPitchPrinciple()" step="0.1" type="number" value="1.8"/>
+<div class="unit-box">mm</div>
+</div>
+</div>
+<div class="field" id="hssSolidSizeField" style="display:none">
+<label>實心切削斷面尺寸</label>
+<div class="input-with-unit">
+<input id="hssSolidSize" min="1" oninput="calculateHssPitch()" step="1" type="number" value="50"/>
+<div class="unit-box">mm</div>
+</div>
+</div>
+<div class="field">
+<label>鋸片外徑</label>
+<div class="input-with-unit">
+<input id="hssBladeDiameter" min="1" oninput="calculateHssPitch()" step="1" type="number" value="300"/>
+<div class="unit-box">mm</div>
+</div>
+</div>
+</div>
+<div class="result-hero">
+<div class="small">型錄建議開齒節距</div>
+<div class="big" id="hssPitchHero">T5</div>
+<div class="sub" id="hssReason">依鋼材 ≤ 500 N/mm²、管壁厚度 2 mm 推薦</div>
+</div>
+<div class="two-col-result">
+<div class="mini-result"><span>公式參考齒數</span><strong id="hssTheoryTeeth">188.5</strong></div>
+<div class="mini-result"><span>資料庫標準齒數</span><strong id="hssRecommendedTeeth">180 齒</strong></div>
+</div>
+<div class="result">
+<div class="result-row"><div class="result-label">實際換算節距</div><div class="result-value" id="hssActualPitch">5.01 mm</div></div>
+<div class="result-row"><div class="result-label">建議齒形</div><div class="result-value" id="hssToothForm">BW / HZ</div></div>
+</div>
+<div class="note-box">
+        系統先依材質與斷面尺寸查出建議節距，再從內建的鋸片外徑／標準齒數資料庫選擇最接近規格。公式齒數只作核對，不直接當作下單齒數。實際訂製仍需確認廠牌、鋸片厚度、中心孔與齒形。
+      </div>
+<div class="concept-card">
+<h3>T5 到底代表什麼？</h3>
+<p>這裡用 Ø35 × 1.8 mm 圓管示範。T5 是齒尖到齒尖約 5 mm，不是 5 顆工作齒。</p>
+<div class="pitch-choice">
+<button id="demoT3" onclick="setPitchDemo(3)">T3</button>
+<button class="active" id="demoT5" onclick="setPitchDemo(5)">T5</button>
+<button id="demoT7" onclick="setPitchDemo(7)">T7</button>
+</div>
+<div class="principle-stage">
+<svg aria-label="T值與圓管壁厚關係示意圖" id="pitchPrincipleSvg" role="img" viewbox="0 0 360 230" width="100%">
+<rect fill="#edf4fa" height="230" rx="14" width="360" x="0" y="0"></rect>
+<g id="demoTube"></g>
+<g id="demoTeeth"></g>
+<g id="demoDimensions"></g>
+</svg>
+</div>
+<div class="principle-grid">
+<div class="principle-item"><span>選定節距</span><strong id="demoPitchValue">T5</strong></div>
+<div class="principle-item"><span>相鄰齒尖距離</span><strong id="demoPitchMm">5.0 mm</strong></div>
+<div class="principle-item"><span>單側管壁厚度</span><strong id="demoWall">1.8 mm</strong></div>
+<div class="principle-item"><span>厚度 ÷ 節距</span><strong id="demoRatio">0.36</strong></div>
+</div>
+<div class="logic-flow">
+<span class="logic-chip">管材型態</span><span class="logic-arrow">→</span>
+<span class="logic-chip">壁厚 1.8 mm</span><span class="logic-arrow">→</span>
+<span class="logic-chip">型錄區間</span><span class="logic-arrow">→</span>
+<span class="logic-chip" id="demoRecommendation">推薦 T5</span>
+</div>
+<div class="catalog-badge" id="demoExplanation">T5 是型錄選出的齒距，不等於工作齒數。</div>
+</div>
+</div>
+</section>
+<section class="page" id="contactPage">
+<div class="page-header"><button class="back-btn" onclick="showHome()">← 返回首頁</button><div><div class="page-title">真實接觸區域</div><div class="page-subtitle">依材料形狀、尺寸與下刀進度模擬實際接觸區</div></div></div>
+<div class="contact-sim-card">
+<h3>材料真實接觸區域重新計算</h3>
+<p>先選材料形狀；鋸齒只有落在實際材料內才會亮起，空心區不計入工作齒。</p>
+<div class="band-switches" id="contactShapeButtons" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">
+<button class="active" onclick="setContactShape('solidRound',this)">圓棒</button>
+<button onclick="setContactShape('pipe',this)">圓管</button>
+<button onclick="setContactShape('solidSquare',this)">方棒</button>
+<button onclick="setContactShape('squareTube',this)">方管</button>
+<button onclick="setContactShape('solidRect',this)">扁材</button>
+<button onclick="setContactShape('rectTube',this)">矩形管</button>
+</div>
+<div class="contact-controls" id="contactDynamicFields"></div>
+<div class="contact-controls" style="margin-top:10px">
+<div class="field" style="margin:0"><label style="color:#d8e5f0">鋸片直徑</label><div class="input-with-unit"><input id="contactBlade" min="50" oninput="renderTrueContact()" step="1" type="number" value="300"/><div class="unit-box">mm</div></div></div>
+</div>
+<div class="field"><label style="color:#d8e5f0">切削進度</label><input id="contactProgress" max="100" min="0" oninput="renderTrueContact()" step="1" style="width:100%" type="range" value="50"/></div>
+<div class="principle-stage"><svg id="trueContactSvg" viewbox="0 0 420 300" width="100%"></svg></div>
+<div class="contact-stat-grid">
+<div class="contact-stat"><span>目前接觸齒數</span><strong id="trueContactTeeth">0</strong></div>
+<div class="contact-stat"><span>有效接觸弧長</span><strong id="trueContactArc">0 mm</strong></div>
+<div class="contact-stat"><span>外徑顯示寬度</span><strong id="trueContactWidth">0 mm</strong></div>
+<div class="contact-stat"><span>實際材料接觸段</span><strong id="trueContactSegments">0 段</strong></div>
+</div>
+<div class="contact-note">外徑相同時，工件整體寬度可以相同；但壁厚改變後，綠色接觸齒與有效接觸弧一定會改變。</div>
+<div class="band-card">
+<h3>帶鋸真實接觸區域＋工作齒動畫</h3>
+<p>
+        依材料截面與鋸頭下切位置，計算鋸帶當下真正穿過的材料總長度。空心、間隙與束料空隙不列入接觸區。變化齒標示依常用 TPI 組合呈現；建議範圍不是機械可切直徑上限。分子與分母代表變化齒組的最低與最高 TPI。
+      </p>
+<div class="band-switches" style="grid-template-columns:repeat(3,1fr)">
+<button id="bandP1014" onclick="setBandPitchRange('10/14')">10/14</button>
+<button id="bandP812" onclick="setBandPitchRange('8/12')">8/12</button>
+<button id="bandP610" onclick="setBandPitchRange('6/10')">6/10</button>
+<button id="bandP57" onclick="setBandPitchRange('5/7')">5/7</button>
+<button id="bandP58" onclick="setBandPitchRange('5/8')">5/8</button>
+<button id="bandP46" onclick="setBandPitchRange('4/6')">4/6</button>
+<button id="bandP34" onclick="setBandPitchRange('3/4')">3/4</button>
+<button id="bandP23" onclick="setBandPitchRange('2/3')">2/3</button>
+<button id="bandP152" onclick="setBandPitchRange('1.5/2')">1.5/2</button>
+<button id="bandP1115" onclick="setBandPitchRange('1.1/1.5')">1.1/1.5</button>
+<button id="bandP0751" onclick="setBandPitchRange('0.75/1')">0.75/1</button>
+<button id="bandP142" onclick="setBandPitchRange('1.4/2')">1.4/2</button>
+<button id="bandP114" onclick="setBandPitchRange('1/1.4')">1/1.4</button>
+<button id="bandP085115" onclick="setBandPitchRange('0.85/1.15')">0.85/1.15</button>
+<button id="bandP071" onclick="setBandPitchRange('0.7/1')">0.7/1</button>
+</div>
+<div class="band-switches" id="bandShapeButtons" style="grid-template-columns:repeat(3,1fr);margin-top:14px">
+<button class="active" onclick="setBandShape('solidRound',this)">圓棒</button>
+<button onclick="setBandShape('pipe',this)">圓管</button>
+<button onclick="setBandShape('solidSquare',this)">方棒</button>
+<button onclick="setBandShape('squareTube',this)">方管</button>
+<button onclick="setBandShape('solidRect',this)">板材／扁材</button>
+<button onclick="setBandShape('rectTube',this)">矩形管</button>
+<button onclick="setBandShape('angle',this)">角鋼</button>
+<button onclick="setBandShape('iBeam',this)">H／I 型鋼</button>
+<button onclick="setBandShape('tBeam',this)">T 型鋼</button>
+<button onclick="setBandShape('channel',this)">槽鋼</button>
+<button onclick="setBandShape('profile',this)">異型材</button>
+<button onclick="setBandShape('plateStack',this)">多層板材</button>
+<button onclick="setBandShape('roundBundle',this)">圓材成束</button>
+<button onclick="setBandShape('tubeBundle',this)">圓管成束</button>
+<button onclick="setBandShape('squareTubeBundle',this)">方管成束</button>
+<button onclick="setBandShape('angleBundle',this)">角鋼成束</button>
+<button onclick="setBandShape('beamBundle',this)">型鋼成束</button>
+<button onclick="setBandShape('channelBundle',this)">槽鋼成束</button>
+<button onclick="setBandShape('freeLayout',this)">自由排料</button>
+</div>
+<div class="band-controls" id="bandShapeFields" style="grid-template-columns:repeat(2,1fr)"></div>
+<div class="free-layout-panel" id="freeLayoutPanel">
+<div class="free-layout-title">自由排料工作區</div>
+<div class="free-add-grid">
+<button onclick="addFreeBandItem('solidRound')">＋ 圓棒</button><button onclick="addFreeBandItem('pipe')">＋ 圓管</button>
+<button onclick="addFreeBandItem('solidSquare')">＋ 方棒</button><button onclick="addFreeBandItem('squareTube')">＋ 方管</button>
+<button onclick="addFreeBandItem('solidRect')">＋ 板材</button><button onclick="addFreeBandItem('angle')">＋ 角鋼</button>
+<button onclick="addFreeBandItem('iBeam')">＋ H型鋼</button><button onclick="addFreeBandItem('channel')">＋ 槽鋼</button>
+<button onclick="addFreeBandItem('tBeam')">＋ T型鋼</button><button onclick="addFreeBandItem('profile')">＋ 異型材</button>
+</div>
+<div class="free-tools">
+<button onclick="rotateFreeItem(-15)">↶ 旋轉15°</button><button onclick="rotateFreeItem(15)">↷ 旋轉15°</button>
+<button onclick="rotateFreeItem(90)">↻ 旋轉90°</button><button onclick="flipFreeItem('x')">↔ 左右翻轉</button>
+<button onclick="flipFreeItem('y')">↕ 上下翻轉</button><button onclick="duplicateFreeItem()">⧉ 複製</button>
+<button onclick="deleteFreeItem()">🗑 刪除</button><button onclick="clearFreeLayout()">清空全部</button>
+</div>
+<div class="free-selected" id="freeSelectedInfo">尚未選取材料</div>
+<div class="free-help">操作：先新增材料，再直接拖曳圖形改變位置；點一下材料可選取。旋轉與翻轉只作用在目前選取的材料。鋸頭下切進度會依整組材料的最高點到最低點計算。</div>
+</div>
+<div class="band-controls" style="grid-template-columns:repeat(2,1fr)">
+<div class="field" style="margin:0">
+<label style="color:#d8e5f0">實際接觸長度</label>
+<div class="band-mode-switch">
+<button class="active" id="bandContactAutoBtn" onclick="setBandContactMode('auto')">自動計算</button>
+<button id="bandContactManualBtn" onclick="setBandContactMode('manual')">手動輸入</button>
+</div>
+<div class="input-with-unit">
+<input id="bandContactInput" max="2000" min="0" readonly oninput="renderBandSaw()" step="0.1" type="number" value="0"/>
+<div class="unit-box">mm</div>
+</div>
+<div class="hint" id="bandContactHint" style="color:#b9cad9">依材料形狀、尺寸與下刀進度自動計算</div>
+</div>
+<div class="field" style="margin:0">
+<label style="color:#d8e5f0">下刀進給速度</label>
+<div class="input-with-unit">
+<input id="bandFeedRate" max="1000" min="1" oninput="renderBandSaw()" step="1" type="number" value="40"/>
+<div class="unit-box">mm/min</div>
+</div>
+</div>
+<div class="field" style="margin:0">
+<label style="color:#d8e5f0">鋸帶速度</label>
+<div class="input-with-unit">
+<input id="bandBladeSpeed" inputmode="decimal" max="300" min="1" oninput="renderBandSaw()" onchange="renderBandSaw()" step="1" type="number" value="60"/>
+<div class="unit-box">m/min</div>
+</div>
+<div class="hint" style="color:#b9cad9">可直接輸入 1～300 m/min</div>
+</div>
+<div class="field" style="margin:0">
+<label style="color:#d8e5f0">動畫播放倍率</label>
+<div class="input-with-unit">
+<input id="bandAnimSpeed" inputmode="decimal" max="10" min="0.1" oninput="syncBandAnimPreset()" step="0.1" type="number" value="1"/>
+<div class="unit-box">倍</div>
+</div>
+<div class="band-speed-presets">
+<button onclick="setBandAnimSpeed(0.1)">0.1×</button><button onclick="setBandAnimSpeed(0.25)">0.25×</button><button onclick="setBandAnimSpeed(0.5)">0.5×</button><button class="active" onclick="setBandAnimSpeed(1)">1×</button><button onclick="setBandAnimSpeed(2)">2×</button><button onclick="setBandAnimSpeed(5)">5×</button>
+</div>
+</div>
+</div>
+<div class="field">
+<label style="color:#d8e5f0">鋸頭下切進度</label>
+<input id="bandDepth" max="100" min="0" oninput="renderBandSaw()" step="1" style="width:100%" type="range" value="55"/>
+</div>
+<div class="band-stage">
+<svg aria-label="帶鋸變化齒工作齒與鐵屑形成動畫" id="bandSawSvg" role="img" viewbox="0 0 430 305" width="100%"></svg>
+</div>
+<div class="band-dashboard">
+<div><span>變化齒</span><strong id="bandDashPitch">2/3 TPI</strong></div>
+<div><span>接觸長度</span><strong id="bandDashContact">220 mm</strong></div>
+<div><span>工作齒</span><strong id="bandDashTeeth">0 齒</strong></div>
+<div><span>單齒進給</span><strong id="bandDashFz">0 mm/齒</strong></div>
+</div>
+<div class="band-stats">
+<div class="band-stat"><span>目前工作齒數</span><strong id="bandWorkingTeeth">0</strong></div>
+<div class="band-stat"><span>目前齒組平均 TPI</span><strong id="bandAverageTpi">0</strong></div>
+<div class="band-stat"><span>換算單齒進給</span><strong id="bandChipThickness">0 mm/齒</strong></div>
+<div class="band-stat"><span>齒距建議</span><strong id="bandChipState">—</strong></div>
+</div>
+<div class="chip-legend" id="bandRangeGuide">
+        目前齒距建議範圍載入中……
+      </div>
+<div class="chip-legend">
+        畫面同時標示兩個方向：鋸帶沿水平方向運動，鋸頭／鋸帶架由上往下進給材料。
+        綠色齒為當下落在材料接觸長度內的工作齒；黃色鐵屑為教學示意。
+        mm/min 是鋸頭進給速度；系統再用鋸帶速度與平均 TPI 換算成 mm/齒。
+      </div>
+</div>
+</div>
+</section>
+<section class="page" id="areaPage">
+<header class="page-header"><button class="back-button" onclick="openPage('homePage')">← 返回首頁</button><h2>材料截面積</h2><p>先點材料圖示，再填圖上標示的尺寸</p></header>
+<div class="panel">
+<div class="diagram-title">選擇材料</div>
+<div class="shape-grid" id="shapeGrid"></div>
+</div>
+<div class="panel">
+<div class="diagram-title" id="selectedTitle">圓管</div>
+<div class="diagram-box" id="diagramBox"></div>
+</div>
+<div class="panel">
+<div class="input-grid" id="dynamicInputs"></div>
+</div>
+<div class="panel">
+<div class="result">
+<div class="result-row"><div class="result-label">單支截面積</div><div class="result-value" id="singleArea">0 mm²</div></div>
+<div class="result-row"><div class="result-label">每刀切削支數</div><div class="result-value" id="quantityResult">1 支</div></div>
+<div class="result-row"><div class="result-label">每刀總截面積</div><div class="result-value" id="totalAreaMm">0 mm²</div></div>
+<div class="result-row"><div class="result-label">換算平方公分</div><div class="result-value" id="totalAreaCm">0 cm²</div></div>
+</div>
+<div class="warning" id="areaWarning">尺寸不合理，請檢查外徑、寬高與厚度。</div>
+</div>
+</section>
+
+<nav class="bottom-nav">
+<button class="nav-item active" onclick="openPage('homePage')"><span>🏠</span>首頁</button>
+<button class="nav-item" onclick="openPage('rpmPage')"><span>🧮</span>計算</button>
+<button class="nav-item" onclick="comingSoon()"><span>📋</span>紀錄</button>
+<button class="nav-item" onclick="comingSoon()"><span>👤</span>帳戶</button>
+</nav>
+<script>
+const shapes = {
+  solidRound:{name:"圓棒",icon:'<circle cx="50" cy="50" r="32"/>',fields:[["d","直徑","40"]]},
+  pipe:{name:"圓管",icon:'<circle cx="50" cy="50" r="34"/><circle cx="50" cy="50" r="22"/>',fields:[["d","外徑","60"],["t","管壁厚度","3"]]},
+  solidSquare:{name:"方棒",icon:'<rect x="18" y="18" width="64" height="64"/>',fields:[["w","邊長","40"]]},
+  squareTube:{name:"方管",icon:'<rect x="15" y="15" width="70" height="70"/><rect x="28" y="28" width="44" height="44"/>',fields:[["w","外寬","50"],["t","管壁厚度","3"]]},
+  solidRect:{name:"扁鋼／矩形",icon:'<rect x="10" y="28" width="80" height="44"/>',fields:[["w","寬度","60"],["h","高度","20"]]},
+  rectTube:{name:"矩形管",icon:'<rect x="8" y="25" width="84" height="50"/><rect x="20" y="36" width="60" height="28"/>',fields:[["w","外寬","80"],["h","外高","40"],["t","管壁厚度","3"]]},
+  hex:{name:"六角棒",icon:'<polygon points="25,15 75,15 92,50 75,85 25,85 8,50"/>',fields:[["af","對邊尺寸","40"]]},
+  angle:{name:"角鋼",icon:'<path d="M20 15 V82 H85 V65 H38 V15 Z"/>',fields:[["a","長邊","50"],["b","短邊","50"],["t","厚度","5"]]},
+  channel:{name:"槽鋼",icon:'<path d="M25 15 H85 V32 H42 V68 H85 V85 H25 Z"/>',fields:[["bf","翼板寬","50"],["h","總高度","80"],["tw","腹板厚度","5"],["tf","翼板厚度","7"]]},
+  hbeam:{name:"H 型鋼",icon:'<path d="M12 15 H88 V32 H60 V68 H88 V85 H12 V68 H40 V32 H12 Z"/>',fields:[["bf","翼板寬","100"],["h","總高度","100"],["tw","腹板厚度","6"],["tf","翼板厚度","8"]]}
+};
+let currentShape="pipe";
+
+function openPage(id){
+  const target=document.getElementById(id);
+  if(!target)return;
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  target.classList.add("active");
+  // 切換頁面時立刻回到最上方，避免保留上一頁捲動位置造成大片空白。
+  document.documentElement.scrollTop=0;
+  document.body.scrollTop=0;
+  window.scrollTo(0,0);
+  document.querySelectorAll(".nav-item").forEach(b=>b.classList.remove("active"));
+  if(id==="homePage")document.querySelector(".nav-item")?.classList.add("active");
+}
+function showHome(){openPage("homePage");}
+function comingSoon(){alert("這個功能下一步加入。")}
+function updateMode(){const m=document.getElementById("mode").value;document.getElementById("rpmField").style.display=m==="rpmToSpeed"?"block":"none";document.getElementById("speedField").style.display=m==="speedToRpm"?"block":"none";calculateRPM()}
+function calculateRPM(){const m=document.getElementById("mode").value,d=+document.getElementById("diameter").value,r=+document.getElementById("rpm").value,v=+document.getElementById("speed").value,w=document.getElementById("rpmWarning");w.style.display="none";if(d<=0||(m==="rpmToSpeed"&&r<=0)||(m==="speedToRpm"&&v<=0)){w.style.display="block";return}if(m==="rpmToSpeed"){const x=Math.PI*d*r/1000;rpmResultLabel.textContent="切削速度";rpmResultValue.textContent=x.toFixed(2)+" m/min";rpmFormula.textContent="公式：切削速度＝π × 鋸片外徑 × RPM ÷ 1000"}else{const x=1000*v/(Math.PI*d);rpmResultLabel.textContent="主軸轉速";rpmResultValue.textContent=x.toFixed(2)+" RPM";rpmFormula.textContent="公式：RPM＝1000 × 切削速度 ÷（π × 鋸片外徑）"}}
+
+function renderShapeGrid(){
+  const grid=document.getElementById("shapeGrid");grid.innerHTML="";
+  Object.entries(shapes).forEach(([key,s])=>{
+    const b=document.createElement("button");b.className="shape-card"+(key===currentShape?" active":"");b.onclick=()=>selectShape(key);
+    b.innerHTML=`<svg viewBox="0 0 100 100">${s.icon}</svg><div class="shape-name">${s.name}</div>`;
+    grid.appendChild(b);
+  });
+}
+function selectShape(key){currentShape=key;renderShapeGrid();renderAreaForm()}
+function renderAreaForm(){
+  const s=shapes[currentShape];document.getElementById("selectedTitle").textContent=s.name;
+  document.getElementById("diagramBox").innerHTML=makeDiagram(currentShape);
+  const holder=document.getElementById("dynamicInputs");holder.innerHTML="";
+  s.fields.forEach(([id,label,val])=>{
+    const wrap=document.createElement("div");wrap.className="field";
+    wrap.innerHTML=`<label>${label}（mm）</label><input id="f_${id}" type="number" value="${val}" min="0" step="0.1" oninput="calculateArea()">`;
+    holder.appendChild(wrap);
+  });
+  const q=document.createElement("div");q.className="field full";q.innerHTML='<label>每刀切削支數</label><input id="quantity" type="number" value="1" min="1" step="1" oninput="calculateArea()"><div class="hint">例如一次綁 6 支，就填 6。</div>';holder.appendChild(q);
+  calculateArea();
+}
+function val(id){const e=document.getElementById("f_"+id);return e?+e.value:0}
+function calculateArea(){
+  const d=val("d"),w=val("w"),h=val("h"),t=val("t"),a=val("a"),b=val("b"),af=val("af"),bf=val("bf"),tw=val("tw"),tf=val("tf");
+  let A=0;
+  if(currentShape==="solidRound")A=Math.PI*d*d/4;
+  if(currentShape==="pipe")A=d>2*t?Math.PI*(d*d-(d-2*t)**2)/4:-1;
+  if(currentShape==="solidSquare")A=w*w;
+  if(currentShape==="squareTube")A=w>2*t?w*w-(w-2*t)**2:-1;
+  if(currentShape==="solidRect")A=w*h;
+  if(currentShape==="rectTube")A=(w>2*t&&h>2*t)?w*h-(w-2*t)*(h-2*t):-1;
+  if(currentShape==="hex")A=Math.sqrt(3)/2*af*af;
+  if(currentShape==="angle")A=a*t+b*t-t*t;
+  if(currentShape==="channel")A=2*bf*tf+(h-2*tf)*tw;
+  if(currentShape==="hbeam")A=2*bf*tf+(h-2*tf)*tw;
+  const q=Math.max(1,Math.floor(+document.getElementById("quantity").value||1));
+  const warn=document.getElementById("areaWarning");
+  if(!isFinite(A)||A<=0){warn.style.display="block";A=0}else warn.style.display="none";
+  const total=A*q;
+  document.getElementById("singleArea").textContent=A.toFixed(2)+" mm²";
+  document.getElementById("quantityResult").textContent=q+" 支";
+  document.getElementById("totalAreaMm").textContent=total.toFixed(2)+" mm²";
+  document.getElementById("totalAreaCm").textContent=(total/100).toFixed(2)+" cm²";
+}
+function makeDiagram(type){
+  const diagrams={
+    solidRound:`<svg viewBox="0 0 320 190"><circle cx="150" cy="95" r="62" fill="#dcecff" stroke="#17365d" stroke-width="5"/><line x1="88" y1="95" x2="212" y2="95" stroke="#e56a20" stroke-width="3"/><text x="150" y="83" text-anchor="middle" font-size="17" font-weight="700">直徑</text></svg>`,
+    pipe:`<svg viewBox="0 0 320 190"><circle cx="145" cy="95" r="67" fill="#dcecff" stroke="#17365d" stroke-width="5"/><circle cx="145" cy="95" r="47" fill="white" stroke="#17365d" stroke-width="5"/><line x1="78" y1="95" x2="212" y2="95" stroke="#e56a20" stroke-width="3"/><text x="145" y="82" text-anchor="middle" font-size="16" font-weight="700">外徑</text><line x1="192" y1="54" x2="260" y2="30" stroke="#e56a20" stroke-width="3"/><text x="264" y="28" font-size="16" font-weight="700">管壁厚度</text></svg>`,
+    solidSquare:`<svg viewBox="0 0 320 190"><rect x="85" y="35" width="125" height="125" fill="#dcecff" stroke="#17365d" stroke-width="5"/><line x1="85" y1="174" x2="210" y2="174" stroke="#e56a20" stroke-width="3"/><text x="148" y="168" text-anchor="middle" font-size="16" font-weight="700">邊長</text></svg>`,
+    squareTube:`<svg viewBox="0 0 320 190"><rect x="75" y="25" width="140" height="140" fill="#dcecff" stroke="#17365d" stroke-width="5"/><rect x="95" y="45" width="100" height="100" fill="white" stroke="#17365d" stroke-width="5"/><line x1="215" y1="45" x2="270" y2="25" stroke="#e56a20" stroke-width="3"/><text x="270" y="22" font-size="15" font-weight="700">管壁厚度</text><text x="145" y="183" text-anchor="middle" font-size="16" font-weight="700">外寬</text></svg>`,
+    solidRect:`<svg viewBox="0 0 320 190"><rect x="55" y="55" width="210" height="90" fill="#dcecff" stroke="#17365d" stroke-width="5"/><text x="160" y="170" text-anchor="middle" font-size="16" font-weight="700">寬度</text><text x="282" y="105" font-size="16" font-weight="700">高度</text></svg>`,
+    rectTube:`<svg viewBox="0 0 320 190"><rect x="45" y="45" width="220" height="105" fill="#dcecff" stroke="#17365d" stroke-width="5"/><rect x="65" y="65" width="180" height="65" fill="white" stroke="#17365d" stroke-width="5"/><text x="155" y="175" text-anchor="middle" font-size="16" font-weight="700">外寬</text><text x="280" y="105" font-size="16" font-weight="700">外高</text><text x="230" y="35" font-size="15" font-weight="700">管壁厚度</text></svg>`,
+    hex:`<svg viewBox="0 0 320 190"><polygon points="95,35 205,35 250,95 205,155 95,155 50,95" fill="#dcecff" stroke="#17365d" stroke-width="5"/><line x1="50" y1="95" x2="250" y2="95" stroke="#e56a20" stroke-width="3"/><text x="150" y="84" text-anchor="middle" font-size="16" font-weight="700">對邊尺寸</text></svg>`,
+    angle:`<svg viewBox="0 0 320 190"><path d="M70 30 V155 H245 V130 H100 V30 Z" fill="#dcecff" stroke="#17365d" stroke-width="5"/><text x="38" y="98" font-size="16" font-weight="700">長邊</text><text x="160" y="180" font-size="16" font-weight="700">短邊</text><text x="110" y="55" font-size="15" font-weight="700">厚度</text></svg>`,
+    channel:`<svg viewBox="0 0 320 190"><path d="M70 25 H240 V50 H105 V150 H240 V185 H70 Z" fill="#dcecff" stroke="#17365d" stroke-width="5"/><text x="15" y="100" font-size="15" font-weight="700">總高度</text><text x="175" y="185" font-size="15" font-weight="700">翼板寬</text><text x="165" y="45" font-size="14" font-weight="700">翼板厚度</text><text x="108" y="105" font-size="14" font-weight="700">腹板厚度</text></svg>`,
+    hbeam:`<svg viewBox="0 0 320 190"><path d="M35 25 H285 V50 H175 V150 H285 V185 H35 V150 H145 V50 H35 Z" fill="#dcecff" stroke="#17365d" stroke-width="5"/><text x="10" y="100" font-size="15" font-weight="700">總高度</text><text x="160" y="185" text-anchor="middle" font-size="15" font-weight="700">翼板寬</text><text x="205" y="45" font-size="14" font-weight="700">翼板厚度</text><text x="177" y="105" font-size="14" font-weight="700">腹板厚度</text></svg>`
+  };
+  return diagrams[type];
+}
+
+let currentSzMode="normal";
+
+function setSzMode(mode){
+  currentSzMode=mode;
+  document.getElementById("normalSzFields").style.display=mode==="normal"?"grid":"none";
+  document.getElementById("hydraulicSzFields").style.display=mode==="hydraulic"?"grid":"none";
+  document.getElementById("normalModeBtn").classList.toggle("active",mode==="normal");
+  document.getElementById("hydraulicModeBtn").classList.toggle("active",mode==="hydraulic");
+  calculateSz();
+}
+
+function calculateSz(){
+  const rpm=+document.getElementById("szRpm").value;
+  const teeth=+document.getElementById("szTeeth").value;
+  let feedPerSec=0;
+  const warning=document.getElementById("szWarning");
+  warning.style.display="none";
+
+  if(currentSzMode==="normal"){
+    feedPerSec=+document.getElementById("feedPerSecInput").value;
+  }else{
+    const distance=+document.getElementById("cutHeight").value;
+    const seconds=+document.getElementById("cutSeconds").value;
+    if(distance<=0||seconds<=0){
+      warning.style.display="block";
+      return;
+    }
+
+    feedPerSec=distance/seconds;
+  }
+
+  if(rpm<=0||teeth<=0||feedPerSec<=0){
+    warning.style.display="block";
+    return;
+  }
+
+  const feedPerMin=feedPerSec*60;
+  const sz=feedPerMin/(rpm*teeth);
+  const feedPerRev=feedPerMin/rpm;
+
+  document.getElementById("szResult").textContent=sz.toFixed(4)+" mm/齒";
+  document.getElementById("feedPerSecResult").textContent=feedPerSec.toFixed(2)+" mm/sec";
+  document.getElementById("feedSpeedResult").textContent=feedPerMin.toFixed(2)+" mm/min";
+  document.getElementById("feedPerRevResult").textContent=feedPerRev.toFixed(3)+" mm/轉";
+
+  document.getElementById("szFormula").textContent=
+    currentSzMode==="normal"
+    ?"公式：SZ＝每秒進給 × 60 ÷（RPM × 齒數）"
+    :"公式：每秒進給＝實際切削距離 ÷ 完成切削時間；SZ＝每秒進給 × 60 ÷（RPM × 齒數）";
+}
+
+
+
+let workingShape="solidRound";
+function setWorkingShape(shape){
+  workingShape=shape;
+  const ids=["solidRound","roundTube","squareTube","solidSquare","flat"];
+  const btns=["wtSolidRound","wtRoundTube","wtSquareTube","wtSolidSquare","wtFlat"];
+  btns.forEach((id,i)=>document.getElementById(id).classList.toggle("active",ids[i]===shape));
+  const tube=shape==="roundTube"||shape==="squareTube";
+  document.getElementById("wtThicknessField").style.display=tube?"block":"none";
+  const labels={
+    solidRound:"材料外徑",roundTube:"圓管外徑",squareTube:"方管高度",
+    solidSquare:"方料高度",flat:"材料厚度"
+  };
+  document.getElementById("wtOuterLabel").textContent=labels[shape];
+  calculateWorkingTeeth2();
+}
+
+function arcLengthForChord(chord, radius){
+  if(chord<=0 || radius<=0) return 0;
+  const safe=Math.min(chord,2*radius);
+  return 2*radius*Math.asin(safe/(2*radius));
+}
+let workingAnimAngle=0;
+let workingAnimPlaying=true;
+let workingAnimLast=0;
+let workingContactAngle=0;
+let workingVisualTeeth=0;
+let workingVisualStatus="good";
+
+function calculateWorkingTeeth2(){
+  const d=+document.getElementById("wtBladeDiameter").value;
+  const z=+document.getElementById("wtBladeTeeth").value;
+  const rpm=+document.getElementById("wtRpm").value;
+  const size=+document.getElementById("wtOuter").value;
+  const t=+document.getElementById("wtThickness").value;
+  if(d<=0||z<=0||size<=0)return;
+  const radius=d/2;
+  const pitch=Math.PI*d/z;
+  let contactArc=arcLengthForChord(size,radius);
+  if(workingShape==="roundTube"||workingShape==="squareTube"){
+    const inner=Math.max(0,size-2*t);
+    contactArc=Math.max(0,arcLengthForChord(size,radius)-arcLengthForChord(inner,radius));
+  }
+  const count=contactArc/pitch;
+  const teethPerSecond=Math.max(0,rpm)*z/60;
+  document.getElementById("wtPitchResult").textContent=pitch.toFixed(2)+" mm";
+  document.getElementById("wtEngagementResult").textContent=contactArc.toFixed(2)+" mm";
+  document.getElementById("wtCountResult").textContent=count.toFixed(2)+" 齒";
+  document.getElementById("wtMetricCount").textContent=count.toFixed(1)+" 齒";
+  document.getElementById("wtTeethPerSec").textContent=teethPerSecond.toFixed(0)+" 齒/s";
+  document.getElementById("wtRevPerSec").textContent=(Math.max(0,rpm)/60).toFixed(2)+" r/s";
+  document.getElementById("svgCountLabel").textContent=count.toFixed(1)+" 齒";
+  const s=document.getElementById("wtStatus");
+  s.className="tooth-status";
+  if(count<2){s.classList.add("low");s.textContent="⚠ 工作齒數過少：崩齒與震動風險較高";workingVisualStatus="low";}
+  else if(count<3){s.classList.add("low");s.textContent="△ 工作齒數偏少：單齒負荷較大";workingVisualStatus="low";}
+  else if(count<=6){s.classList.add("good");s.textContent="★★★★★ 理想範圍：工作齒數約 3～6 齒";workingVisualStatus="good";}
+  else if(count<=10){s.classList.add("high");s.textContent="△ 工作齒數偏多：注意容屑空間與排屑";workingVisualStatus="high";}
+  else{s.classList.add("high");s.textContent="⚠ 工作齒數過多：容易塞屑、摩擦與發熱";workingVisualStatus="high";}
+
+  workingContactAngle=Math.min(Math.PI*1.35,contactArc/radius);
+  workingVisualTeeth=Math.max(1,Math.min(360,Math.round(z)));
+  renderWorkingMaterial(size,t,d);
+  renderWorkingVisualization();
+}
+
+function renderWorkingMaterial(size,t,bladeD){
+  const layer=document.getElementById("materialLayer");
+  if(!layer)return;
+  const scale=Math.min(1.35,150/Math.max(size,1));
+  const w=Math.max(34,Math.min(230,size*scale));
+  const h=Math.max(20,Math.min(92,size*scale));
+  const x=180-w/2, y=201;
+  let svg='';
+  const outer='#64788c', inner='#eef4f9';
+  if(workingShape==='solidRound'){
+    const r=Math.max(18,Math.min(58,w/2));
+    svg=`<circle cx="180" cy="${y+r-8}" r="${r}" fill="${outer}" stroke="#344b62" stroke-width="3"/>`;
+  }else if(workingShape==='roundTube'){
+    const r=Math.max(22,Math.min(58,w/2));
+    const wall=Math.max(5,Math.min(r-3,t*scale));
+    svg=`<circle cx="180" cy="${y+r-8}" r="${r}" fill="${outer}" stroke="#344b62" stroke-width="3"/><circle cx="180" cy="${y+r-8}" r="${Math.max(3,r-wall)}" fill="${inner}" stroke="#344b62" stroke-width="2"/>`;
+  }else if(workingShape==='squareTube'){
+    const hh=Math.max(38,Math.min(88,h)); const wall=Math.max(5,Math.min(hh/2-3,t*scale));
+    svg=`<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="3" fill="${outer}" stroke="#344b62" stroke-width="3"/><rect x="${x+wall}" y="${y+wall}" width="${Math.max(4,w-2*wall)}" height="${Math.max(4,hh-2*wall)}" rx="2" fill="${inner}" stroke="#344b62" stroke-width="2"/>`;
+  }else{
+    const hh=workingShape==='flat'?Math.max(18,Math.min(38,h*.45)):Math.max(38,Math.min(88,h));
+    svg=`<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="3" fill="${outer}" stroke="#344b62" stroke-width="3"/>`;
+  }
+  layer.innerHTML=svg;
+}
+
+function angleDistance(a,b){
+  let d=Math.abs((a-b)%(Math.PI*2));
+  return Math.min(d,Math.PI*2-d);
+}
+
+function renderWorkingVisualization(){
+  const layer=document.getElementById("toothLayer");
+  const arcLayer=document.getElementById("contactArcLayer");
+  if(!layer||!arcLayer)return;
+  const cx=180,cy=124,r1=94,r2=103;
+  const z=workingVisualTeeth;
+  const center=Math.PI/2;
+  const activeColor=workingVisualStatus==='low'?'#d94b43':workingVisualStatus==='high'?'#e49b19':'#12a36d';
+  let teeth='';
+  for(let i=0;i<z;i++){
+    const a=(i/z)*Math.PI*2+workingAnimAngle;
+    const active=angleDistance(a,center)<=workingContactAngle/2;
+    const x1=cx+Math.cos(a)*r1, y1=cy+Math.sin(a)*r1;
+    const x2=cx+Math.cos(a)*r2, y2=cy+Math.sin(a)*r2;
+    teeth+=`<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="${active?activeColor:'#8699ac'}" stroke-width="${active?3.2:1.7}" stroke-linecap="round"/>`;
+  }
+  layer.innerHTML=teeth;
+  const a1=center-workingContactAngle/2,a2=center+workingContactAngle/2, rr=110;
+  const x1=cx+Math.cos(a1)*rr,y1=cy+Math.sin(a1)*rr,x2=cx+Math.cos(a2)*rr,y2=cy+Math.sin(a2)*rr;
+  const large=workingContactAngle>Math.PI?1:0;
+  arcLayer.innerHTML=`<path d="M ${x1} ${y1} A ${rr} ${rr} 0 ${large} 1 ${x2} ${y2}" fill="none" stroke="#e49b19" stroke-width="5" stroke-linecap="round" opacity=".8"/>`;
+}
+
+function workingAnimationFrame(ts){
+  if(!workingAnimLast)workingAnimLast=ts;
+  const dt=Math.min(.05,(ts-workingAnimLast)/1000);
+  workingAnimLast=ts;
+  if(workingAnimPlaying){
+    const rpm=Math.max(0,+document.getElementById("wtRpm").value||0);
+    const visualRpm=Math.min(18,Math.max(1,rpm/10));
+    workingAnimAngle+=(visualRpm*Math.PI*2/60)*dt;
+    renderWorkingVisualization();
+  }
+  requestAnimationFrame(workingAnimationFrame);
+}
+function toggleWorkingAnimation(){
+  workingAnimPlaying=!workingAnimPlaying;
+  document.getElementById("wtPlayBtn").textContent=workingAnimPlaying?"暫停動畫":"播放動畫";
+}
+function resetWorkingAnimation(){workingAnimAngle=0;renderWorkingVisualization();}
+requestAnimationFrame(workingAnimationFrame);
+
+let hssMode="profile";
+function setHssMode(mode){
+  hssMode=mode;
+  document.getElementById("hssProfileBtn").classList.toggle("active",mode==="profile");
+  document.getElementById("hssSolidBtn").classList.toggle("active",mode==="solid");
+  document.getElementById("hssProfileSizeField").style.display=mode==="profile"?"block":"none";
+  document.getElementById("hssProfileOuterField").style.display=mode==="profile"?"block":"none";
+  document.getElementById("hssSolidSizeField").style.display=mode==="solid"?"block":"none";
+  calculateHssPitch();
+}
+
+const profileLimits=[1,1.5,2,3,4,Infinity];
+const solidLimits=[20,40,60,80,110,130,150,Infinity];
+const pitchTable={
+  steel500:{p:[3,4,5,5,6,7],s:[6,8,10,12,14,16,18,18]},
+  steel800:{p:[3,4,4,5,6,7],s:[6,8,10,12,14,16,18,18]},
+  steel1200:{p:[3,3,4,5,5,6],s:[5,7,9,12,14,16,18,18]},
+  stainless:{p:[3,4,5,5,6,6],s:[5,7,9,12,14,16,18,18]},
+  castiron:{p:[6,6,6,6,6,6],s:[6,8,10,14,16,18,18,18]},
+  aluminum:{p:[4,5,6,7,8,8],s:[8,9,12,16,18,18,18,18]},
+  bronze:{p:[4,5,6,7,8,9],s:[7,10,10,14,16,16,18,18]},
+  copper:{p:[4,5,6,7,8,8],s:[8,10,10,14,16,18,18,18]},
+  brass:{p:[4,5,6,7,8,8],s:[8,10,12,14,18,18,18,18]},
+  zinc:{p:[3,4,5,5,6,7],s:[5,6,10,12,14,16,16,16]},
+  inconel:{p:[3,3,4,5,5,6],s:[5,6,8,10,12,14,14,14]},
+  titanium:{p:[3,3,4,5,5,6],s:[5,6,8,10,12,14,14,14]}
+};
+const materialNames={
+ steel500:"鋼材 ≤ 500 N/mm²",steel800:"鋼材 ≤ 800 N/mm²",steel1200:"鋼材 ≤ 1200 N/mm²",
+ stainless:"不鏽鋼",castiron:"鑄鐵",aluminum:"鋁",bronze:"青銅",copper:"銅",brass:"黃銅",
+ zinc:"鋅合金",inconel:"Inconel",titanium:"鈦"
+};
+function pickByLimit(value,limits,arr){
+  for(let i=0;i<limits.length;i++)if(value<limits[i] || (i===0&&value<=limits[i]))return arr[i];
+  return arr[arr.length-1];
+}
+function nearestEven(n){
+  return Math.max(2,Math.round(n/2)*2);
+}
+// HSS 標準開齒資料庫（依常用外徑建立，齒數不是由材料厚度直接換算）
+const hssStandardToothDb={
+  200:[80,90,100,110,120,130,140,150,160,180,200],
+  225:[80,90,100,110,120,130,140,150,160,180,200,220],
+  250:[80,90,100,110,120,130,140,150,160,180,200,220,240],
+  275:[80,90,100,110,120,130,140,150,160,180,200,220,240],
+  300:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240,260,280,300],
+  315:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240,260,280,300],
+  350:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240,260],
+  370:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240,260],
+  400:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240],
+  425:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240],
+  450:[60,70,80,90,100,110,120,130,140,150,160,180,200,220],
+  500:[60,70,80,90,100,110,120,130,140,150,160,180,200,220],
+  550:[60,70,80,90,100,110,120,130,140,150,160,180,200],
+  600:[60,70,80,90,100,110,120,130,140,150,160,180,200]
+};
+function nearestDbDiameter(d){
+  return Object.keys(hssStandardToothDb).map(Number).reduce((a,b)=>Math.abs(b-d)<Math.abs(a-d)?b:a);
+}
+function chooseStandardTeeth(diameter,pitch){
+  const dbD=nearestDbDiameter(diameter);
+  const options=hssStandardToothDb[dbD];
+  const target=Math.PI*diameter/pitch;
+  let best=options[0],bestError=Infinity;
+  options.forEach(z=>{
+    const actualPitch=Math.PI*diameter/z;
+    const error=Math.abs(actualPitch-pitch);
+    if(error<bestError){bestError=error;best=z;}
+  });
+  return {teeth:best,dbDiameter:dbD,target:target,actualPitch:Math.PI*diameter/best};
+}
+function calculateHssPitch(){
+  const mat=document.getElementById("hssMaterial").value;
+  const diameter=+document.getElementById("hssBladeDiameter").value;
+  const size=hssMode==="profile"?+document.getElementById("hssProfileSize").value:+document.getElementById("hssSolidSize").value;
+  if(diameter<=0||size<=0)return;
+  const row=pitchTable[mat];
+  const pitch=hssMode==="profile"?pickByLimit(size,profileLimits,row.p):pickByLimit(size,solidLimits,row.s);
+  const selection=chooseStandardTeeth(diameter,pitch);
+  const theory=selection.target;
+  const rec=selection.teeth;
+  const actual=selection.actualPitch;
+  const form=pitch<=5?"BW":(pitch<=8?"BW / HZ":"HZ");
+  document.getElementById("hssPitchHero").textContent="T"+pitch;
+  document.getElementById("hssReason").textContent=
+    "依"+materialNames[mat]+"、"+(hssMode==="profile"?"壁厚／型材厚度 ":"實心切削尺寸 ")+size+" mm 推薦；標準齒數表採 "+selection.dbDiameter+" mm 級距";
+  document.getElementById("hssTheoryTeeth").textContent=theory.toFixed(1);
+  document.getElementById("hssRecommendedTeeth").textContent=rec+" 齒";
+  document.getElementById("hssActualPitch").textContent=actual.toFixed(2)+" mm";
+  document.getElementById("hssToothForm").textContent=form;
+}
+
+
+let pitchDemoValue=5;
+function setPitchDemo(pitch){
+  pitchDemoValue=pitch;
+  [3,5,7].forEach(v=>{
+    const b=document.getElementById("demoT"+v);
+    if(b)b.classList.toggle("active",v===pitch);
+  });
+  renderPitchPrinciple();
+}
+
+function renderPitchPrinciple(){
+  const svg=document.getElementById("pitchPrincipleSvg");
+  if(!svg)return;
+
+  const od=Math.max(1,+document.getElementById("hssProfileOuter")?.value || 35);
+  const wall=Math.max(.1,+document.getElementById("hssProfileSize")?.value || 1.8);
+  const pitch=pitchDemoValue;
+
+  const cx=180, cy=154;
+  const outerR=58;
+  const wallPx=Math.max(5,Math.min(18,wall*5));
+  const innerR=Math.max(8,outerR-wallPx);
+
+  const tube=document.getElementById("demoTube");
+  const teeth=document.getElementById("demoTeeth");
+  const dims=document.getElementById("demoDimensions");
+
+  tube.innerHTML=
+    `<circle cx="${cx}" cy="${cy}" r="${outerR}" fill="#62798d" stroke="#2d455c" stroke-width="3"/>
+     <circle cx="${cx}" cy="${cy}" r="${innerR}" fill="#edf4fa" stroke="#2d455c" stroke-width="2"/>
+     <rect x="${cx-outerR-18}" y="${cy-outerR-10}" width="${outerR*2+36}" height="18" rx="9" fill="#dce7ef" opacity=".65"/>`;
+
+  const startX=56, endX=304, toothY=70;
+  const pxPerMm=9;
+  const spacing=Math.max(18,pitch*pxPerMm);
+  let toothSvg=`<line x1="${startX}" y1="${toothY+18}" x2="${endX}" y2="${toothY+18}" stroke="#526b83" stroke-width="4"/>`;
+  let index=0;
+  for(let x=startX;x<=endX;x+=spacing){
+    const active=x>cx-outerR && x<cx+outerR;
+    toothSvg+=`<path d="M ${x-6} ${toothY+18} L ${x} ${toothY-2} L ${x+6} ${toothY+18} Z"
+      fill="${active?'#18a36f':'#8ea1b3'}" stroke="${active?'#0d7450':'#60778c'}" stroke-width="1.5"/>`;
+    index++;
+  }
+  teeth.innerHTML=toothSvg;
+
+  dims.innerHTML=
+    `<line x1="${cx-outerR}" y1="214" x2="${cx+outerR}" y2="214" stroke="#1765a3" stroke-width="2"/>
+     <line x1="${cx-outerR}" y1="207" x2="${cx-outerR}" y2="221" stroke="#1765a3" stroke-width="2"/>
+     <line x1="${cx+outerR}" y1="207" x2="${cx+outerR}" y2="221" stroke="#1765a3" stroke-width="2"/>
+     <text x="${cx}" y="228" text-anchor="middle" font-size="12" font-weight="900" fill="#17365d">外徑約 ${od.toFixed(1)} mm</text>
+     <line x1="${cx+innerR}" y1="${cy}" x2="${cx+outerR}" y2="${cy}" stroke="#e49b19" stroke-width="5"/>
+     <text x="${cx+outerR+8}" y="${cy+4}" font-size="11" font-weight="900" fill="#9a5b00">壁厚 ${wall.toFixed(1)}</text>
+     <text x="180" y="20" text-anchor="middle" font-size="13" font-weight="900" fill="#17365d">上方三角形＝鋸齒；齒尖間距＝T 值</text>`;
+
+  document.getElementById("demoPitchValue").textContent="T"+pitch;
+  document.getElementById("demoPitchMm").textContent=pitch.toFixed(1)+" mm";
+  document.getElementById("demoWall").textContent=wall.toFixed(1)+" mm";
+  document.getElementById("demoRatio").textContent=(wall/pitch).toFixed(2);
+
+  const exp=document.getElementById("demoExplanation");
+  if(pitch===5){
+    exp.className="catalog-badge";
+    exp.textContent="T5：齒距 5 mm。對薄壁管而言，這是型錄建議的折衷值，不是『5 顆齒同時切削』。";
+  }else if(pitch<5){
+    exp.className="warning-badge";
+    exp.textContent="T3：齒更密、同一段圓周上的齒更多，但容屑空間較小。";
+  }else{
+    exp.className="warning-badge";
+    exp.textContent="T7：齒更疏、容屑空間較大，但薄壁管進齒衝擊通常會更明顯。";
+  }
+}
+
+let contactShape="solidRound";
+const contactShapeDefaults={
+  solidRound:{fields:[["d","直徑",60]]}, pipe:{fields:[["d","外徑",60],["t","壁厚",4]]},
+  solidSquare:{fields:[["w","邊長",60]]}, squareTube:{fields:[["w","外寬",60],["t","壁厚",4]]},
+  solidRect:{fields:[["w","寬度",80],["h","高度",40]]}, rectTube:{fields:[["w","外寬",80],["h","外高",40],["t","壁厚",4]]}
+};
+function setContactShape(shape,btn){
+  contactShape=shape;
+  document.querySelectorAll('#contactShapeButtons button').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderContactFields(); renderTrueContact();
+}
+function renderContactFields(){
+  const box=document.getElementById('contactDynamicFields'); if(!box)return;
+  box.innerHTML=contactShapeDefaults[contactShape].fields.map(([id,label,val])=>`<div class="field" style="margin:0"><label style="color:#d8e5f0">${label}</label><div class="input-with-unit"><input id="contact_${id}" min="0.2" oninput="renderTrueContact()" step="0.1" type="number" value="${val}"/><div class="unit-box">mm</div></div></div>`).join('');
+}
+function renderTrueContact(){
+  const svg=document.getElementById("trueContactSvg"); if(!svg)return;
+  if(!document.getElementById('contact_d')&&!document.getElementById('contact_w'))renderContactFields();
+  const bladeD=Math.max(50,+document.getElementById("contactBlade").value||300);
+  const progress=Math.max(0,Math.min(100,+document.getElementById("contactProgress").value||50))/100;
+  const vals={d:+document.getElementById('contact_d')?.value||60,w:+document.getElementById('contact_w')?.value||60,h:+document.getElementById('contact_h')?.value||40,t:+document.getElementById('contact_t')?.value||4};
+  const outerW=(contactShape.includes('Round')||contactShape==='pipe')?vals.d:vals.w;
+  const outerH=(contactShape.includes('Round')||contactShape==='pipe')?vals.d:(contactShape.includes('Square')?vals.w:vals.h);
+  const scale=Math.min(3.0,130/Math.max(outerW,outerH));
+  const cx=210,cy=205,ow=outerW*scale,oh=outerH*scale,t=Math.max(.2,vals.t)*scale,bladeR=bladeD/2*scale;
+  const firstTouchY=cy-oh/2-bladeR,lastTouchY=cy+oh/2-bladeR,bladeCy=firstTouchY+(lastTouchY-firstTouchY)*progress,bladeCx=cx;
+  function inMaterial(x,y){
+    const dx=x-cx,dy=y-cy;
+    if(contactShape==='solidRound') return Math.hypot(dx,dy)<=ow/2;
+    if(contactShape==='pipe'){const r=Math.hypot(dx,dy);return r<=ow/2&&r>=Math.max(0,ow/2-t);}
+    if(contactShape==='solidSquare'||contactShape==='solidRect') return Math.abs(dx)<=ow/2&&Math.abs(dy)<=oh/2;
+    if(contactShape==='squareTube'||contactShape==='rectTube') return Math.abs(dx)<=ow/2&&Math.abs(dy)<=oh/2 && !(Math.abs(dx)<ow/2-t&&Math.abs(dy)<oh/2-t);
+    return false;
+  }
+  let materialSvg='';
+  if(contactShape==='solidRound'||contactShape==='pipe'){
+    materialSvg=`<circle cx="${cx}" cy="${cy}" r="${ow/2}" fill="#61798d" stroke="#2d455c" stroke-width="3"/>`;
+    if(contactShape==='pipe')materialSvg+=`<circle cx="${cx}" cy="${cy}" r="${Math.max(0,ow/2-t)}" fill="#edf4fa" stroke="#2d455c" stroke-width="2"/>`;
+  }else{
+    materialSvg=`<rect x="${cx-ow/2}" y="${cy-oh/2}" width="${ow}" height="${oh}" fill="#61798d" stroke="#2d455c" stroke-width="3" rx="3"/>`;
+    if(contactShape==='squareTube'||contactShape==='rectTube')materialSvg+=`<rect x="${cx-ow/2+t}" y="${cy-oh/2+t}" width="${Math.max(0,ow-2*t)}" height="${Math.max(0,oh-2*t)}" fill="#edf4fa" stroke="#2d455c" stroke-width="2" rx="2"/>`;
+  }
+  const pitch=5,toothCount=Math.max(40,Math.round(Math.PI*bladeD/pitch));let toothSvg='',activeCount=0,flags=[];
+  for(let i=0;i<toothCount;i++){
+    const a=2*Math.PI*i/toothCount-Math.PI/2,x=bladeCx+bladeR*Math.cos(a),y=bladeCy+bladeR*Math.sin(a),active=inMaterial(x,y);flags.push(active);if(active)activeCount++;
+    if(y>25&&y<280){const ux=Math.cos(a),uy=Math.sin(a),tx=-uy,ty=ux;toothSvg+=`<path d="M ${(x-tx*3).toFixed(1)} ${(y-ty*3).toFixed(1)} L ${(x+ux*8).toFixed(1)} ${(y+uy*8).toFixed(1)} L ${(x+tx*3).toFixed(1)} ${(y+ty*3).toFixed(1)} Z" fill="${active?'#18a36f':'#8ea1b3'}" stroke="${active?'#0d7450':'#5d7184'}" stroke-width="0.8"/>`;}
+  }
+  let segments=0;for(let i=0;i<flags.length;i++)if(flags[i]&&!flags[(i-1+flags.length)%flags.length])segments++;
+  const arcLen=activeCount*(Math.PI*bladeD/toothCount);
+  const names={solidRound:'圓棒',pipe:'圓管',solidSquare:'方棒',squareTube:'方管',solidRect:'扁材',rectTube:'矩形管'};
+  svg.innerHTML=`<rect width="420" height="300" rx="14" fill="#edf4fa"/>${materialSvg}<circle cx="${bladeCx}" cy="${bladeCy}" r="${bladeR}" fill="none" stroke="#55718a" stroke-width="3"/>${toothSvg}<text x="12" y="20" font-size="12" font-weight="900" fill="#17365d">綠色齒＝落在實際材料內</text><text x="12" y="38" font-size="11" font-weight="800" fill="#6a7c8d">灰色齒＝空氣或空心區</text><text x="210" y="292" text-anchor="middle" font-size="12" font-weight="900" fill="#17365d">${names[contactShape]}｜切削進度 ${(progress*100).toFixed(0)}%</text>`;
+  trueContactTeeth.textContent=activeCount;trueContactArc.textContent=arcLen.toFixed(1)+' mm';trueContactWidth.textContent=outerW.toFixed(1)+' mm';trueContactSegments.textContent=segments+' 段';
+}
+
+
+let bandPitchRange="2/3";
+let bandAnimPhase=0;
+let bandLastTime=0;
+
+/*
+  Variable-pitch groups are represented by a repeating sequence of TPI values
+  inside the stated min/max range. The exact proprietary sequence varies by
+  manufacturer/product, so this visualizer uses an engineering teaching sequence,
+  not a copied manufacturer's tooth-group geometry.
+*/
+const bandPitchPatterns={
+  "10/14":[10.0,10.8,12.0,14.0,13.0,11.2],
+  "8/12":[8.0,8.8,10.0,12.0,11.0,9.3],
+  "6/10":[6.0,6.8,8.0,10.0,9.0,7.4],
+  "5/7":[5.0,5.4,6.0,7.0,6.5,5.7],
+  "5/8":[5.0,5.6,6.5,8.0,7.2,6.1],
+  "4/6":[4.0,4.45,5.1,6.0,5.55,4.75],
+  "3/4":[3.0,3.25,3.55,4.0,3.75,3.35],
+  "2/3":[2.0,2.25,2.55,3.0,2.75,2.35],
+  "1.5/2":[1.5,1.62,1.78,2.0,1.9,1.68],
+  "1.1/1.5":[1.1,1.18,1.3,1.5,1.42,1.24],
+  "0.75/1":[0.75,0.82,0.9,1.0,0.94,0.84],
+  "1.4/2":[1.4,1.52,1.7,2.0,1.86,1.6],
+  "1/1.4":[1.0,1.08,1.2,1.4,1.32,1.14],
+  "0.85/1.15":[0.85,0.91,1.0,1.15,1.08,0.95],
+  "0.7/1":[0.70,0.77,0.86,1.0,0.93,0.81]
+};
+
+const bandContactRanges={
+  "10/14":[0,20],
+  "8/12":[10,30],
+  "6/10":[20,50],
+  "5/7":[35,75],
+  "5/8":[30,60],
+  "4/6":[50,100],
+  "3/4":[80,170],
+  "2/3":[150,300],
+  "1.5/2":[220,500],
+  "1.1/1.5":[400,900],
+  "0.75/1":[800,2000],
+  "1.4/2":[250,550],
+  "1/1.4":[500,1000],
+  "0.85/1.15":[700,1200],
+  "0.7/1":[800,2000]
+};
+
+
+let bandShape="solidRound";
+const bandShapeDefaults={
+  solidRound:{name:"圓棒",fields:[["d","外徑",220]]},
+  pipe:{name:"圓管",fields:[["d","外徑",220],["t","壁厚",10]]},
+  solidSquare:{name:"方棒",fields:[["w","邊長",220]]},
+  squareTube:{name:"方管",fields:[["w","外寬",220],["t","壁厚",10]]},
+  solidRect:{name:"板材／扁材",fields:[["w","寬度",260],["h","厚度／高度",80]]},
+  rectTube:{name:"矩形管",fields:[["w","外寬",260],["h","外高",140],["t","壁厚",10]]},
+  angle:{name:"角鋼",fields:[["w","外寬",160],["h","外高",160],["t","厚度",16]]},
+  iBeam:{name:"H／I 型鋼",fields:[["w","翼板寬",220],["h","總高度",260],["tf","翼板厚",18],["tw","腹板厚",12]]},
+  tBeam:{name:"T 型鋼",fields:[["w","翼板寬",220],["h","總高度",220],["tf","翼板厚",18],["tw","腹板厚",14]]},
+  channel:{name:"槽鋼",fields:[["w","外寬",180],["h","外高",240],["tf","翼板厚",18],["tw","腹板厚",14]]},
+  profile:{name:"異型材",fields:[["w","外寬",220],["h","外高",180],["t","型材厚度",16]]},
+  plateStack:{name:"多層板材",fields:[["w","板寬",260],["h","單板厚",20],["n","堆疊片數",4],["g","板間距",5]]},
+  roundBundle:{name:"圓材成束",fields:[["d","單支直徑",65],["cols","每排支數",3],["rows","排數",3],["g","間距",5]]},
+  tubeBundle:{name:"圓管成束",fields:[["d","單管外徑",65],["t","壁厚",6],["cols","每排支數",3],["rows","排數",3],["g","間距",5]]},
+  squareTubeBundle:{name:"方管成束",fields:[["w","單管外寬",65],["t","壁厚",6],["cols","每排支數",3],["rows","排數",3],["g","間距",5]]},
+  angleBundle:{name:"角鋼成束",fields:[["w","單支外寬",75],["h","單支外高",75],["t","厚度",8],["cols","每排支數",3],["rows","排數",2],["g","間距",6]]},
+  beamBundle:{name:"型鋼成束",fields:[["w","單支翼寬",100],["h","單支高度",120],["tf","翼板厚",10],["tw","腹板厚",7],["cols","每排支數",2],["rows","排數",2],["g","間距",8]]},
+  channelBundle:{name:"槽鋼成束",fields:[["w","單支外寬",90],["h","單支外高",120],["tf","翼板厚",10],["tw","腹板厚",7],["cols","每排支數",2],["rows","排數",2],["g","間距",8]]},
+  freeLayout:{name:"自由排料",fields:[]}
+};
+
+function setBandShape(shape,button){
+  bandShape=shape;
+  document.querySelectorAll('#bandShapeButtons button').forEach(b=>b.classList.remove('active'));
+  if(button)button.classList.add('active');
+  renderBandShapeFields();
+bindBandEditableInputs();
+syncBandAnimPreset();
+  bandAnimPhase=0;
+  renderBandSaw();
+}
+
+function renderBandShapeFields(){
+  const box=document.getElementById('bandShapeFields');
+  const panel=document.getElementById('freeLayoutPanel');
+  if(!box)return;
+  if(bandShape==='freeLayout'){
+    box.innerHTML='';
+    if(panel)panel.classList.add('active');
+    if(!freeBandItems.length)seedFreeLayout();
+    updateFreeSelectedInfo();
+    return;
+  }
+  if(panel)panel.classList.remove('active');
+  box.innerHTML=bandShapeDefaults[bandShape].fields.map(([id,label,val])=>{
+    const integer=['n','cols','rows'].includes(id);
+    return `<div class="field" style="margin:0"><label style="color:#d8e5f0">${label}</label><div class="input-with-unit"><input id="band_${id}" min="${integer?1:.2}" oninput="renderBandSaw()" step="${integer?1:.1}" type="number" value="${val}"/><div class="unit-box">${integer?'個':'mm'}</div></div></div>`;
+  }).join('');
+}
+
+
+let freeBandItems=[];
+let freeSelectedId=null;
+let freeItemSeq=1;
+let freeDrag=null;
+let freeRenderMap={scale:1,cx:215,cy:150};
+const freeNames={solidRound:'圓棒',pipe:'圓管',solidSquare:'方棒',squareTube:'方管',solidRect:'板材',angle:'角鋼',iBeam:'H型鋼',channel:'槽鋼',tBeam:'T型鋼',profile:'異型材'};
+function defaultFreeItem(kind){
+  const base={id:freeItemSeq++,kind,x:0,y:0,angle:0,flipX:1,flipY:1,w:100,h:100,t:8,tf:10,tw:7};
+  if(kind==='solidRound'||kind==='pipe')Object.assign(base,{w:70,h:70,t:7});
+  if(kind==='solidSquare'||kind==='squareTube')Object.assign(base,{w:70,h:70,t:7});
+  if(kind==='solidRect')Object.assign(base,{w:120,h:25});
+  if(kind==='angle')Object.assign(base,{w:90,h:90,tf:10,tw:10});
+  if(kind==='iBeam')Object.assign(base,{w:110,h:130,tf:12,tw:8});
+  if(kind==='channel')Object.assign(base,{w:90,h:120,tf:10,tw:8});
+  if(kind==='tBeam')Object.assign(base,{w:100,h:110,tf:12,tw:8});
+  if(kind==='profile')Object.assign(base,{w:110,h:90,tf:10,tw:10});
+  return base;
+}
+function seedFreeLayout(){
+  const a=defaultFreeItem('iBeam');a.x=-70;
+  const b=defaultFreeItem('channel');b.x=65;b.angle=90;
+  freeBandItems=[a,b];freeSelectedId=a.id;
+}
+function addFreeBandItem(kind){
+  const o=defaultFreeItem(kind);o.x=(freeBandItems.length%4)*24-36;o.y=(freeBandItems.length%3)*18-18;
+  freeBandItems.push(o);freeSelectedId=o.id;updateFreeSelectedInfo();renderBandSaw();
+}
+function selectedFree(){return freeBandItems.find(o=>o.id===freeSelectedId)||null}
+function rotateFreeItem(deg){const o=selectedFree();if(!o)return;o.angle=(o.angle+deg)%360;updateFreeSelectedInfo();renderBandSaw()}
+function flipFreeItem(axis){const o=selectedFree();if(!o)return;if(axis==='x')o.flipX*=-1;else o.flipY*=-1;updateFreeSelectedInfo();renderBandSaw()}
+function duplicateFreeItem(){const o=selectedFree();if(!o)return;const n={...o,id:freeItemSeq++,x:o.x+18,y:o.y+18};freeBandItems.push(n);freeSelectedId=n.id;updateFreeSelectedInfo();renderBandSaw()}
+function deleteFreeItem(){if(freeSelectedId==null)return;freeBandItems=freeBandItems.filter(o=>o.id!==freeSelectedId);freeSelectedId=freeBandItems[0]?.id??null;updateFreeSelectedInfo();renderBandSaw()}
+function clearFreeLayout(){freeBandItems=[];freeSelectedId=null;updateFreeSelectedInfo();renderBandSaw()}
+function updateFreeSelectedInfo(){const el=document.getElementById('freeSelectedInfo');if(!el)return;const o=selectedFree();el.textContent=o?`已選取：${freeNames[o.kind]||o.kind}｜角度 ${Math.round(o.angle)}°｜位置 X ${o.x.toFixed(0)} / Y ${o.y.toFixed(0)} mm`:'尚未選取材料'}
+function inversePoint(o,x,y){
+  const r=-o.angle*Math.PI/180,dx=x-o.x,dy=y-o.y;
+  const rx=dx*Math.cos(r)-dy*Math.sin(r),ry=dx*Math.sin(r)+dy*Math.cos(r);
+  return {x:rx/o.flipX,y:ry/o.flipY};
+}
+function pointInFreeItem(o,x,y){
+  const p=inversePoint(o,x,y),X=p.x,Y=p.y,w=o.w,h=o.h,t=o.t,tf=o.tf,tw=o.tw;
+  if(o.kind==='solidRound')return X*X+Y*Y<=(w/2)*(w/2);
+  if(o.kind==='pipe'){const q=X*X+Y*Y;return q<=(w/2)**2&&q>=Math.max(0,w/2-t)**2}
+  if(o.kind==='solidSquare'||o.kind==='solidRect')return Math.abs(X)<=w/2&&Math.abs(Y)<=h/2;
+  if(o.kind==='squareTube')return Math.abs(X)<=w/2&&Math.abs(Y)<=h/2&&!(Math.abs(X)<w/2-t&&Math.abs(Y)<h/2-t);
+  if(o.kind==='iBeam')return (Math.abs(Y)>=h/2-tf&&Math.abs(X)<=w/2)||(Math.abs(X)<=tw/2&&Math.abs(Y)<=h/2);
+  if(o.kind==='tBeam')return (Y<=-h/2+tf&&Math.abs(X)<=w/2)||(Math.abs(X)<=tw/2&&Y>=-h/2&&Y<=h/2);
+  if(o.kind==='channel')return (Math.abs(Y)>=h/2-tf&&Math.abs(X)<=w/2)||(X<=-w/2+tw&&Math.abs(Y)<=h/2);
+  if(o.kind==='angle')return (Y<=-h/2+tf&&Math.abs(X)<=w/2)||(X<=-w/2+tw&&Math.abs(Y)<=h/2);
+  if(o.kind==='profile')return (Math.abs(Y)>=h/2-tf&&Math.abs(X)<=w/2)||(Math.abs(X)>=w/2-tw&&Math.abs(Y)<=h/2)||(Math.abs(X)<=tw/2&&Math.abs(Y)<=h/2);
+  return false;
+}
+function freeItemBounds(o){
+  const a=o.angle*Math.PI/180,c=Math.abs(Math.cos(a)),q=Math.abs(Math.sin(a));
+  return {l:o.x-(o.w*c+o.h*q)/2,r:o.x+(o.w*c+o.h*q)/2,t:o.y-(o.w*q+o.h*c)/2,b:o.y+(o.w*q+o.h*c)/2};
+}
+function freeGeometry(depth){
+  if(!freeBandItems.length)return {w:100,h:100,y:0,segments:[],items:[],contactMm:0,free:true,bounds:{l:-50,r:50,t:-50,b:50}};
+  const bs=freeBandItems.map(freeItemBounds),bounds={l:Math.min(...bs.map(b=>b.l)),r:Math.max(...bs.map(b=>b.r)),t:Math.min(...bs.map(b=>b.t)),b:Math.max(...bs.map(b=>b.b))};
+  const w=Math.max(1,bounds.r-bounds.l),h=Math.max(1,bounds.b-bounds.t),y=bounds.t+Math.max(0,Math.min(1,depth))*h;
+  const step=Math.max(.35,w/1400);let segs=[],inside=false,start=0;
+  for(let x=bounds.l;x<=bounds.r+step;x+=step){const hit=freeBandItems.some(o=>pointInFreeItem(o,x,y));if(hit&&!inside){start=x;inside=true}if(!hit&&inside){segs.push([start,x-step]);inside=false}}
+  if(inside)segs.push([start,bounds.r]);segs=mergeSegments(segs);
+  return {w,h,y:y-(bounds.t+bounds.b)/2,segments:segs,items:freeBandItems,contactMm:segs.reduce((a,[l,r])=>a+r-l,0),free:true,bounds,centerX:(bounds.l+bounds.r)/2,centerY:(bounds.t+bounds.b)/2};
+}
+function freeItemPath(o){
+  const w=o.w,h=o.h,t=o.t,tf=o.tf,tw=o.tw,L=-w/2,R=w/2,T=-h/2,B=h/2,C=0;
+  if(o.kind==='solidRound'||o.kind==='pipe')return '';
+  if(o.kind==='solidSquare'||o.kind==='solidRect'||o.kind==='squareTube')return '';
+  if(o.kind==='iBeam')return `M${L},${T}H${R}V${T+tf}H${C+tw/2}V${B-tf}H${R}V${B}H${L}V${B-tf}H${C-tw/2}V${T+tf}H${L}Z`;
+  if(o.kind==='tBeam')return `M${L},${T}H${R}V${T+tf}H${C+tw/2}V${B}H${C-tw/2}V${T+tf}H${L}Z`;
+  if(o.kind==='channel')return `M${L},${T}H${R}V${T+tf}H${L+tw}V${B-tf}H${R}V${B}H${L}Z`;
+  if(o.kind==='angle')return `M${L},${T}H${R}V${T+tf}H${L+tw}V${B}H${L}Z`;
+  return `M${L},${T}H${R}V${T+tf}H${R-tw}V${B-tf}H${R}V${B}H${L}V${B-tf}H${L+tw}V${T+tf}H${L}Z M${C-tw/2},${T+tf}H${C+tw/2}V${B-tf}H${C-tw/2}Z`;
+}
+function bindFreeDrag(){
+  const svg=document.getElementById('bandSawSvg');if(!svg||svg.dataset.freeBound)return;svg.dataset.freeBound='1';
+  svg.addEventListener('pointerdown',e=>{if(bandShape!=='freeLayout')return;const g=e.target.closest('[data-free-id]');if(!g)return;freeSelectedId=+g.dataset.freeId;const o=selectedFree();freeDrag={id:o.id,px:e.clientX,py:e.clientY,x:o.x,y:o.y};svg.setPointerCapture?.(e.pointerId);updateFreeSelectedInfo();renderBandSaw()});
+  svg.addEventListener('pointermove',e=>{if(!freeDrag||bandShape!=='freeLayout')return;const o=freeBandItems.find(x=>x.id===freeDrag.id);if(!o)return;o.x=freeDrag.x+(e.clientX-freeDrag.px)/freeRenderMap.scale;o.y=freeDrag.y+(e.clientY-freeDrag.py)/freeRenderMap.scale;updateFreeSelectedInfo();renderBandSaw()});
+  const end=()=>freeDrag=null;svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+}
+
+function mergeSegments(items){
+  const a=items.filter(x=>x[1]>x[0]).sort((x,y)=>x[0]-y[0]);
+  const out=[];
+  a.forEach(seg=>{
+    if(!out.length||seg[0]>out[out.length-1][1]+1e-6)out.push(seg.slice());
+    else out[out.length-1][1]=Math.max(out[out.length-1][1],seg[1]);
+  });
+  return out;
+}
+
+function circleSegments(cx,cy,r,y,ri=0){
+  const dy=y-cy;if(Math.abs(dy)>r)return [];
+  const xo=Math.sqrt(Math.max(0,r*r-dy*dy));
+  if(ri>0&&Math.abs(dy)<ri){const xi=Math.sqrt(Math.max(0,ri*ri-dy*dy));return [[cx-xo,cx-xi],[cx+xi,cx+xo]];}
+  return [[cx-xo,cx+xo]];
+}
+function rectTubeSegments(cx,cy,w,h,t,y){
+  if(Math.abs(y-cy)>h/2)return [];
+  const ih=Math.max(0,h-2*t),iw=Math.max(0,w-2*t);
+  if(ih>0&&Math.abs(y-cy)<ih/2)return [[cx-w/2,cx-iw/2],[cx+iw/2,cx+w/2]];
+  return [[cx-w/2,cx+w/2]];
+}
+function profileSegments(kind,cx,cy,w,h,tf,tw,y){
+  const yy=y-cy;if(Math.abs(yy)>h/2)return [];
+  if(kind==='iBeam')return (Math.abs(yy)>=h/2-tf)?[[cx-w/2,cx+w/2]]:[[cx-tw/2,cx+tw/2]];
+  if(kind==='tBeam')return (yy<=-h/2+tf)?[[cx-w/2,cx+w/2]]:[[cx-tw/2,cx+tw/2]];
+  if(kind==='channel')return (Math.abs(yy)>=h/2-tf)?[[cx-w/2,cx+w/2]]:[[cx-w/2,cx-w/2+tw]];
+  if(kind==='angle')return (yy<=-h/2+tf)?[[cx-w/2,cx+w/2]]:[[cx-w/2,cx-w/2+tw]];
+  return [];
+}
+
+function getBandGeometry(depth){
+  if(bandShape==='freeLayout')return freeGeometry(depth);
+  const val=id=>Math.max(.01,+document.getElementById('band_'+id)?.value||.01);
+  const intVal=id=>Math.max(1,Math.round(val(id)));
+  let w=100,h=100,t=0,tf=0,tw=0,items=[],segments=[];
+  const d=Math.max(0,Math.min(1,depth));
+  const addItem=o=>items.push(o);
+  if(bandShape==='solidRound'||bandShape==='pipe'){
+    w=h=val('d');t=bandShape==='pipe'?Math.min(val('t'),w/2-.01):0;addItem({kind:bandShape,cx:0,cy:0,w,h,t});
+  }else if(bandShape==='solidSquare'||bandShape==='squareTube'){
+    w=h=val('w');t=bandShape==='squareTube'?Math.min(val('t'),w/2-.01):0;addItem({kind:bandShape,cx:0,cy:0,w,h,t});
+  }else if(bandShape==='solidRect'||bandShape==='rectTube'){
+    w=val('w');h=val('h');t=bandShape==='rectTube'?Math.min(val('t'),Math.min(w,h)/2-.01):0;addItem({kind:bandShape,cx:0,cy:0,w,h,t});
+  }else if(['angle','iBeam','tBeam','channel','profile'].includes(bandShape)){
+    w=val('w');h=val('h');tf=val(bandShape==='angle'||bandShape==='profile'?'t':'tf');tw=val(bandShape==='angle'||bandShape==='profile'?'t':'tw');
+    tf=Math.min(tf,h);tw=Math.min(tw,w);addItem({kind:bandShape,cx:0,cy:0,w,h,tf,tw});
+  }else if(bandShape==='plateStack'){
+    const pw=val('w'),ph=val('h'),n=intVal('n'),g=val('g');w=pw;h=n*ph+(n-1)*g;
+    for(let r=0;r<n;r++)addItem({kind:'solidRect',cx:0,cy:-h/2+ph/2+r*(ph+g),w:pw,h:ph,t:0});
+  }else{
+    const cols=intVal('cols'),rows=intVal('rows'),g=val('g');
+    let iw=val(bandShape==='roundBundle'||bandShape==='tubeBundle'?'d':'w');
+    let ih=(bandShape==='roundBundle'||bandShape==='tubeBundle'||bandShape==='squareTubeBundle')?iw:val('h');
+    w=cols*iw+(cols-1)*g;h=rows*ih+(rows-1)*g;
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+      const cx=-w/2+iw/2+c*(iw+g),cy=-h/2+ih/2+r*(ih+g);
+      if(bandShape==='roundBundle')addItem({kind:'solidRound',cx,cy,w:iw,h:ih,t:0});
+      if(bandShape==='tubeBundle')addItem({kind:'pipe',cx,cy,w:iw,h:ih,t:Math.min(val('t'),iw/2-.01)});
+      if(bandShape==='squareTubeBundle')addItem({kind:'squareTube',cx,cy,w:iw,h:ih,t:Math.min(val('t'),iw/2-.01)});
+      if(bandShape==='angleBundle')addItem({kind:'angle',cx,cy,w:iw,h:ih,tf:val('t'),tw:val('t')});
+      if(bandShape==='beamBundle')addItem({kind:'iBeam',cx,cy,w:iw,h:ih,tf:val('tf'),tw:val('tw')});
+      if(bandShape==='channelBundle')addItem({kind:'channel',cx,cy,w:iw,h:ih,tf:val('tf'),tw:val('tw')});
+    }
+  }
+  const y=-h/2+d*h;
+  items.forEach(o=>{
+    if(o.kind==='solidRound')segments.push(...circleSegments(o.cx,o.cy,o.w/2,y));
+    else if(o.kind==='pipe')segments.push(...circleSegments(o.cx,o.cy,o.w/2,y,Math.max(0,o.w/2-o.t)));
+    else if(o.kind==='solidSquare'||o.kind==='solidRect'){
+      if(Math.abs(y-o.cy)<=o.h/2)segments.push([o.cx-o.w/2,o.cx+o.w/2]);
+    }else if(o.kind==='squareTube'||o.kind==='rectTube')segments.push(...rectTubeSegments(o.cx,o.cy,o.w,o.h,o.t,y));
+    else if(o.kind==='profile'){
+      const yy=y-o.cy;if(Math.abs(yy)<=o.h/2){
+        if(Math.abs(yy)>=o.h/2-o.tf)segments.push([o.cx-o.w/2,o.cx+o.w/2]);
+        else segments.push([o.cx-o.w/2,o.cx-o.w/2+o.tw],[o.cx-o.tw/2,o.cx+o.tw/2],[o.cx+o.w/2-o.tw,o.cx+o.w/2]);
+      }
+    }else segments.push(...profileSegments(o.kind,o.cx,o.cy,o.w,o.h,o.tf,o.tw,y));
+  });
+  segments=mergeSegments(segments);
+  return {w,h,t,y,segments,items,contactMm:segments.reduce((sum,[a,b])=>sum+b-a,0)};
+}
+
+function bandButtonId(v){
+  return "bandP"+v.replaceAll(".","").replace("/","");
+}
+
+function setBandPitchRange(v){
+  bandPitchRange=v;
+  Object.keys(bandPitchPatterns).forEach(x=>{
+    const b=document.getElementById(bandButtonId(x));
+    if(b)b.classList.toggle("active",x===v);
+  });
+  bandAnimPhase=0;
+  renderBandSaw();
+}
+
+function getVariableToothPositions(pattern, startX, endX, phaseMm){
+  const positions=[];
+  let x=startX-phaseMm;
+  let i=0;
+  while(x<endX+40){
+    const tpi=pattern[i%pattern.length];
+    const pitchMm=25.4/tpi;
+    positions.push({x,tpi,pitchMm,index:i});
+    x+=pitchMm;
+    i++;
+    if(i>1000)break;
+  }
+  return positions;
+}
+
+let bandContactMode='auto';
+let bandManualContactMm=100;
+let bandUiEditing=false;
+
+function setBandContactMode(mode){
+  bandContactMode=mode==='manual'?'manual':'auto';
+  const input=document.getElementById('bandContactInput');
+  const autoBtn=document.getElementById('bandContactAutoBtn');
+  const manualBtn=document.getElementById('bandContactManualBtn');
+  const hint=document.getElementById('bandContactHint');
+  if(autoBtn)autoBtn.classList.toggle('active',bandContactMode==='auto');
+  if(manualBtn)manualBtn.classList.toggle('active',bandContactMode==='manual');
+  if(input){
+    if(bandContactMode==='manual'){
+      const current=parseFloat(input.value);
+      if(Number.isFinite(current)&&current>0)bandManualContactMm=current;
+      input.readOnly=false;
+      input.value=bandManualContactMm.toFixed(1);
+      setTimeout(()=>{input.focus();input.select();},0);
+    }else input.readOnly=true;
+  }
+  if(hint)hint.textContent=bandContactMode==='auto'?'依材料形狀、尺寸與下刀進度自動計算':'直接輸入現場量測或估算的接觸長度';
+  renderBandSaw();
+}
+
+function setBandAnimSpeed(v){
+  const input=document.getElementById('bandAnimSpeed');
+  if(input)input.value=v;
+  syncBandAnimPreset();
+}
+function syncBandAnimPreset(){
+  const v=+document.getElementById('bandAnimSpeed')?.value||1;
+  document.querySelectorAll('.band-speed-presets button').forEach(btn=>{
+    const n=parseFloat(btn.textContent);
+    btn.classList.toggle('active',Math.abs(n-v)<0.001);
+  });
+}
+
+function bindBandEditableInputs(){
+  ['bandContactInput','bandBladeSpeed','bandFeedRate','bandAnimSpeed'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.addEventListener('focus',()=>bandUiEditing=true);
+    el.addEventListener('blur',()=>{bandUiEditing=false;renderBandSaw();});
+  });
+}
+
+function renderBandSaw(){
+  const svg=document.getElementById("bandSawSvg");
+  if(!svg)return;
+
+  const feedRate=Math.max(1,+document.getElementById("bandFeedRate").value||40);
+  const bladeSpeed=Math.max(1,+document.getElementById("bandBladeSpeed").value||60);
+  const depth=(+document.getElementById("bandDepth").value||0)/100;
+  const pattern=bandPitchPatterns[bandPitchRange];
+  const geo=getBandGeometry(depth);
+  const autoContactMm=geo.contactMm;
+  const contactInput=document.getElementById('bandContactInput');
+  let contactMm=autoContactMm;
+  let contactSegments=geo.segments;
+  if(bandContactMode==='manual'){
+    const typed=parseFloat(contactInput?.value);
+    if(Number.isFinite(typed)&&typed>=0)bandManualContactMm=Math.min(2000,typed);
+    contactMm=bandManualContactMm;
+    contactSegments=contactMm>0?[[-contactMm/2,contactMm/2]]:[];
+  }else if(contactInput && document.activeElement!==contactInput){
+    contactInput.value=autoContactMm.toFixed(1);
+  }
+
+  const W=430,H=305;
+  const maxDim=Math.max(geo.w,geo.h,20);
+  const scale=Math.min(1.35,260/maxDim);
+  const materialW=geo.w*scale, materialH=geo.h*scale;
+  const materialX=(W-materialW)/2, materialTop=184-materialH/2;
+  const centerY=materialTop+materialH/2;
+  const centerX=bandShape==='freeLayout'?(geo.centerX||0):0;
+  const worldCenterY=bandShape==='freeLayout'?(geo.centerY||0):0;
+  const cutY=centerY+geo.y*scale;
+  freeRenderMap={scale,cx:W/2-centerX*scale,cy:centerY-worldCenterY*scale};
+  const toothTipY=cutY;
+  const bladeY=toothTipY-14;
+
+  const groupLengthMm=pattern.reduce((sum,tpi)=>sum+25.4/tpi,0);
+  const phaseMm=bandAnimPhase%groupLengthMm;
+  const teethData=getVariableToothPositions(pattern,-60/scale,(W+60)/scale,phaseMm);
+
+  const screenSegments=contactSegments.map(([a,b])=>[W/2+(a-centerX)*scale,W/2+(b-centerX)*scale]);
+  let teeth="",chips="",pitchLabels="",activeCount=0,activeTpiSum=0;
+  teethData.forEach((d,n)=>{
+    const x=W/2+d.x*scale;
+    const half=Math.max(3.5,d.pitchMm*scale*.28);
+    const active=screenSegments.some(([a,b])=>x>=a&&x<=b) && depth>=0 && depth<=1;
+    if(active){activeCount++;activeTpiSum+=d.tpi;}
+    teeth+=`<path d="M ${(x-half).toFixed(1)} ${bladeY.toFixed(1)} L ${x.toFixed(1)} ${toothTipY.toFixed(1)} L ${(x+half).toFixed(1)} ${bladeY.toFixed(1)} Z" fill="${active?'#18a36f':'#8da1b3'}" stroke="${active?'#0b7550':'#5e7488'}" stroke-width="1"/>`;
+    if(n%2===0&&x>18&&x<W-18)pitchLabels+=`<text x="${x.toFixed(1)}" y="${(bladeY-8).toFixed(1)}" text-anchor="middle" font-size="8.5" font-weight="900" fill="#526a7e">${d.tpi.toFixed(1)}</text>`;
+    if(active){
+      const q=screenSegments.length?Math.max(0,Math.min(1,(x-screenSegments[0][0])/Math.max(1,screenSegments[screenSegments.length-1][1]-screenSegments[0][0]))):0;
+      chips+=`<path d="M ${x.toFixed(1)} ${(toothTipY+3).toFixed(1)} q ${(4+q*6).toFixed(1)} ${(2+q*2).toFixed(1)} ${(7+q*9).toFixed(1)} ${(-2-q*5).toFixed(1)}" fill="none" stroke="#e59b18" stroke-width="${(1.4+q*1.8).toFixed(1)}" stroke-linecap="round"/>`;
+    }
+  });
+
+  let materialSvg='';
+  const sx=x=>W/2+(x-centerX)*scale, sy=y=>centerY+(y-worldCenterY)*scale;
+  geo.items.forEach(o=>{
+    if(bandShape==='freeLayout'){
+      const selected=o.id===freeSelectedId?' selected':'';
+      const transform=`translate(${sx(o.x)} ${sy(o.y)}) rotate(${o.angle}) scale(${o.flipX*scale} ${o.flipY*scale})`;
+      let body='';
+      if(o.kind==='solidRound'||o.kind==='pipe'){
+        body=`<circle cx="0" cy="0" r="${o.w/2}" fill="#647b8e" stroke="#2d465b" stroke-width="${2.5/scale}"/>`;
+        if(o.kind==='pipe')body+=`<circle cx="0" cy="0" r="${Math.max(0,o.w/2-o.t)}" fill="#eef4f8" stroke="#2d465b" stroke-width="${1.7/scale}"/>`;
+      }else if(o.kind==='solidSquare'||o.kind==='solidRect')body=`<rect x="${-o.w/2}" y="${-o.h/2}" width="${o.w}" height="${o.h}" rx="2" fill="#647b8e" stroke="#2d465b" stroke-width="${2.5/scale}"/>`;
+      else if(o.kind==='squareTube')body=`<rect x="${-o.w/2}" y="${-o.h/2}" width="${o.w}" height="${o.h}" rx="2" fill="#647b8e" stroke="#2d465b" stroke-width="${2.5/scale}"/><rect x="${-o.w/2+o.t}" y="${-o.h/2+o.t}" width="${Math.max(0,o.w-2*o.t)}" height="${Math.max(0,o.h-2*o.t)}" fill="#eef4f8" stroke="#2d465b" stroke-width="${1.7/scale}"/>`;
+      else body=`<path d="${freeItemPath(o)}" fill="#647b8e" fill-rule="evenodd" stroke="#2d465b" stroke-width="${2.5/scale}" stroke-linejoin="round"/>`;
+      materialSvg+=`<g class="free-item${selected}" data-free-id="${o.id}" transform="${transform}">${body}${o.id===freeSelectedId?`<rect x="${-o.w/2-5}" y="${-o.h/2-5}" width="${o.w+10}" height="${o.h+10}" fill="none" stroke="#f6b83f" stroke-width="${2/scale}" stroke-dasharray="${6/scale} ${4/scale}"/>`:''}</g>`;
+      return;
+    }
+    const x=sx(o.cx-o.w/2), yy=sy(o.cy-o.h/2), ww=o.w*scale, hh=o.h*scale;
+    if(o.kind==='solidRound'||o.kind==='pipe'){
+      materialSvg+=`<circle cx="${sx(o.cx)}" cy="${sy(o.cy)}" r="${ww/2}" fill="#647b8e" stroke="#2d465b" stroke-width="2.5"/>`;
+      if(o.kind==='pipe')materialSvg+=`<circle cx="${sx(o.cx)}" cy="${sy(o.cy)}" r="${Math.max(0,(o.w/2-o.t)*scale)}" fill="#eef4f8" stroke="#2d465b" stroke-width="1.7"/>`;
+    }else if(o.kind==='solidSquare'||o.kind==='solidRect'){
+      materialSvg+=`<rect x="${x}" y="${yy}" width="${ww}" height="${hh}" rx="3" fill="#647b8e" stroke="#2d465b" stroke-width="2.5"/>`;
+    }else if(o.kind==='squareTube'||o.kind==='rectTube'){
+      materialSvg+=`<rect x="${x}" y="${yy}" width="${ww}" height="${hh}" rx="3" fill="#647b8e" stroke="#2d465b" stroke-width="2.5"/>`;
+      materialSvg+=`<rect x="${x+o.t*scale}" y="${yy+o.t*scale}" width="${Math.max(0,ww-2*o.t*scale)}" height="${Math.max(0,hh-2*o.t*scale)}" rx="2" fill="#eef4f8" stroke="#2d465b" stroke-width="1.7"/>`;
+    }else{
+      let path='';const L=x,R=x+ww,T=yy,B=yy+hh,tf=o.tf*scale,tw=o.tw*scale,C=x+ww/2;
+      if(o.kind==='iBeam')path=`M${L},${T}H${R}V${T+tf}H${C+tw/2}V${B-tf}H${R}V${B}H${L}V${B-tf}H${C-tw/2}V${T+tf}H${L}Z`;
+      else if(o.kind==='tBeam')path=`M${L},${T}H${R}V${T+tf}H${C+tw/2}V${B}H${C-tw/2}V${T+tf}H${L}Z`;
+      else if(o.kind==='channel')path=`M${L},${T}H${R}V${T+tf}H${L+tw}V${B-tf}H${R}V${B}H${L}Z`;
+      else if(o.kind==='angle')path=`M${L},${T}H${R}V${T+tf}H${L+tw}V${B}H${L}Z`;
+      else path=`M${L},${T}H${R}V${T+tf}H${R-tw}V${B-tf}H${R}V${B}H${L}V${B-tf}H${L+tw}V${T+tf}H${L}Z M${C-tw/2},${T+tf}H${C+tw/2}V${B-tf}H${C-tw/2}Z`;
+      materialSvg+=`<path d="${path}" fill="#647b8e" fill-rule="evenodd" stroke="#2d465b" stroke-width="2.5" stroke-linejoin="round"/>`;
+    }
+  });
+  const segmentMarks=screenSegments.map(([a,b])=>`<line x1="${a}" y1="${cutY}" x2="${b}" y2="${cutY}" stroke="#f6b83f" stroke-width="5" opacity=".8"/>`).join('');
+
+  const avgTpi=activeCount?activeTpiSum/activeCount:0;
+  const representativeTpi=avgTpi||pattern.reduce((a,b)=>a+b,0)/pattern.length;
+  const toothPassesPerMin=bladeSpeed*1000*representativeTpi/25.4;
+  const effectiveChip=feedRate/toothPassesPerMin;
+  const range=bandContactRanges[bandPitchRange];
+  let state="尚未接觸";
+  if(contactMm>0){if(contactMm<range[0])state="建議更密齒";else if(contactMm>range[1])state="建議更粗齒";else state="位於代表範圍";}
+
+  svg.innerHTML=`<rect width="${W}" height="${H}" rx="14" fill="#eef4f8"/>
+    <text x="16" y="22" font-size="12" font-weight="900" fill="#17365d">鋸帶運動方向 →</text>
+    <line x1="130" y1="18" x2="250" y2="18" stroke="#1765a3" stroke-width="2.5"/><path d="M 250 18 l -10 -6 v 12 z" fill="#1765a3"/>
+    <text x="330" y="27" text-anchor="middle" font-size="12" font-weight="900" fill="#17365d">鋸頭下切方向 ↓</text>
+    ${materialSvg}${segmentMarks}
+    <line x1="12" y1="${bladeY}" x2="418" y2="${bladeY}" stroke="#506b83" stroke-width="5"/>
+    ${pitchLabels}${teeth}${chips}
+    <text x="215" y="270" text-anchor="middle" font-size="12" font-weight="900" fill="#17365d">${bandShapeDefaults[bandShape].name}｜實際接觸 ${contactMm.toFixed(1)} mm｜${contactSegments.length} 段</text>
+    <rect x="12" y="278" width="406" height="18" rx="8" fill="#fff" opacity=".92"/><text x="215" y="291" text-anchor="middle" font-size="10.5" font-weight="900" fill="#17365d">${bandPitchRange} TPI｜目前工作 ${activeCount} 齒</text>`;
+
+  if(bandShape==='freeLayout')bindFreeDrag();
+  document.getElementById("bandWorkingTeeth").textContent=activeCount+" 齒";
+  document.getElementById("bandAverageTpi").textContent=avgTpi?avgTpi.toFixed(2)+" TPI":"—";
+  document.getElementById("bandChipThickness").textContent=effectiveChip.toFixed(4)+" mm/齒";
+  document.getElementById("bandChipState").textContent=state;
+  document.getElementById("bandDashPitch").textContent=bandPitchRange+" TPI";
+  document.getElementById("bandDashContact").textContent=contactMm.toFixed(1)+" mm";
+  document.getElementById("bandDashTeeth").textContent=activeCount+" 齒";
+  document.getElementById("bandDashFz").textContent=effectiveChip.toFixed(4)+" mm/齒";
+  const guide=document.getElementById("bandRangeGuide");
+  if(guide){const lo=range[0]===0?"20 mm 以下":range[0]+"～"+range[1]+" mm";guide.innerHTML=`<b>${bandPitchRange} TPI 代表性接觸長度：</b>${lo}。目前 ${bandShapeDefaults[bandShape].name} 在此下切位置為 <b>${contactMm.toFixed(1)} mm</b>（${contactSegments.length} 段）。`;}
+}
+
+function animateBandSaw(ts){
+  if(!bandLastTime)bandLastTime=ts;
+  const dt=Math.min(40,ts-bandLastTime);
+  bandLastTime=ts;
+  const speed=Math.max(.1,+document.getElementById("bandAnimSpeed")?.value||1);
+  const bladeSpeed=Math.max(1,+document.getElementById("bandBladeSpeed")?.value||60);
+  bandAnimPhase+=dt*.018*speed*Math.sqrt(bladeSpeed/60);
+  if(!bandUiEditing)renderBandSaw();
+  requestAnimationFrame(animateBandSaw);
+}
+
+// 所有變數與函式都建立完成後，才執行初始畫面。
+// 舊版在 contactShape 初始化前呼叫 renderContactFields()，會造成 ReferenceError，
+// 讓真實接觸區與後續互動全部失效。
+renderShapeGrid();
+renderAreaForm();
+calculateRPM();
+calculateSz();
+calculateWorkingTeeth2();
+calculateHssPitch();
+renderPitchPrinciple();
+renderContactFields();
+renderTrueContact();
+renderBandShapeFields();
+renderBandSaw();
+requestAnimationFrame(animateBandSaw);
+</script>
+
+<script>
+(function(){
+  const PASSWORD_HASH='28206c323c0ee7d23ace50c944c3d5cd4e0b16d743b0e84d96a25745ee0db9c7';
+  const SESSION_KEY='chi_diann_v13_session';
+  const LANG_KEY='chi_diann_v13_lang';
+  const AUTH_VERSION=PASSWORD_HASH.slice(0,16);
+  const authText={
+   zh:{title:'Chi Diann 內部系統',sub:'請輸入公司共用密碼。',label:'公司密碼',login:'登入',bad:'密碼錯誤，請重新輸入。',logout:'登出',lang:'中文'},
+   en:{title:'Chi Diann Internal System',sub:'Enter the company shared password.',label:'Company password',login:'Sign in',bad:'Incorrect password. Please try again.',logout:'Sign out',lang:'English'},
+   ja:{title:'Chi Diann 社内システム',sub:'会社共通パスワードを入力してください。',label:'会社パスワード',login:'ログイン',bad:'パスワードが正しくありません。',logout:'ログアウト',lang:'日本語'}
+  };
+  const dict={"en": {"基佃切削中心｜金屬切削計算平台": "Chi Diann Cutting Center | Metal Cutting Calculator", "系統狀態": "System status", "V20.0 接觸模式修正版": "V13 internal release", "安全": "Secure", "切削計算工具": "Cutting calculators", "RPM 換算": "RPM conversion", "轉速與切削速度互相換算": "Convert RPM and cutting speed", "SZ 換算": "Feed per tooth", "一般進給與油壓進刀計算": "Standard and hydraulic feed calculation", "真實接觸區": "Actual contact zone", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "Calculate engaged teeth from wall thickness and cut position", "截面積": "Cross-sectional area", "圖示選材、尺寸與多支切削": "Select profile, dimensions and bundle quantity", "工作齒數": "Teeth in cut", "實心、圓管、方管的接觸齒數判定": "Engaged teeth for solids and tubes", "HSS 開齒選擇": "HSS tooth pitch selection", "依型錄資料推薦節距與標準齒數": "Recommend pitch and standard tooth count", "壽命分析": "Blade life analysis", "維修紀錄": "Maintenance records", "← 返回首頁": "← Back to home", "RPM／切削速度換算": "RPM / Cutting speed", "輸入鋸片外徑，再選擇換算方向": "Enter blade diameter and select conversion direction", "換算方向": "Conversion direction", "主軸轉速": "Spindle speed", "切削速度": "Cutting speed", "鋸片外徑": "Blade diameter", "鋸片齒數": "Blade teeth", "進給速度": "Feed rate", "每齒進給量 SZ": "Feed per tooth SZ", "每秒進給": "Feed per second", "每分鐘進給": "Feed per minute", "每轉進給量": "Feed per revolution", "實心圓": "Solid round", "圓管": "Round tube", "方管": "Square tube", "實心方": "Solid square", "扁材": "Flat bar", "材料外徑": "Material diameter", "管壁厚度": "Wall thickness", "鋸齒節距": "Tooth pitch", "幾何接觸弧長": "Geometric contact length", "估算工作齒數": "Estimated teeth in cut", "每秒經過齒數": "Teeth passing per second", "每秒轉數": "Revolutions per second", "切削接觸示意圖": "Cutting contact diagram", "未接觸齒": "Not engaged", "切削中": "Cutting", "接觸區域": "Contact zone", "暫停動畫": "Pause animation", "重新定位": "Reset position", "切削材質": "Material", "材料型態": "Material form", "管材／型材": "Tube / profile", "實心材料": "Solid material", "型錄建議開齒節距": "Catalog pitch recommendation", "公式參考齒數": "Calculated tooth count", "資料庫標準齒數": "Standard tooth count", "實際換算節距": "Actual pitch", "建議齒形": "Recommended tooth form", "真實接觸區域": "Actual contact area", "外徑": "Outer diameter", "壁厚": "Wall thickness", "鋸片直徑": "Blade diameter", "切削進度": "Cutting progress", "目前接觸齒數": "Current engaged teeth", "有效接觸弧長": "Effective contact length", "實際材料接觸段": "Material contact segments", "材料實際接觸長度": "Actual contact length", "下刀進給速度": "Downfeed rate", "鋸帶速度": "Band speed", "動畫速度": "Animation speed", "鋸頭下切進度": "Saw head progress", "變化齒": "Variable pitch", "接觸長度": "Contact length", "工作齒": "Working teeth", "單齒進給": "Feed per tooth", "目前工作齒數": "Current teeth in cut", "目前齒組平均 TPI": "Average TPI", "換算單齒進給": "Calculated feed per tooth", "齒距建議": "Pitch recommendation", "壽命分析（工程估算）": "Blade life analysis (engineering estimate)", "齒負荷指數": "Tooth load index", "排屑風險": "Chip evacuation risk", "振動風險": "Vibration risk", "相對壽命評分": "Relative life score", "材料截面積": "Material cross-sectional area", "選擇材料": "Select material", "單支截面積": "Area per piece", "每刀切削支數": "Pieces per cut", "每刀總截面積": "Total area per cut", "換算平方公分": "Area in cm²", "首頁": "Home", "計算": "Calculate", "紀錄": "Records", "帳戶": "Account"}, "ja": {"基佃切削中心｜金屬切削計算平台": "Chi Diann 切削センター｜金属切削計算プラットフォーム", "系統狀態": "システム状態", "V20.0 接觸模式修正版": "V13 社内正式版", "安全": "安全", "切削計算工具": "切削計算ツール", "RPM 換算": "RPM換算", "轉速與切削速度互相換算": "回転数と切削速度を相互換算", "SZ 換算": "1歯当たり送り", "一般進給與油壓進刀計算": "通常送り・油圧送り計算", "真實接觸區": "実接触領域", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "肉厚と切込み位置から実接触歯数を計算", "截面積": "断面積", "圖示選材、尺寸與多支切削": "形状・寸法・束切り本数を選択", "工作齒數": "同時切削歯数", "實心、圓管、方管的接觸齒數判定": "丸棒・丸管・角管の接触歯数判定", "HSS 開齒選擇": "HSS ピッチ選定", "依型錄資料推薦節距與標準齒數": "カタログからピッチと標準歯数を推奨", "壽命分析": "寿命分析", "維修紀錄": "保守記録", "← 返回首頁": "← ホームへ戻る", "RPM／切削速度換算": "RPM／切削速度換算", "輸入鋸片外徑，再選擇換算方向": "鋸刃外径を入力し換算方向を選択", "換算方向": "換算方向", "主軸轉速": "主軸回転数", "切削速度": "切削速度", "鋸片外徑": "鋸刃外径", "鋸片齒數": "鋸刃歯数", "進給速度": "送り速度", "每齒進給量 SZ": "1歯当たり送り SZ", "每秒進給": "毎秒送り", "每分鐘進給": "毎分送り", "每轉進給量": "1回転当たり送り", "實心圓": "丸棒", "圓管": "丸管", "方管": "角管", "實心方": "角棒", "扁材": "平鋼", "材料外徑": "材料外径", "管壁厚度": "肉厚", "鋸齒節距": "歯ピッチ", "幾何接觸弧長": "幾何学的接触長さ", "估算工作齒數": "推定同時切削歯数", "每秒經過齒數": "毎秒通過歯数", "每秒轉數": "毎秒回転数", "切削接觸示意圖": "切削接触図", "未接觸齒": "非接触歯", "切削中": "切削中", "接觸區域": "接触領域", "暫停動畫": "一時停止", "重新定位": "位置リセット", "切削材質": "被削材", "材料型態": "材料形状", "管材／型材": "管材／形鋼", "實心材料": "中実材", "型錄建議開齒節距": "カタログ推奨ピッチ", "公式參考齒數": "計算参考歯数", "資料庫標準齒數": "標準歯数", "實際換算節距": "実換算ピッチ", "建議齒形": "推奨歯形", "真實接觸區域": "実接触領域", "外徑": "外径", "壁厚": "肉厚", "鋸片直徑": "鋸刃直径", "切削進度": "切削進行度", "目前接觸齒數": "現在の接触歯数", "有效接觸弧長": "有効接触長さ", "實際材料接觸段": "材料接触区間", "材料實際接觸長度": "材料実接触長さ", "下刀進給速度": "下降送り速度", "鋸帶速度": "帯鋸速度", "動畫速度": "アニメ速度", "鋸頭下切進度": "鋸頭下降進度", "變化齒": "バリアブルピッチ", "接觸長度": "接触長さ", "工作齒": "切削歯", "單齒進給": "1歯当たり送り", "目前工作齒數": "現在の同時切削歯数", "目前齒組平均 TPI": "平均TPI", "換算單齒進給": "換算1歯送り", "齒距建議": "ピッチ推奨", "壽命分析（工程估算）": "寿命分析（工学推定）", "齒負荷指數": "歯負荷指数", "排屑風險": "排屑リスク", "振動風險": "振動リスク", "相對壽命評分": "相対寿命スコア", "材料截面積": "材料断面積", "選擇材料": "材料を選択", "單支截面積": "1本当たり断面積", "每刀切削支數": "1カット本数", "每刀總截面積": "総切削断面積", "換算平方公分": "cm²換算", "首頁": "ホーム", "計算": "計算", "紀錄": "記録", "帳戶": "アカウント"}};
+  let lang=localStorage.getItem(LANG_KEY)||'zh';
+  const original=new WeakMap();
+  function hash(v){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''));}
+  function saveOriginal(root=document.body){
+    const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT); let n;
+    while(n=w.nextNode()){if(!n.parentElement||['SCRIPT','STYLE'].includes(n.parentElement.tagName))continue; const x=n.nodeValue.trim(); if(x&&!original.has(n))original.set(n,n.nodeValue);}
+  }
+  function applyLang(l){
+    lang=l;localStorage.setItem(LANG_KEY,l);document.documentElement.lang=l==='zh'?'zh-TW':l;
+    const a=authText[l];authTitle.textContent=a.title;authSubtitle.textContent=a.sub;passwordLabel.textContent=a.label;loginButton.textContent=a.login;logoutBtn.textContent=a.logout;uiLangBtn.textContent=a.lang;
+    document.querySelectorAll('.lang-row button').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
+    saveOriginal();
+    original.forEach?.(()=>{});
+    const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+    while(n=w.nextNode()){if(!n.parentElement||['SCRIPT','STYLE'].includes(n.parentElement.tagName)||n.closest('#authGate,.top-tools,.version-chip'))continue;const base=(original.get(n)||n.nodeValue).trim();if(!base)continue;const val=l==='zh'?base:(dict[l]&&dict[l][base]);if(val){const lead=(original.get(n)||n.nodeValue).match(/^\s*/)[0],trail=(original.get(n)||n.nodeValue).match(/\s*$/)[0];n.nodeValue=lead+val+trail;}else if(l==='zh'&&original.has(n))n.nodeValue=original.get(n);}
+  }
+  function unlock(){document.body.classList.remove('locked');authGate.classList.add('hidden');}
+  function lock(){localStorage.removeItem(SESSION_KEY);document.body.classList.add('locked');authGate.classList.remove('hidden');sharedPassword.value='';sharedPassword.focus();}
+  document.querySelectorAll('.lang-row button').forEach(b=>b.addEventListener('click',()=>applyLang(b.dataset.lang)));
+  uiLangBtn.addEventListener('click',()=>applyLang(lang==='zh'?'en':lang==='en'?'ja':'zh'));
+  logoutBtn.addEventListener('click',lock);
+  authForm.addEventListener('submit',async e=>{e.preventDefault();authError.textContent='';const h=await hash(sharedPassword.value);if(h===PASSWORD_HASH){localStorage.setItem(SESSION_KEY,JSON.stringify({v:AUTH_VERSION,t:Date.now()}));unlock();}else authError.textContent=authText[lang].bad;});
+  try{const s=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');if(s&&s.v===AUTH_VERSION)unlock();}catch(e){}
+  applyLang(lang);
+  if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+})();
+
+</script>
+</body>
+</html>
