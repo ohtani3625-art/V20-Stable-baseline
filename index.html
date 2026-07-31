@@ -190,6 +190,60 @@
 .band-speed-presets button{border:1px solid #b9c8d5;background:#fff;color:#17365d;border-radius:9px;padding:7px 2px;font-size:11px;font-weight:900;cursor:pointer}
 .band-speed-presets button.active{background:#1765a3;color:#fff;border-color:#1765a3}
 #bandContactInput:not([readonly]),#bandBladeSpeed{background:#fffbe8;border-color:#f6b83f}
+
+
+/* ===== iPhone / Safari mobile layout fix V20.1 ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+body{overflow-x:hidden}
+.app,.page,.contact-sim-card,.band-card{min-width:0;max-width:100%}
+.input-with-unit{width:100%;min-width:0;display:flex}
+.input-with-unit input{
+  width:0!important;
+  min-width:0!important;
+  flex:1 1 0%!important;
+  padding-left:14px;
+  padding-right:8px;
+  font-size:16px!important;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.input-with-unit .unit-box{
+  flex:0 0 auto;
+  min-width:72px;
+  max-width:92px;
+  white-space:nowrap;
+}
+input[type="number"]{font-variant-numeric:tabular-nums}
+input[type="range"]{width:100%;max-width:100%;touch-action:pan-y}
+.principle-stage,.band-stage{width:100%;max-width:100%;overflow:hidden}
+#trueContactSvg,#bandSawSvg{display:block;width:100%;height:auto;max-width:100%;min-height:260px}
+@media(max-width:520px){
+  .contact-sim-card,.band-card{padding:14px 12px}
+  .contact-controls,
+  .band-controls,
+  #contactDynamicFields,
+  #bandShapeFields{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+  }
+  .contact-controls>.field,
+  .band-controls>.field,
+  #contactDynamicFields>.field,
+  #bandShapeFields>.field{min-width:0;width:100%}
+  .contact-stat-grid,.band-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .band-switches{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .band-switches button{min-width:0;padding:10px 3px;font-size:12px;overflow-wrap:anywhere}
+  .band-mode-switch{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .band-speed-presets{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .free-add-grid,.free-tools{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #trueContactSvg,#bandSawSvg{min-height:285px}
+}
+@media(max-width:380px){
+  .contact-stat-grid,.band-stats{grid-template-columns:1fr}
+  .band-switches{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .unit-box{min-width:66px!important;font-size:13px}
+}
+
 </style>
 <link href="manifest.webmanifest" rel="manifest"/><meta content="#122a49" name="theme-color"/><meta content="yes" name="apple-mobile-web-app-capable"/><style>
 #authGate{position:fixed;inset:0;z-index:99999;background:linear-gradient(145deg,#092542,#0d5d92);display:flex;align-items:center;justify-content:center;padding:20px;font-family:"Microsoft JhengHei",Arial,sans-serif}
@@ -211,10 +265,10 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <button class="auth-submit" id="loginButton" type="submit">登入</button>
 <div aria-live="polite" class="auth-error" id="authError"></div>
 </form>
-<div class="auth-foot">Chi Diann Cutting Center · V20</div>
+<div class="auth-foot">Chi Diann Cutting Center · V20.1.1</div>
 </div>
 </div>
-<div class="version-chip">V20</div>
+<div class="version-chip">V20.1</div>
 <div class="top-tools"><button id="uiLangBtn">中文</button><button id="logoutBtn">登出</button></div>
 
 <div class="app">
@@ -222,7 +276,7 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <header class="header">
 <div class="brand"><div class="logo">⚙️</div><div><h1>Chi Diann Cutting Center</h1><p>基佃切削中心｜金屬切削計算平台</p></div></div>
 </header>
-<div class="status-card"><div><div class="status-title">系統狀態</div><div class="status-value">V20.0 接觸模式修正版</div></div><div class="status-badge">安全</div></div>
+<div class="status-card"><div><div class="status-title">系統狀態</div><div class="status-value">V20.1 接觸模式修正版</div></div><div class="status-badge">安全</div></div>
 <div class="section-title">切削計算工具</div>
 <main class="menu-grid">
 <button class="menu-card" onclick="openPage('rpmPage')"><div class="icon blue">🔄</div><div class="menu-name">RPM 換算</div><div class="menu-description">轉速與切削速度互相換算</div></button>
@@ -555,9 +609,9 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 </div>
 <div class="contact-controls" id="contactDynamicFields"></div>
 <div class="contact-controls" style="margin-top:10px">
-<div class="field" style="margin:0"><label style="color:#d8e5f0">鋸片直徑</label><div class="input-with-unit"><input id="contactBlade" min="50" oninput="renderTrueContact()" step="1" type="number" value="300"/><div class="unit-box">mm</div></div></div>
+<div class="field" style="margin:0"><label style="color:#d8e5f0">鋸片直徑</label><div class="input-with-unit"><input id="contactBlade" inputmode="decimal" min="50" oninput="renderTrueContact()" step="1" type="number" value="300"/><div class="unit-box">mm</div></div></div>
 </div>
-<div class="field"><label style="color:#d8e5f0">切削進度</label><input id="contactProgress" max="100" min="0" oninput="renderTrueContact()" step="1" style="width:100%" type="range" value="50"/></div>
+<div class="field"><label style="color:#d8e5f0">切削進度</label><input aria-label="切削進度" id="contactProgress" max="100" min="0" oninput="renderTrueContact()" step="1" style="width:100%" type="range" value="50"/></div>
 <div class="principle-stage"><svg id="trueContactSvg" viewbox="0 0 420 300" width="100%"></svg></div>
 <div class="contact-stat-grid">
 <div class="contact-stat"><span>目前接觸齒數</span><strong id="trueContactTeeth">0</strong></div>
@@ -669,7 +723,7 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 </div>
 <div class="field">
 <label style="color:#d8e5f0">鋸頭下切進度</label>
-<input id="bandDepth" max="100" min="0" oninput="renderBandSaw()" step="1" style="width:100%" type="range" value="55"/>
+<input aria-label="鋸頭下切進度" id="bandDepth" max="100" min="0" oninput="renderBandSaw()" step="1" style="width:100%" type="range" value="55"/>
 </div>
 <div class="band-stage">
 <svg aria-label="帶鋸變化齒工作齒與鐵屑形成動畫" id="bandSawSvg" role="img" viewbox="0 0 430 305" width="100%"></svg>
@@ -1189,7 +1243,7 @@ function setContactShape(shape,btn){
 }
 function renderContactFields(){
   const box=document.getElementById('contactDynamicFields'); if(!box)return;
-  box.innerHTML=contactShapeDefaults[contactShape].fields.map(([id,label,val])=>`<div class="field" style="margin:0"><label style="color:#d8e5f0">${label}</label><div class="input-with-unit"><input id="contact_${id}" min="0.2" oninput="renderTrueContact()" step="0.1" type="number" value="${val}"/><div class="unit-box">mm</div></div></div>`).join('');
+  box.innerHTML=contactShapeDefaults[contactShape].fields.map(([id,label,val])=>`<div class="field" style="margin:0"><label style="color:#d8e5f0">${label}</label><div class="input-with-unit"><input id="contact_${id}" inputmode="decimal" min="0.2" oninput="renderTrueContact()" step="0.1" type="number" value="${val}"/><div class="unit-box">mm</div></div></div>`).join('');
 }
 function renderTrueContact(){
   const svg=document.getElementById("trueContactSvg"); if(!svg)return;
@@ -1326,7 +1380,7 @@ function renderBandShapeFields(){
   if(panel)panel.classList.remove('active');
   box.innerHTML=bandShapeDefaults[bandShape].fields.map(([id,label,val])=>{
     const integer=['n','cols','rows'].includes(id);
-    return `<div class="field" style="margin:0"><label style="color:#d8e5f0">${label}</label><div class="input-with-unit"><input id="band_${id}" min="${integer?1:.2}" oninput="renderBandSaw()" step="${integer?1:.1}" type="number" value="${val}"/><div class="unit-box">${integer?'個':'mm'}</div></div></div>`;
+    return `<div class="field" style="margin:0"><label style="color:#d8e5f0">${label}</label><div class="input-with-unit"><input id="band_${id}" inputmode="decimal" min="${integer?1:.2}" oninput="renderBandSaw()" step="${integer?1:.1}" type="number" value="${val}"/><div class="unit-box">${integer?'個':'mm'}</div></div></div>`;
   }).join('');
 }
 
@@ -1733,7 +1787,7 @@ requestAnimationFrame(animateBandSaw);
    en:{title:'Chi Diann Internal System',sub:'Enter the company shared password.',label:'Company password',login:'Sign in',bad:'Incorrect password. Please try again.',logout:'Sign out',lang:'English'},
    ja:{title:'Chi Diann 社内システム',sub:'会社共通パスワードを入力してください。',label:'会社パスワード',login:'ログイン',bad:'パスワードが正しくありません。',logout:'ログアウト',lang:'日本語'}
   };
-  const dict={"en": {"基佃切削中心｜金屬切削計算平台": "Chi Diann Cutting Center | Metal Cutting Calculator", "系統狀態": "System status", "V20.0 接觸模式修正版": "V13 internal release", "安全": "Secure", "切削計算工具": "Cutting calculators", "RPM 換算": "RPM conversion", "轉速與切削速度互相換算": "Convert RPM and cutting speed", "SZ 換算": "Feed per tooth", "一般進給與油壓進刀計算": "Standard and hydraulic feed calculation", "真實接觸區": "Actual contact zone", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "Calculate engaged teeth from wall thickness and cut position", "截面積": "Cross-sectional area", "圖示選材、尺寸與多支切削": "Select profile, dimensions and bundle quantity", "工作齒數": "Teeth in cut", "實心、圓管、方管的接觸齒數判定": "Engaged teeth for solids and tubes", "HSS 開齒選擇": "HSS tooth pitch selection", "依型錄資料推薦節距與標準齒數": "Recommend pitch and standard tooth count", "壽命分析": "Blade life analysis", "維修紀錄": "Maintenance records", "← 返回首頁": "← Back to home", "RPM／切削速度換算": "RPM / Cutting speed", "輸入鋸片外徑，再選擇換算方向": "Enter blade diameter and select conversion direction", "換算方向": "Conversion direction", "主軸轉速": "Spindle speed", "切削速度": "Cutting speed", "鋸片外徑": "Blade diameter", "鋸片齒數": "Blade teeth", "進給速度": "Feed rate", "每齒進給量 SZ": "Feed per tooth SZ", "每秒進給": "Feed per second", "每分鐘進給": "Feed per minute", "每轉進給量": "Feed per revolution", "實心圓": "Solid round", "圓管": "Round tube", "方管": "Square tube", "實心方": "Solid square", "扁材": "Flat bar", "材料外徑": "Material diameter", "管壁厚度": "Wall thickness", "鋸齒節距": "Tooth pitch", "幾何接觸弧長": "Geometric contact length", "估算工作齒數": "Estimated teeth in cut", "每秒經過齒數": "Teeth passing per second", "每秒轉數": "Revolutions per second", "切削接觸示意圖": "Cutting contact diagram", "未接觸齒": "Not engaged", "切削中": "Cutting", "接觸區域": "Contact zone", "暫停動畫": "Pause animation", "重新定位": "Reset position", "切削材質": "Material", "材料型態": "Material form", "管材／型材": "Tube / profile", "實心材料": "Solid material", "型錄建議開齒節距": "Catalog pitch recommendation", "公式參考齒數": "Calculated tooth count", "資料庫標準齒數": "Standard tooth count", "實際換算節距": "Actual pitch", "建議齒形": "Recommended tooth form", "真實接觸區域": "Actual contact area", "外徑": "Outer diameter", "壁厚": "Wall thickness", "鋸片直徑": "Blade diameter", "切削進度": "Cutting progress", "目前接觸齒數": "Current engaged teeth", "有效接觸弧長": "Effective contact length", "實際材料接觸段": "Material contact segments", "材料實際接觸長度": "Actual contact length", "下刀進給速度": "Downfeed rate", "鋸帶速度": "Band speed", "動畫速度": "Animation speed", "鋸頭下切進度": "Saw head progress", "變化齒": "Variable pitch", "接觸長度": "Contact length", "工作齒": "Working teeth", "單齒進給": "Feed per tooth", "目前工作齒數": "Current teeth in cut", "目前齒組平均 TPI": "Average TPI", "換算單齒進給": "Calculated feed per tooth", "齒距建議": "Pitch recommendation", "壽命分析（工程估算）": "Blade life analysis (engineering estimate)", "齒負荷指數": "Tooth load index", "排屑風險": "Chip evacuation risk", "振動風險": "Vibration risk", "相對壽命評分": "Relative life score", "材料截面積": "Material cross-sectional area", "選擇材料": "Select material", "單支截面積": "Area per piece", "每刀切削支數": "Pieces per cut", "每刀總截面積": "Total area per cut", "換算平方公分": "Area in cm²", "首頁": "Home", "計算": "Calculate", "紀錄": "Records", "帳戶": "Account"}, "ja": {"基佃切削中心｜金屬切削計算平台": "Chi Diann 切削センター｜金属切削計算プラットフォーム", "系統狀態": "システム状態", "V20.0 接觸模式修正版": "V13 社内正式版", "安全": "安全", "切削計算工具": "切削計算ツール", "RPM 換算": "RPM換算", "轉速與切削速度互相換算": "回転数と切削速度を相互換算", "SZ 換算": "1歯当たり送り", "一般進給與油壓進刀計算": "通常送り・油圧送り計算", "真實接觸區": "実接触領域", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "肉厚と切込み位置から実接触歯数を計算", "截面積": "断面積", "圖示選材、尺寸與多支切削": "形状・寸法・束切り本数を選択", "工作齒數": "同時切削歯数", "實心、圓管、方管的接觸齒數判定": "丸棒・丸管・角管の接触歯数判定", "HSS 開齒選擇": "HSS ピッチ選定", "依型錄資料推薦節距與標準齒數": "カタログからピッチと標準歯数を推奨", "壽命分析": "寿命分析", "維修紀錄": "保守記録", "← 返回首頁": "← ホームへ戻る", "RPM／切削速度換算": "RPM／切削速度換算", "輸入鋸片外徑，再選擇換算方向": "鋸刃外径を入力し換算方向を選択", "換算方向": "換算方向", "主軸轉速": "主軸回転数", "切削速度": "切削速度", "鋸片外徑": "鋸刃外径", "鋸片齒數": "鋸刃歯数", "進給速度": "送り速度", "每齒進給量 SZ": "1歯当たり送り SZ", "每秒進給": "毎秒送り", "每分鐘進給": "毎分送り", "每轉進給量": "1回転当たり送り", "實心圓": "丸棒", "圓管": "丸管", "方管": "角管", "實心方": "角棒", "扁材": "平鋼", "材料外徑": "材料外径", "管壁厚度": "肉厚", "鋸齒節距": "歯ピッチ", "幾何接觸弧長": "幾何学的接触長さ", "估算工作齒數": "推定同時切削歯数", "每秒經過齒數": "毎秒通過歯数", "每秒轉數": "毎秒回転数", "切削接觸示意圖": "切削接触図", "未接觸齒": "非接触歯", "切削中": "切削中", "接觸區域": "接触領域", "暫停動畫": "一時停止", "重新定位": "位置リセット", "切削材質": "被削材", "材料型態": "材料形状", "管材／型材": "管材／形鋼", "實心材料": "中実材", "型錄建議開齒節距": "カタログ推奨ピッチ", "公式參考齒數": "計算参考歯数", "資料庫標準齒數": "標準歯数", "實際換算節距": "実換算ピッチ", "建議齒形": "推奨歯形", "真實接觸區域": "実接触領域", "外徑": "外径", "壁厚": "肉厚", "鋸片直徑": "鋸刃直径", "切削進度": "切削進行度", "目前接觸齒數": "現在の接触歯数", "有效接觸弧長": "有効接触長さ", "實際材料接觸段": "材料接触区間", "材料實際接觸長度": "材料実接触長さ", "下刀進給速度": "下降送り速度", "鋸帶速度": "帯鋸速度", "動畫速度": "アニメ速度", "鋸頭下切進度": "鋸頭下降進度", "變化齒": "バリアブルピッチ", "接觸長度": "接触長さ", "工作齒": "切削歯", "單齒進給": "1歯当たり送り", "目前工作齒數": "現在の同時切削歯数", "目前齒組平均 TPI": "平均TPI", "換算單齒進給": "換算1歯送り", "齒距建議": "ピッチ推奨", "壽命分析（工程估算）": "寿命分析（工学推定）", "齒負荷指數": "歯負荷指数", "排屑風險": "排屑リスク", "振動風險": "振動リスク", "相對壽命評分": "相対寿命スコア", "材料截面積": "材料断面積", "選擇材料": "材料を選択", "單支截面積": "1本当たり断面積", "每刀切削支數": "1カット本数", "每刀總截面積": "総切削断面積", "換算平方公分": "cm²換算", "首頁": "ホーム", "計算": "計算", "紀錄": "記録", "帳戶": "アカウント"}};
+  const dict={"en": {"基佃切削中心｜金屬切削計算平台": "Chi Diann Cutting Center | Metal Cutting Calculator", "系統狀態": "System status", "V20.1 接觸模式修正版": "V13 internal release", "安全": "Secure", "切削計算工具": "Cutting calculators", "RPM 換算": "RPM conversion", "轉速與切削速度互相換算": "Convert RPM and cutting speed", "SZ 換算": "Feed per tooth", "一般進給與油壓進刀計算": "Standard and hydraulic feed calculation", "真實接觸區": "Actual contact zone", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "Calculate engaged teeth from wall thickness and cut position", "截面積": "Cross-sectional area", "圖示選材、尺寸與多支切削": "Select profile, dimensions and bundle quantity", "工作齒數": "Teeth in cut", "實心、圓管、方管的接觸齒數判定": "Engaged teeth for solids and tubes", "HSS 開齒選擇": "HSS tooth pitch selection", "依型錄資料推薦節距與標準齒數": "Recommend pitch and standard tooth count", "壽命分析": "Blade life analysis", "維修紀錄": "Maintenance records", "← 返回首頁": "← Back to home", "RPM／切削速度換算": "RPM / Cutting speed", "輸入鋸片外徑，再選擇換算方向": "Enter blade diameter and select conversion direction", "換算方向": "Conversion direction", "主軸轉速": "Spindle speed", "切削速度": "Cutting speed", "鋸片外徑": "Blade diameter", "鋸片齒數": "Blade teeth", "進給速度": "Feed rate", "每齒進給量 SZ": "Feed per tooth SZ", "每秒進給": "Feed per second", "每分鐘進給": "Feed per minute", "每轉進給量": "Feed per revolution", "實心圓": "Solid round", "圓管": "Round tube", "方管": "Square tube", "實心方": "Solid square", "扁材": "Flat bar", "材料外徑": "Material diameter", "管壁厚度": "Wall thickness", "鋸齒節距": "Tooth pitch", "幾何接觸弧長": "Geometric contact length", "估算工作齒數": "Estimated teeth in cut", "每秒經過齒數": "Teeth passing per second", "每秒轉數": "Revolutions per second", "切削接觸示意圖": "Cutting contact diagram", "未接觸齒": "Not engaged", "切削中": "Cutting", "接觸區域": "Contact zone", "暫停動畫": "Pause animation", "重新定位": "Reset position", "切削材質": "Material", "材料型態": "Material form", "管材／型材": "Tube / profile", "實心材料": "Solid material", "型錄建議開齒節距": "Catalog pitch recommendation", "公式參考齒數": "Calculated tooth count", "資料庫標準齒數": "Standard tooth count", "實際換算節距": "Actual pitch", "建議齒形": "Recommended tooth form", "真實接觸區域": "Actual contact area", "外徑": "Outer diameter", "壁厚": "Wall thickness", "鋸片直徑": "Blade diameter", "切削進度": "Cutting progress", "目前接觸齒數": "Current engaged teeth", "有效接觸弧長": "Effective contact length", "實際材料接觸段": "Material contact segments", "材料實際接觸長度": "Actual contact length", "下刀進給速度": "Downfeed rate", "鋸帶速度": "Band speed", "動畫速度": "Animation speed", "鋸頭下切進度": "Saw head progress", "變化齒": "Variable pitch", "接觸長度": "Contact length", "工作齒": "Working teeth", "單齒進給": "Feed per tooth", "目前工作齒數": "Current teeth in cut", "目前齒組平均 TPI": "Average TPI", "換算單齒進給": "Calculated feed per tooth", "齒距建議": "Pitch recommendation", "壽命分析（工程估算）": "Blade life analysis (engineering estimate)", "齒負荷指數": "Tooth load index", "排屑風險": "Chip evacuation risk", "振動風險": "Vibration risk", "相對壽命評分": "Relative life score", "材料截面積": "Material cross-sectional area", "選擇材料": "Select material", "單支截面積": "Area per piece", "每刀切削支數": "Pieces per cut", "每刀總截面積": "Total area per cut", "換算平方公分": "Area in cm²", "首頁": "Home", "計算": "Calculate", "紀錄": "Records", "帳戶": "Account"}, "ja": {"基佃切削中心｜金屬切削計算平台": "Chi Diann 切削センター｜金属切削計算プラットフォーム", "系統狀態": "システム状態", "V20.1 接觸模式修正版": "V13 社内正式版", "安全": "安全", "切削計算工具": "切削計算ツール", "RPM 換算": "RPM換算", "轉速與切削速度互相換算": "回転数と切削速度を相互換算", "SZ 換算": "1歯当たり送り", "一般進給與油壓進刀計算": "通常送り・油圧送り計算", "真實接觸區": "実接触領域", "依材料形狀、尺寸、壁厚與下刀位置計算真實接觸齒": "肉厚と切込み位置から実接触歯数を計算", "截面積": "断面積", "圖示選材、尺寸與多支切削": "形状・寸法・束切り本数を選択", "工作齒數": "同時切削歯数", "實心、圓管、方管的接觸齒數判定": "丸棒・丸管・角管の接触歯数判定", "HSS 開齒選擇": "HSS ピッチ選定", "依型錄資料推薦節距與標準齒數": "カタログからピッチと標準歯数を推奨", "壽命分析": "寿命分析", "維修紀錄": "保守記録", "← 返回首頁": "← ホームへ戻る", "RPM／切削速度換算": "RPM／切削速度換算", "輸入鋸片外徑，再選擇換算方向": "鋸刃外径を入力し換算方向を選択", "換算方向": "換算方向", "主軸轉速": "主軸回転数", "切削速度": "切削速度", "鋸片外徑": "鋸刃外径", "鋸片齒數": "鋸刃歯数", "進給速度": "送り速度", "每齒進給量 SZ": "1歯当たり送り SZ", "每秒進給": "毎秒送り", "每分鐘進給": "毎分送り", "每轉進給量": "1回転当たり送り", "實心圓": "丸棒", "圓管": "丸管", "方管": "角管", "實心方": "角棒", "扁材": "平鋼", "材料外徑": "材料外径", "管壁厚度": "肉厚", "鋸齒節距": "歯ピッチ", "幾何接觸弧長": "幾何学的接触長さ", "估算工作齒數": "推定同時切削歯数", "每秒經過齒數": "毎秒通過歯数", "每秒轉數": "毎秒回転数", "切削接觸示意圖": "切削接触図", "未接觸齒": "非接触歯", "切削中": "切削中", "接觸區域": "接触領域", "暫停動畫": "一時停止", "重新定位": "位置リセット", "切削材質": "被削材", "材料型態": "材料形状", "管材／型材": "管材／形鋼", "實心材料": "中実材", "型錄建議開齒節距": "カタログ推奨ピッチ", "公式參考齒數": "計算参考歯数", "資料庫標準齒數": "標準歯数", "實際換算節距": "実換算ピッチ", "建議齒形": "推奨歯形", "真實接觸區域": "実接触領域", "外徑": "外径", "壁厚": "肉厚", "鋸片直徑": "鋸刃直径", "切削進度": "切削進行度", "目前接觸齒數": "現在の接触歯数", "有效接觸弧長": "有効接触長さ", "實際材料接觸段": "材料接触区間", "材料實際接觸長度": "材料実接触長さ", "下刀進給速度": "下降送り速度", "鋸帶速度": "帯鋸速度", "動畫速度": "アニメ速度", "鋸頭下切進度": "鋸頭下降進度", "變化齒": "バリアブルピッチ", "接觸長度": "接触長さ", "工作齒": "切削歯", "單齒進給": "1歯当たり送り", "目前工作齒數": "現在の同時切削歯数", "目前齒組平均 TPI": "平均TPI", "換算單齒進給": "換算1歯送り", "齒距建議": "ピッチ推奨", "壽命分析（工程估算）": "寿命分析（工学推定）", "齒負荷指數": "歯負荷指数", "排屑風險": "排屑リスク", "振動風險": "振動リスク", "相對壽命評分": "相対寿命スコア", "材料截面積": "材料断面積", "選擇材料": "材料を選択", "單支截面積": "1本当たり断面積", "每刀切削支數": "1カット本数", "每刀總截面積": "総切削断面積", "換算平方公分": "cm²換算", "首頁": "ホーム", "計算": "計算", "紀錄": "記録", "帳戶": "アカウント"}};
   let lang=localStorage.getItem(LANG_KEY)||'zh';
   const original=new WeakMap();
   function hash(v){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''));}
