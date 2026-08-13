@@ -328,6 +328,15 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <div class="unit-box">齒</div>
 </div>
 </div>
+<div class="field full">
+<label>工作齒數循環</label>
+<select id="szCycleTeeth" onchange="calculateSz()">
+<option value="1">1齒1循環</option>
+<option value="2">2齒1循環</option>
+<option value="3">3齒1循環</option>
+</select>
+<div class="hint">2 齒循環時 SZ ÷ 2；3 齒循環時 SZ ÷ 3。</div>
+</div>
 <div class="full input-grid" id="normalSzFields">
 <div class="field full">
 <label>進給速度</label>
@@ -896,6 +905,7 @@ function setSzMode(mode){
 function calculateSz(){
   const rpm=+document.getElementById("szRpm").value;
   const teeth=+document.getElementById("szTeeth").value;
+  const cycleTeeth=+document.getElementById("szCycleTeeth").value;
   let feedPerSec=0;
   const warning=document.getElementById("szWarning");
   warning.style.display="none";
@@ -919,7 +929,8 @@ function calculateSz(){
   }
 
   const feedPerMin=feedPerSec*60;
-  const sz=feedPerMin/(rpm*teeth);
+  const averageSz=feedPerMin/(rpm*teeth);
+  const sz=averageSz/cycleTeeth;
   const feedPerRev=feedPerMin/rpm;
 
   document.getElementById("szResult").textContent=sz.toFixed(4)+" mm/齒";
@@ -929,8 +940,8 @@ function calculateSz(){
 
   document.getElementById("szFormula").textContent=
     currentSzMode==="normal"
-    ?"公式：SZ＝每秒進給 × 60 ÷（RPM × 齒數）"
-    :"公式：每秒進給＝實際切削距離 ÷ 完成切削時間；SZ＝每秒進給 × 60 ÷（RPM × 齒數）";
+    ?"公式：SZ＝每秒進給 × 60 ÷（RPM × 齒數）÷ 循環齒數"
+    :"公式：每秒進給＝實際切削距離 ÷ 完成切削時間；SZ＝每秒進給 × 60 ÷（RPM × 齒數）÷ 循環齒數";
 }
 
 
