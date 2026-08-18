@@ -498,25 +498,24 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <header class="page-header">
 <button class="back-button" onclick="openPage('homePage')">← 返回首頁</button>
 <h2>HSS 高速鋼開齒選擇</h2>
-<p>先查節距資料，再由鋸片外徑對照標準開齒齒數；不再把尺寸直接當成齒距</p>
+<p>依型錄的 D、S 查出齒距 t，再用 Z＝π × 鋸片外徑 ÷ t 換算開齒齒數</p>
 </header>
 <div class="panel">
 <div class="input-grid">
-<div class="field full">
+<div class="field full" id="hssMaterialField" style="display:none">
 <label>切削材質</label>
 <select id="hssMaterial" onchange="calculateHssPitch()">
 <option value="steel500">鋼材 ≤ 500 N/mm²</option>
-<option value="steel800">鋼材 ≤ 800 N/mm²</option>
-<option value="steel1200">鋼材 ≤ 1200 N/mm²</option>
+<option value="steel500_800">鋼材 500–800 N/mm²</option>
+<option value="steel800_1000">鋼材 800–1000 N/mm²</option>
+<option value="tempered1000_1300">調質鋼 1000–1300 N/mm²</option>
 <option value="stainless">不鏽鋼</option>
 <option value="castiron">鑄鐵</option>
 <option value="aluminum">鋁</option>
-<option value="bronze">青銅</option>
 <option value="copper">銅</option>
-<option value="brass">黃銅</option>
-<option value="zinc">鋅合金</option>
-<option value="inconel">Inconel</option>
-<option value="titanium">鈦</option>
+<option value="bronze">青銅</option>
+<option value="brassZinc">黃銅／鋅合金</option>
+<option value="titanium">鈦合金</option>
 </select>
 </div>
 <div class="field full">
@@ -554,31 +553,24 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <div class="unit-box">mm</div>
 </div>
 </div>
-<div class="field">
-<label>切割角度（90°＝直切）</label>
-<div class="input-with-unit">
-<input id="hssCutAngle" max="90" min="15" oninput="calculateHssPitch()" step="1" type="number" value="90"/>
-<div class="unit-box">度</div>
-</div>
-<div class="hint">斜切角度越小，鋸齒穿過材料的有效厚度越長；可輸入 15°～90°。</div>
-</div>
 </div>
 <div class="result-hero">
 <div class="small">型錄建議開齒節距</div>
 <div class="big" id="hssPitchHero">T5</div>
-<div class="sub" id="hssReason">依鋼材 ≤ 500 N/mm²、管壁厚度 2 mm 推薦</div>
+<div class="sub" id="hssReason">管材／型材表：D 30–40 mm、S＜2.0 mm，型錄 t＝5 mm</div>
 </div>
 <div class="two-col-result">
-<div class="mini-result"><span>公式參考齒數</span><strong id="hssTheoryTeeth">188.5</strong></div>
-<div class="mini-result"><span>資料庫標準齒數</span><strong id="hssRecommendedTeeth">180 齒</strong></div>
+<div class="mini-result"><span>理論換算齒數</span><strong id="hssTheoryTeeth">188.5</strong></div>
+<div class="mini-result"><span>建議開齒齒數（偶數）</span><strong id="hssRecommendedTeeth">188 齒</strong></div>
 </div>
 <div class="result">
-<div class="result-row"><div class="result-label">角度修正有效厚度</div><div class="result-value" id="hssEffectiveSize">1.80 mm</div></div>
-<div class="result-row"><div class="result-label">實際換算節距</div><div class="result-value" id="hssActualPitch">5.01 mm</div></div>
+<div class="result-row"><div class="result-label">型錄尺寸區間</div><div class="result-value" id="hssCatalogRange">D 30–40／S＜2.0</div></div>
+<div class="result-row"><div class="result-label">開齒後實際齒距</div><div class="result-value" id="hssActualPitch">5.01 mm</div></div>
+<div class="result-row"><div class="result-label">型錄齒形角度</div><div class="result-value" id="hssCatalogAngles">γ 16°–18°／α 6°–8°</div></div>
 <div class="result-row"><div class="result-label">建議齒形</div><div class="result-value" id="hssToothForm">BW / HZ</div></div>
 </div>
 <div class="note-box">
-        系統先用切割角度修正有效厚度，再依材質與修正後尺寸查出建議節距，最後從內建的鋸片外徑／標準齒數資料庫選擇最接近規格。角度以 90° 為直切；45° 與 30° 會增加有效切削厚度。此結果屬幾何初選，實際訂製仍需確認廠牌、鋸片厚度、中心孔、齒形與機台剛性。
+        本模組直接依你提供的型錄表查值：管材／型材用外徑或高度 D 與壁厚 S；實心材料用材質與斷面尺寸 S。型錄的 γ、α 是鋸齒幾何角度，不是工件斜切角。理論齒數 Z＝π × 鋸片外徑 ÷ 型錄齒距 t；BW／HZ 常採兩齒循環，因此建議值取最接近的偶數齒。超出型錄尺寸範圍時，畫面會明確標示並暫用最近一列估算。
       </div>
 <div class="concept-card">
 <h3>T5 到底代表什麼？</h3>
@@ -628,16 +620,19 @@ body.locked .app,body.locked .bottom-nav,body.locked .top-tools,body.locked .ver
 <div class="contact-controls" id="contactDynamicFields"></div>
 <div class="contact-controls" style="margin-top:10px">
 <div class="field" style="margin:0"><label style="color:#d8e5f0">鋸片直徑</label><div class="input-with-unit"><input id="contactBlade" inputmode="decimal" min="50" oninput="renderTrueContact()" step="1" type="number" value="300"/><div class="unit-box">mm</div></div></div>
+<div class="field" style="margin:0"><label style="color:#d8e5f0">鋸片齒數</label><div class="input-with-unit"><input id="contactBladeTeeth" inputmode="numeric" max="1000" min="1" oninput="renderTrueContact()" step="1" type="number" value="80"/><div class="unit-box">T</div></div></div>
 </div>
 <div class="field"><label style="color:#d8e5f0">切削進度</label><input aria-label="切削進度" id="contactProgress" max="100" min="0" oninput="renderTrueContact()" step="1" style="width:100%" type="range" value="50"/></div>
 <div class="principle-stage"><svg id="trueContactSvg" viewbox="0 0 420 300" width="100%"></svg></div>
 <div class="contact-stat-grid">
-<div class="contact-stat"><span>目前接觸齒數</span><strong id="trueContactTeeth">0</strong></div>
-<div class="contact-stat"><span>有效接觸弧長</span><strong id="trueContactArc">0 mm</strong></div>
-<div class="contact-stat"><span>外徑顯示寬度</span><strong id="trueContactWidth">0 mm</strong></div>
+<div class="contact-stat"><span>鋸片直徑</span><strong id="trueContactBladeD">300.0 mm</strong></div>
+<div class="contact-stat"><span>鋸片齒數</span><strong id="trueContactBladeZ">80 T</strong></div>
+<div class="contact-stat"><span>實際齒距</span><strong id="trueContactPitch">11.78 mm</strong></div>
+<div class="contact-stat"><span>真實接觸弧長</span><strong id="trueContactArc">0.0 mm</strong></div>
+<div class="contact-stat"><span>目前工作齒數</span><strong id="trueContactTeeth">0.00 齒</strong></div>
 <div class="contact-stat"><span>實際材料接觸段</span><strong id="trueContactSegments">0 段</strong></div>
 </div>
-<div class="contact-note">外徑相同時，工件整體寬度可以相同；但壁厚改變後，綠色接觸齒與有效接觸弧一定會改變。</div>
+<div class="contact-note">齒距 P＝πD ÷ Z；目前工作齒數 N＝真實接觸弧長 L ÷ P。L 只由鋸片直徑、材料幾何與切削進度決定，RPM 不參與幾何工作齒數。</div>
 <div class="band-card">
 <h3>帶鋸真實接觸區域＋工作齒動畫</h3>
 <p>
@@ -1089,103 +1084,122 @@ function setHssMode(mode){
   hssMode=mode;
   document.getElementById("hssProfileBtn").classList.toggle("active",mode==="profile");
   document.getElementById("hssSolidBtn").classList.toggle("active",mode==="solid");
+  document.getElementById("hssMaterialField").style.display=mode==="solid"?"block":"none";
   document.getElementById("hssProfileSizeField").style.display=mode==="profile"?"block":"none";
   document.getElementById("hssProfileOuterField").style.display=mode==="profile"?"block":"none";
   document.getElementById("hssSolidSizeField").style.display=mode==="solid"?"block":"none";
   calculateHssPitch();
 }
 
-const profileLimits=[1,1.5,2,3,4,Infinity];
-const solidLimits=[20,40,60,80,110,130,150,Infinity];
-const pitchTable={
-  steel500:{p:[3,4,5,5,6,7],s:[6,8,10,12,14,16,18,18]},
-  steel800:{p:[3,4,4,5,6,7],s:[6,8,10,12,14,16,18,18]},
-  steel1200:{p:[3,3,4,5,5,6],s:[5,7,9,12,14,16,18,18]},
-  stainless:{p:[3,4,5,5,6,6],s:[5,7,9,12,14,16,18,18]},
-  castiron:{p:[6,6,6,6,6,6],s:[6,8,10,14,16,18,18,18]},
-  aluminum:{p:[4,5,6,7,8,8],s:[8,9,12,16,18,18,18,18]},
-  bronze:{p:[4,5,6,7,8,9],s:[7,10,10,14,16,16,18,18]},
-  copper:{p:[4,5,6,7,8,8],s:[8,10,10,14,16,18,18,18]},
-  brass:{p:[4,5,6,7,8,8],s:[8,10,12,14,18,18,18,18]},
-  zinc:{p:[3,4,5,5,6,7],s:[5,6,10,12,14,16,16,16]},
-  inconel:{p:[3,3,4,5,5,6],s:[5,6,8,10,12,14,14,14]},
-  titanium:{p:[3,3,4,5,5,6],s:[5,6,8,10,12,14,14,14]}
+// 使用者提供的 HSS 型錄：管材／型材依外徑或高度 D 與厚度 S 查齒距 t（mm）。
+const hssProfilePitchRows=[
+  {min:10,max:20,label:"10–20",low:1.0,high:2.0,pitches:[3,4,5]},
+  {min:20,max:30,label:"20–30",low:1.5,high:2.5,pitches:[4,5,6]},
+  {min:30,max:40,label:"30–40",low:2.0,high:3.0,pitches:[5,6,7]},
+  {min:40,max:50,label:"40–50",low:3.0,high:4.0,pitches:[6,7,8]},
+  {min:50,max:60,label:"50–60",low:4.0,high:5.0,pitches:[7,8,10]},
+  {min:60,max:70,label:"60–70",low:3.0,high:4.0,pitches:[7,8,10]},
+  {min:70,max:80,label:"70–80",low:4.0,high:5.0,pitches:[8,10,12]},
+  {min:80,max:90,label:"80–90",low:4.0,high:5.0,pitches:[8,10,12]},
+  {min:90,max:100,label:"90–100",low:5.0,high:6.5,pitches:[10,12,14]},
+  {min:100,max:120,label:"100–120",low:5.0,high:6.5,pitches:[10,12,14]},
+  {min:120,max:140,label:"120–140",low:4.0,high:5.0,pitches:[10,12,14]}
+];
+
+// 使用者提供的 HSS 型錄：實心材料依材質與斷面尺寸 S 查齒距 t（mm）。
+const hssSolidSizeRows=[
+  {min:10,max:20,label:"10–20"},
+  {min:20,max:35,label:"20–35"},
+  {min:35,max:55,label:"35–55"},
+  {min:55,max:80,label:"55–80"},
+  {min:80,max:110,label:"80–110"},
+  {min:110,max:130,label:"110–130"},
+  {min:130,max:145,label:"130–145"}
+];
+const hssSolidPitchByMaterial={
+  steel500:[4,8,10,12,14,16,18],
+  steel500_800:[4,5,8,10,14,16,16],
+  steel800_1000:[4,5,6,8,12,14,14],
+  tempered1000_1300:[3,3,4,6,8,10,12],
+  stainless:[3,4,6,8,12,14,14],
+  castiron:[3,4,6,8,12,14,14],
+  aluminum:[6,8,12,14,16,18,20],
+  copper:[6,8,11,14,16,18,20],
+  bronze:[5,7,10,12,14,16,18],
+  brassZinc:[5,6,10,12,16,18,18],
+  titanium:[4,4,6,10,12,14,16]
 };
 const materialNames={
- steel500:"鋼材 ≤ 500 N/mm²",steel800:"鋼材 ≤ 800 N/mm²",steel1200:"鋼材 ≤ 1200 N/mm²",
- stainless:"不鏽鋼",castiron:"鑄鐵",aluminum:"鋁",bronze:"青銅",copper:"銅",brass:"黃銅",
- zinc:"鋅合金",inconel:"Inconel",titanium:"鈦"
+  steel500:"鋼材 ≤ 500 N/mm²",steel500_800:"鋼材 500–800 N/mm²",steel800_1000:"鋼材 800–1000 N/mm²",
+  tempered1000_1300:"調質鋼 1000–1300 N/mm²",stainless:"不鏽鋼",castiron:"鑄鐵",aluminum:"鋁",
+  copper:"銅",bronze:"青銅",brassZinc:"黃銅／鋅合金",titanium:"鈦合金"
 };
-function pickByLimit(value,limits,arr){
-  for(let i=0;i<limits.length;i++)if(value<limits[i] || (i===0&&value<=limits[i]))return arr[i];
-  return arr[arr.length-1];
+const hssSolidAngles={
+  steel500:"γ 18°／α 10°",steel500_800:"γ 18°／α 10°",steel800_1000:"γ 15°／α 8°",
+  tempered1000_1300:"γ 12°／α 8°",stainless:"γ 12°／α 6°",castiron:"γ 10°／α 6°",
+  aluminum:"γ 25°／α 10°",copper:"γ 20°／α 10°",bronze:"γ 10°–12°／α 6°–8°",
+  brassZinc:"γ 15°／α 15°",titanium:"γ 12°／α 8°"
+};
+
+function findHssCatalogRow(value,rows){
+  let index=rows.findIndex((r,i)=>value>=r.min&&(value<r.max||(i===rows.length-1&&value<=r.max)));
+  let warning="";
+  if(index<0){
+    if(value<rows[0].min){index=0;warning=`輸入值低於型錄 ${rows[0].min} mm 下限，暫用 ${rows[0].label} mm 列。`;}
+    else{index=rows.length-1;warning=`輸入值高於型錄 ${rows[rows.length-1].max} mm 上限，暫用 ${rows[index].label} mm 列。`;}
+  }
+  return {row:rows[index],index,warning};
 }
+
+function lookupHssProfilePitch(outer,size){
+  const found=findHssCatalogRow(outer,hssProfilePitchRows),row=found.row;
+  let band=1,condition=`${row.low.toFixed(1)}≤S≤${row.high.toFixed(1)} mm`,angles="γ 16°–18°／α 8°–10°";
+  if(size<row.low){band=0;condition=`S＜${row.low.toFixed(1)} mm`;angles="γ 16°–18°／α 6°–8°";}
+  else if(size>row.high){band=2;condition=`S＞${row.high.toFixed(1)} mm`;}
+  const pitch=row.pitches[band];
+  return {
+    pitch,angles,warning:found.warning,
+    range:`D ${row.label} mm／${condition}`,
+    reason:`管材／型材表：D ${row.label} mm、${condition}，型錄 t＝${pitch} mm`
+  };
+}
+
+function lookupHssSolidPitch(material,size){
+  const found=findHssCatalogRow(size,hssSolidSizeRows);
+  const pitch=hssSolidPitchByMaterial[material][found.index];
+  return {
+    pitch,angles:hssSolidAngles[material],warning:found.warning,
+    range:`S ${found.row.label} mm`,
+    reason:`實心材料表：${materialNames[material]}、S ${found.row.label} mm，型錄 t＝${pitch} mm`
+  };
+}
+
 function nearestEven(n){
   return Math.max(2,Math.round(n/2)*2);
 }
-// HSS 標準開齒資料庫（依常用外徑建立，齒數不是由材料厚度直接換算）
-const hssStandardToothDb={
-  200:[80,90,100,110,120,130,140,150,160,180,200],
-  225:[80,90,100,110,120,130,140,150,160,180,200,220],
-  250:[80,90,100,110,120,130,140,150,160,180,200,220,240],
-  275:[80,90,100,110,120,130,140,150,160,180,200,220,240],
-  300:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240,260,280,300],
-  315:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240,260,280,300],
-  350:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240,260],
-  370:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240,260],
-  400:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240],
-  425:[60,70,80,90,100,110,120,130,140,150,160,180,200,220,240],
-  450:[60,70,80,90,100,110,120,130,140,150,160,180,200,220],
-  500:[60,70,80,90,100,110,120,130,140,150,160,180,200,220],
-  550:[60,70,80,90,100,110,120,130,140,150,160,180,200],
-  600:[60,70,80,90,100,110,120,130,140,150,160,180,200]
-};
-function nearestDbDiameter(d){
-  return Object.keys(hssStandardToothDb).map(Number).reduce((a,b)=>Math.abs(b-d)<Math.abs(a-d)?b:a);
-}
-function chooseStandardTeeth(diameter,pitch){
-  const dbD=nearestDbDiameter(diameter);
-  const options=hssStandardToothDb[dbD];
-  const target=Math.PI*diameter/pitch;
-  let best=options[0],bestError=Infinity;
-  options.forEach(z=>{
-    const actualPitch=Math.PI*diameter/z;
-    const error=Math.abs(actualPitch-pitch);
-    if(error<bestError){bestError=error;best=z;}
-  });
-  return {teeth:best,dbDiameter:dbD,target:target,actualPitch:Math.PI*diameter/best};
-}
+
 function calculateHssPitch(){
   const mat=document.getElementById("hssMaterial").value;
   const diameter=+document.getElementById("hssBladeDiameter").value;
-  const nominalSize=hssMode==="profile"?+document.getElementById("hssProfileSize").value:+document.getElementById("hssSolidSize").value;
-  const angleInput=+document.getElementById("hssCutAngle")?.value || 90;
-  const angle=Math.max(15,Math.min(90,angleInput));
-  if(diameter<=0||nominalSize<=0)return;
+  const profileOuter=+document.getElementById("hssProfileOuter").value;
+  const profileSize=+document.getElementById("hssProfileSize").value;
+  const solidSize=+document.getElementById("hssSolidSize").value;
+  if(diameter<=0||(hssMode==="profile"?(profileOuter<=0||profileSize<=0):solidSize<=0))return;
 
-  // 角度定義：90°為直切。斜切時以 t_eff = t / sin(theta) 做幾何初選。
-  // 這可反映同一壁厚在 45°、30°切削時，鋸齒穿越材料的路徑變長。
-  const sinAngle=Math.sin(angle*Math.PI/180);
-  const effectiveSize=nominalSize/Math.max(0.001,sinAngle);
-
-  const row=pitchTable[mat];
-  const pitch=hssMode==="profile"
-    ?pickByLimit(effectiveSize,profileLimits,row.p)
-    :pickByLimit(effectiveSize,solidLimits,row.s);
-  const selection=chooseStandardTeeth(diameter,pitch);
-  const theory=selection.target;
-  const rec=selection.teeth;
-  const actual=selection.actualPitch;
+  const catalog=hssMode==="profile"?lookupHssProfilePitch(profileOuter,profileSize):lookupHssSolidPitch(mat,solidSize);
+  const pitch=catalog.pitch;
+  const theory=Math.PI*diameter/pitch;
+  const rec=nearestEven(theory);
+  const actual=Math.PI*diameter/rec;
   const form=pitch<=5?"BW":(pitch<=8?"BW / HZ":"HZ");
 
   document.getElementById("hssPitchHero").textContent="T"+pitch;
-  document.getElementById("hssReason").textContent=
-    "依"+materialNames[mat]+"、名目"+(hssMode==="profile"?"壁厚／型材厚度 ":"實心切削尺寸 ")+nominalSize.toFixed(2)+
-    " mm、切割角度 "+angle.toFixed(0)+"°，修正有效厚度 "+effectiveSize.toFixed(2)+" mm 推薦；標準齒數表採 "+selection.dbDiameter+" mm 級距";
+  document.getElementById("hssReason").textContent=catalog.reason+(catalog.warning?"；"+catalog.warning:"");
   document.getElementById("hssTheoryTeeth").textContent=theory.toFixed(1);
   document.getElementById("hssRecommendedTeeth").textContent=rec+" 齒";
-  document.getElementById("hssEffectiveSize").textContent=effectiveSize.toFixed(2)+" mm";
+  document.getElementById("hssCatalogRange").textContent=catalog.range;
   document.getElementById("hssActualPitch").textContent=actual.toFixed(2)+" mm";
+  document.getElementById("hssCatalogAngles").textContent=catalog.angles;
   document.getElementById("hssToothForm").textContent=form;
 }
 
@@ -1282,19 +1296,23 @@ function renderTrueContact(){
   const svg=document.getElementById("trueContactSvg"); if(!svg)return;
   if(!document.getElementById('contact_d')&&!document.getElementById('contact_w'))renderContactFields();
   const bladeD=Math.max(50,+document.getElementById("contactBlade").value||300);
+  const bladeTeeth=Math.max(1,Math.min(1000,Math.round(+document.getElementById("contactBladeTeeth")?.value||80)));
+  const pitch=Math.PI*bladeD/bladeTeeth;
   const progress=Math.max(0,Math.min(100,+document.getElementById("contactProgress").value||50))/100;
   const vals={d:+document.getElementById('contact_d')?.value||60,w:+document.getElementById('contact_w')?.value||60,h:+document.getElementById('contact_h')?.value||40,t:+document.getElementById('contact_t')?.value||4};
   const outerW=(contactShape.includes('Round')||contactShape==='pipe')?vals.d:vals.w;
   const outerH=(contactShape.includes('Round')||contactShape==='pipe')?vals.d:(contactShape.includes('Square')?vals.w:vals.h);
   const scale=Math.min(3.0,130/Math.max(outerW,outerH));
-  const cx=210,cy=205,ow=outerW*scale,oh=outerH*scale,t=Math.max(.2,vals.t)*scale,bladeR=bladeD/2*scale;
-  const firstTouchY=cy-oh/2-bladeR,lastTouchY=cy+oh/2-bladeR,bladeCy=firstTouchY+(lastTouchY-firstTouchY)*progress,bladeCx=cx;
-  function inMaterial(x,y){
-    const dx=x-cx,dy=y-cy;
-    if(contactShape==='solidRound') return Math.hypot(dx,dy)<=ow/2;
-    if(contactShape==='pipe'){const r=Math.hypot(dx,dy);return r<=ow/2&&r>=Math.max(0,ow/2-t);}
-    if(contactShape==='solidSquare'||contactShape==='solidRect') return Math.abs(dx)<=ow/2&&Math.abs(dy)<=oh/2;
-    if(contactShape==='squareTube'||contactShape==='rectTube') return Math.abs(dx)<=ow/2&&Math.abs(dy)<=oh/2 && !(Math.abs(dx)<ow/2-t&&Math.abs(dy)<oh/2-t);
+  const cx=210,cy=205,ow=outerW*scale,oh=outerH*scale,t=Math.max(.2,vals.t)*scale;
+  const bladeRmm=bladeD/2,bladeR=bladeRmm*scale;
+  const bladeCyMm=-outerH/2-bladeRmm+outerH*progress;
+  const bladeCx=cx,bladeCy=cy+bladeCyMm*scale;
+  function inMaterialMm(x,y){
+    const wall=Math.max(.2,vals.t);
+    if(contactShape==='solidRound') return Math.hypot(x,y)<=outerW/2;
+    if(contactShape==='pipe'){const r=Math.hypot(x,y);return r<=outerW/2&&r>=Math.max(0,outerW/2-wall);}
+    if(contactShape==='solidSquare'||contactShape==='solidRect') return Math.abs(x)<=outerW/2&&Math.abs(y)<=outerH/2;
+    if(contactShape==='squareTube'||contactShape==='rectTube') return Math.abs(x)<=outerW/2&&Math.abs(y)<=outerH/2 && !(Math.abs(x)<outerW/2-wall&&Math.abs(y)<outerH/2-wall);
     return false;
   }
   let materialSvg='';
@@ -1305,16 +1323,38 @@ function renderTrueContact(){
     materialSvg=`<rect x="${cx-ow/2}" y="${cy-oh/2}" width="${ow}" height="${oh}" fill="#61798d" stroke="#2d455c" stroke-width="3" rx="3"/>`;
     if(contactShape==='squareTube'||contactShape==='rectTube')materialSvg+=`<rect x="${cx-ow/2+t}" y="${cy-oh/2+t}" width="${Math.max(0,ow-2*t)}" height="${Math.max(0,oh-2*t)}" fill="#edf4fa" stroke="#2d455c" stroke-width="2" rx="2"/>`;
   }
-  const pitch=5,toothCount=Math.max(40,Math.round(Math.PI*bladeD/pitch));let toothSvg='',activeCount=0,flags=[];
-  for(let i=0;i<toothCount;i++){
-    const a=2*Math.PI*i/toothCount-Math.PI/2,x=bladeCx+bladeR*Math.cos(a),y=bladeCy+bladeR*Math.sin(a),active=inMaterial(x,y);flags.push(active);if(active)activeCount++;
-    if(y>25&&y<280){const ux=Math.cos(a),uy=Math.sin(a),tx=-uy,ty=ux;toothSvg+=`<path d="M ${(x-tx*3).toFixed(1)} ${(y-ty*3).toFixed(1)} L ${(x+ux*8).toFixed(1)} ${(y+uy*8).toFixed(1)} L ${(x+tx*3).toFixed(1)} ${(y+ty*3).toFixed(1)} Z" fill="${active?'#18a36f':'#8ea1b3'}" stroke="${active?'#0d7450':'#5d7184'}" stroke-width="0.8"/>`;}
+  const tubular=['pipe','squareTube','rectTube'].includes(contactShape);
+  const minFeature=tubular?Math.max(.2,Math.min(vals.t,outerW/2,outerH/2)):Math.max(1,Math.min(outerW,outerH)/10);
+  const arcSampleCount=Math.max(7200,Math.min(120000,Math.ceil(Math.PI*bladeD/Math.max(.05,minFeature/4))));
+  const arcFlags=new Array(arcSampleCount);let activeArcSamples=0;
+  for(let i=0;i<arcSampleCount;i++){
+    const a=2*Math.PI*(i+.5)/arcSampleCount-Math.PI/2;
+    const active=inMaterialMm(bladeRmm*Math.cos(a),bladeCyMm+bladeRmm*Math.sin(a));
+    arcFlags[i]=active;if(active)activeArcSamples++;
   }
-  let segments=0;for(let i=0;i<flags.length;i++)if(flags[i]&&!flags[(i-1+flags.length)%flags.length])segments++;
-  const arcLen=activeCount*(Math.PI*bladeD/toothCount);
+  let segments=activeArcSamples===arcSampleCount?1:0;
+  if(activeArcSamples<arcSampleCount)for(let i=0;i<arcFlags.length;i++)if(arcFlags[i]&&!arcFlags[(i-1+arcFlags.length)%arcFlags.length])segments++;
+  const arcLen=activeArcSamples/arcSampleCount*Math.PI*bladeD;
+  const workingTeeth=arcLen/pitch;
+
+  const toothSpacingPx=2*Math.PI*bladeR/bladeTeeth;
+  const toothHalf=Math.max(.8,Math.min(3,toothSpacingPx*.23));
+  const toothHeight=Math.max(4,Math.min(8,toothSpacingPx*.48));
+  let toothSvg='',activeToothCount=0;
+  for(let i=0;i<bladeTeeth;i++){
+    const a=2*Math.PI*i/bladeTeeth-Math.PI/2;
+    const xMm=bladeRmm*Math.cos(a),yMm=bladeCyMm+bladeRmm*Math.sin(a);
+    const x=cx+xMm*scale,y=cy+yMm*scale,active=inMaterialMm(xMm,yMm);if(active)activeToothCount++;
+    if(y>25&&y<280){const ux=Math.cos(a),uy=Math.sin(a),tx=-uy,ty=ux;toothSvg+=`<path d="M ${(x-tx*toothHalf).toFixed(1)} ${(y-ty*toothHalf).toFixed(1)} L ${(x+ux*toothHeight).toFixed(1)} ${(y+uy*toothHeight).toFixed(1)} L ${(x+tx*toothHalf).toFixed(1)} ${(y+ty*toothHalf).toFixed(1)} Z" fill="${active?'#18a36f':'#8ea1b3'}" stroke="${active?'#0d7450':'#5d7184'}" stroke-width="0.8"/>`;}
+  }
   const names={solidRound:'圓棒',pipe:'圓管',solidSquare:'方棒',squareTube:'方管',solidRect:'扁材',rectTube:'矩形管'};
-  svg.innerHTML=`<rect width="420" height="300" rx="14" fill="#edf4fa"/>${materialSvg}<circle cx="${bladeCx}" cy="${bladeCy}" r="${bladeR}" fill="none" stroke="#55718a" stroke-width="3"/>${toothSvg}<text x="12" y="20" font-size="12" font-weight="900" fill="#17365d">綠色齒＝落在實際材料內</text><text x="12" y="38" font-size="11" font-weight="800" fill="#6a7c8d">灰色齒＝空氣或空心區</text><text x="210" y="292" text-anchor="middle" font-size="12" font-weight="900" fill="#17365d">${names[contactShape]}｜切削進度 ${(progress*100).toFixed(0)}%</text>`;
-  trueContactTeeth.textContent=activeCount;trueContactArc.textContent=arcLen.toFixed(1)+' mm';trueContactWidth.textContent=outerW.toFixed(1)+' mm';trueContactSegments.textContent=segments+' 段';
+  svg.innerHTML=`<rect width="420" height="300" rx="14" fill="#edf4fa"/>${materialSvg}<circle cx="${bladeCx}" cy="${bladeCy}" r="${bladeR}" fill="none" stroke="#55718a" stroke-width="3"/>${toothSvg}<text x="12" y="20" font-size="12" font-weight="900" fill="#17365d">綠色齒＝落在實際材料內</text><text x="12" y="38" font-size="11" font-weight="800" fill="#6a7c8d">${bladeTeeth}T｜齒距 ${pitch.toFixed(2)} mm｜亮起 ${activeToothCount} 齒</text><text x="210" y="292" text-anchor="middle" font-size="12" font-weight="900" fill="#17365d">${names[contactShape]}｜切削進度 ${(progress*100).toFixed(0)}%｜理論工作 ${workingTeeth.toFixed(2)} 齒</text>`;
+  document.getElementById('trueContactBladeD').textContent=bladeD.toFixed(1)+' mm';
+  document.getElementById('trueContactBladeZ').textContent=bladeTeeth+' T';
+  document.getElementById('trueContactPitch').textContent=pitch.toFixed(2)+' mm';
+  document.getElementById('trueContactArc').textContent=arcLen.toFixed(1)+' mm';
+  document.getElementById('trueContactTeeth').textContent=workingTeeth.toFixed(2)+' 齒';
+  document.getElementById('trueContactSegments').textContent=segments+' 段';
 }
 
 
